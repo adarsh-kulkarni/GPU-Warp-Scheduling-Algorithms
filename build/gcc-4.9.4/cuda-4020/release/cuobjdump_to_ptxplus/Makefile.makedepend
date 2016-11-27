@@ -1,0 +1,20 @@
+# DO NOT DELETE
+
+cuobjdumpInst.o: cuobjdumpInst.h /usr/include/string.h
+cuobjdumpInst.o: /usr/include/features.h /usr/include/stdc-predef.h
+cuobjdumpInst.o: /usr/include/xlocale.h /usr/include/stdio.h
+cuobjdumpInst.o: /usr/include/libio.h /usr/include/_G_config.h
+cuobjdumpInst.o: /usr/include/wchar.h /usr/include/stdlib.h
+cuobjdumpInst.o: /usr/include/alloca.h
+cuobjdumpInstList.o: cuobjdumpInstList.h cuobjdumpInst.h
+cuobjdumpInstList.o: /usr/include/string.h /usr/include/features.h
+cuobjdumpInstList.o: /usr/include/stdc-predef.h /usr/include/xlocale.h
+cuobjdumpInstList.o: /usr/include/stdio.h /usr/include/libio.h
+cuobjdumpInstList.o: /usr/include/_G_config.h /usr/include/wchar.h
+cuobjdumpInstList.o: /usr/include/stdlib.h /usr/include/alloca.h
+cuobjdump_to_ptxplus.o: /usr/include/stdio.h /usr/include/features.h
+cuobjdump_to_ptxplus.o: /usr/include/stdc-predef.h /usr/include/libio.h
+cuobjdump_to_ptxplus.o: /usr/include/_G_config.h /usr/include/wchar.h
+cuobjdump_to_ptxplus.o: cuobjdumpInstList.h cuobjdumpInst.h
+cuobjdump_to_ptxplus.o: /usr/include/string.h /usr/include/xlocale.h
+cuobjdump_to_ptxplus.o: /usr/include/stdlib.h /usr/include/alloca.h
