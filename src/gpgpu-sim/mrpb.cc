@@ -1,14 +1,14 @@
 #include <queue>
 #include <vector>
-#include <../abstract_hardware_model.h>
-#include <mrpb.h>
+#include "shader.h"
+#include "mrpb.h"
 
 
 //Constructor Implementation
-mrpb::mrpb(unsigned warpCount){
+Mrpb::Mrpb(unsigned warpCount){
 
 	//Total 48 queues
-	for(int i = 0; i < warpCount; i++){
+	for(unsigned i = 0; i < warpCount; i++){
 	
 		mrpbQueue.push_back(std::queue<mem_access_t>());
 
@@ -18,28 +18,22 @@ mrpb::mrpb(unsigned warpCount){
 
 
 //Fetch a queue entry based on warp ID
-queue<mem_access_t> mrpb::getQueueEntry(unsigned warpId){
+mem_access_t Mrpb::getMemAccess(unsigned warpId){
 
 	//TO-DO Check if there is an entry and then return
 	return mrpbQueue[warpId].back();
 
 }
 
-void mrpb::pushQueueEntry(mem_access_t newMemAccess, unsigned warpId){
-
-	//TO-DO check if there is space in the queue and then add. 8 Entries per queue
-	if(mrpbQueue[warpId].size() >= 8){
-	//	return something
-	}
+void Mrpb::pushMemAccess(mem_access_t newMemAccess, unsigned warpId){
+	
 	mrpbQueue[warpId].push(newMemAccess);
 
 }
 
 //Get the size of a particular queue
-int mrpb::retQueueSize(unsigned warpId){
+int Mrpb::retQueueSize(unsigned warpId){
 
 	return mrpbQueue[warpId].size();
 
 }
-
-

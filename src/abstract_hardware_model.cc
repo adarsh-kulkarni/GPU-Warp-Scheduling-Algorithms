@@ -35,6 +35,7 @@
 #include "gpgpu-sim/gpu-sim.h"
 #include "option_parser.h"
 #include <algorithm>
+#include <queue>
 
 unsigned mem_access_t::sm_next_access_uid = 0;   
 unsigned warp_inst_t::sm_next_uid = 0;
@@ -540,6 +541,8 @@ void warp_inst_t::memory_coalescing_arch_13_reduce_and_send( bool is_write, mem_
            assert(lower_half_used && upper_half_used);
        }
    }
+   
+   //core_t::pushMemAccess( mem_access_t(access_type,addr,size,is_write,info.active,info.bytes), warp_id() );
    m_accessq.push_back( mem_access_t(access_type,addr,size,is_write,info.active,info.bytes) );
 }
 
@@ -850,6 +853,7 @@ void core_t::initilizeSIMTStack(unsigned warp_count, unsigned warp_size)
     m_warp_size = warp_size;
     m_warp_count = warp_count;
 }
+
 
 void core_t::get_pdom_stack_top_info( unsigned warpId, unsigned *pc, unsigned *rpc ) const
 {

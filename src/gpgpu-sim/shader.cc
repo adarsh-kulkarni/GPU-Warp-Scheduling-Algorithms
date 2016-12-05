@@ -122,6 +122,8 @@ shader_core_ctx::shader_core_ctx( class gpgpu_sim *gpu,
     m_warp.resize(m_config->max_warps_per_shader, shd_warp_t(this, warp_size));
     m_scoreboard = new Scoreboard(m_sid, m_config->max_warps_per_shader);
     
+    m_mrpb = new Mrpb(m_config->max_warps_per_shader);
+
     //scedulers
     //must currently occur after all inputs have been initialized.
     std::string sched_config = m_config->gpgpu_scheduler_string;
@@ -281,7 +283,7 @@ shader_core_ctx::shader_core_ctx( class gpgpu_sim *gpu,
         m_issue_port.push_back(OC_EX_SFU);
     }
     
-    m_ldst_unit = new ldst_unit( m_icnt, m_mem_fetch_allocator, this, &m_operand_collector, m_scoreboard, config, mem_config, stats, shader_id, tpc_id );
+    m_ldst_unit = new ldst_unit( m_icnt, m_mem_fetch_allocator, this, &m_operand_collector, m_scoreboard, m_mrpb, config, mem_config, stats, shader_id, tpc_id );
     m_fu.push_back(m_ldst_unit);
     m_dispatch_port.push_back(ID_OC_MEM);
     m_issue_port.push_back(OC_EX_MEM);
@@ -1374,6 +1376,8 @@ bool ldst_unit::texture_cycle( warp_inst_t &inst, mem_stage_stall_type &rc_fail,
 
 bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_reason, mem_stage_access_type &access_type )
 {
+ 
+
    if( inst.empty() || 
        ((inst.space.get_type() != global_space) &&
         (inst.space.get_type() != local_space) &&
@@ -1384,6 +1388,8 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
    assert( !inst.accessq_empty() );
    mem_stage_stall_type stall_cond = NO_RC_FAIL;
    const mem_access_t &access = inst.accessq_back();
+
+   m_mrpb->pushMemAccess(inst.accessq_back(), inst.warp_id());
 
    bool bypassL1D = false; 
    if ( CACHE_GLOBAL == inst.cache_op || (m_L1D == NULL) ) {
@@ -1557,6 +1563,7 @@ void ldst_unit::init( mem_fetch_interface *icnt,
                       shader_core_ctx *core, 
                       opndcoll_rfu_t *operand_collector,
                       Scoreboard *scoreboard,
+		      Mrpb *mrpb,
                       const shader_core_config *config,
                       const memory_config *mem_config,  
                       shader_core_stats *stats,
@@ -1569,6 +1576,7 @@ void ldst_unit::init( mem_fetch_interface *icnt,
     m_core = core;
     m_operand_collector = operand_collector;
     m_scoreboard = scoreboard;
+    m_mrpb = mrpb;
     m_stats = stats;
     m_sid = sid;
     m_tpc = tpc;
@@ -1594,6 +1602,7 @@ ldst_unit::ldst_unit( mem_fetch_interface *icnt,
                       shader_core_ctx *core, 
                       opndcoll_rfu_t *operand_collector,
                       Scoreboard *scoreboard,
+		      Mrpb *mrpb,
                       const shader_core_config *config,
                       const memory_config *mem_config,  
                       shader_core_stats *stats,
@@ -1605,6 +1614,7 @@ ldst_unit::ldst_unit( mem_fetch_interface *icnt,
           core, 
           operand_collector,
           scoreboard,
+	  mrpb,
           config, 
           mem_config,  
           stats, 
@@ -1628,6 +1638,7 @@ ldst_unit::ldst_unit( mem_fetch_interface *icnt,
                       shader_core_ctx *core, 
                       opndcoll_rfu_t *operand_collector,
                       Scoreboard *scoreboard,
+		      Mrpb *mrpb,
                       const shader_core_config *config,
                       const memory_config *mem_config,  
                       shader_core_stats *stats,
@@ -1641,6 +1652,7 @@ ldst_unit::ldst_unit( mem_fetch_interface *icnt,
           core, 
           operand_collector,
           scoreboard,
+          mrpb,
           config, 
           mem_config,  
           stats, 

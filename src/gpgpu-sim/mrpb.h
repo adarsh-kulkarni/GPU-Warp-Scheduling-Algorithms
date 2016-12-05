@@ -4,24 +4,24 @@
 
 #include <queue>
 #include <vector>
-#include <../abstract_hardware_model.h>
+#include "../abstract_hardware_model.h"
 
 
-class mrpb{
+class Mrpb{
 
 public:
 	
 	//Constructor
-	mrpb(unsigned warpCount);
+	Mrpb(unsigned warpCount);
 
 	//Destructor
-	~mrpb();
+	~Mrpb();
 
 	//Get the first entry from the queue. Access the queue using the warp id
-	std::queue<mem_access_t> getMemAccess (unsigned warpId);
+	mem_access_t getMemAccess (unsigned warpId);
 
 	//Push a memory access object onto the queue
-	void pushMemAccess (mem_access_t newAccess);
+	void pushMemAccess (mem_access_t newMemAccess, unsigned warpId);
 
 	//Return the size of the queue for a given warpid
 	int retQueueSize (unsigned warpId);
@@ -29,7 +29,7 @@ public:
 private:
 	
 	//Queue variable
-	std::vector<queue<mem_access_t>> mrpbQueue;
+	std::vector<std::queue<mem_access_t> > mrpbQueue;
 	
 	
 };

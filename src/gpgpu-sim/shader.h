@@ -53,7 +53,7 @@
 #include "stats.h"
 #include "gpu-cache.h"
 #include "traffic_breakdown.h"
-
+#include "mrpb.h"
 
 
 #define NO_OP_FLAG            0xFF
@@ -1080,6 +1080,7 @@ public:
                shader_core_ctx *core, 
                opndcoll_rfu_t *operand_collector,
                Scoreboard *scoreboard,
+	       Mrpb *mrpb,
                const shader_core_config *config, 
                const memory_config *mem_config,  
                class shader_core_stats *stats, 
@@ -1125,6 +1126,7 @@ protected:
                shader_core_ctx *core, 
                opndcoll_rfu_t *operand_collector,
                Scoreboard *scoreboard,
+               Mrpb *mrpb,
                const shader_core_config *config,
                const memory_config *mem_config,  
                shader_core_stats *stats,
@@ -1136,6 +1138,7 @@ protected:
                shader_core_ctx *core, 
                opndcoll_rfu_t *operand_collector,
                Scoreboard *scoreboard,
+	       Mrpb *mrpb,
                const shader_core_config *config,
                const memory_config *mem_config,  
                shader_core_stats *stats,
@@ -1170,6 +1173,7 @@ protected:
    std::list<mem_fetch*> m_response_fifo;
    opndcoll_rfu_t *m_operand_collector;
    Scoreboard *m_scoreboard;
+   Mrpb *m_mrpb;
 
    mem_fetch *m_next_global;
    warp_inst_t m_next_wb;
@@ -1810,6 +1814,9 @@ public:
     Scoreboard               *m_scoreboard;
     opndcoll_rfu_t            m_operand_collector;
 
+ 	
+    Mrpb *m_mrpb;
+
     //schedule
     std::vector<scheduler_unit*>  schedulers;
 
@@ -1831,6 +1838,8 @@ public:
     // is that the dynamic_warp_id is a running number unique to every warp
     // run on this shader, where the warp_id is the static warp slot.
     unsigned m_dynamic_warp_id;
+  
+ 
 };
 
 class simt_core_cluster {

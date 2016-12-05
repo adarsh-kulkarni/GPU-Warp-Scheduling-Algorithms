@@ -154,6 +154,7 @@ enum _memory_op_t {
 #include <stdlib.h>
 #include <map>
 #include <deque>
+#include <queue>
 
 #if !defined(__VECTOR_TYPES_H__)
 struct dim3 {
@@ -950,6 +951,7 @@ public:
     const mem_access_t &accessq_back() { return m_accessq.back(); }
     void accessq_pop_back() { m_accessq.pop_back(); }
 
+
     bool dispatch_delay()
     { 
         if( cycles > 0 ) 
@@ -992,7 +994,7 @@ protected:
     std::vector<per_thread_info> m_per_scalar_thread;
     bool m_mem_accesses_created;
     std::list<mem_access_t> m_accessq;
-
+   
     static unsigned sm_next_uid;
 };
 
@@ -1026,7 +1028,7 @@ class core_t {
             m_thread = ( ptx_thread_info** )
                      calloc( m_warp_count * m_warp_size,
                              sizeof( ptx_thread_info* ) );
-            initilizeSIMTStack(m_warp_count,m_warp_size);
+            initilizeSIMTStack(m_warp_count,m_warp_size); 
 
             for(unsigned i=0; i<MAX_CTA_PER_SHADER; i++){
             	for(unsigned j=0; j<MAX_BARRIERS_PER_CTA; j++){
@@ -1045,6 +1047,9 @@ class core_t {
         void updateSIMTStack(unsigned warpId, warp_inst_t * inst);
         void initilizeSIMTStack(unsigned warp_count, unsigned warps_size);
         void deleteSIMTStack();
+
+
+
         warp_inst_t getExecuteWarp(unsigned warpId);
         void get_pdom_stack_top_info( unsigned warpId, unsigned *pc, unsigned *rpc ) const;
         kernel_info_t * get_kernel_info(){ return m_kernel;}
@@ -1061,6 +1066,7 @@ class core_t {
         unsigned m_warp_size;
         unsigned m_warp_count;
         unsigned reduction_storage[MAX_CTA_PER_SHADER][MAX_BARRIERS_PER_CTA];
+ 
 };
 
 
