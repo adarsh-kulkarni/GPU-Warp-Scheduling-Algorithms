@@ -542,7 +542,7 @@ void warp_inst_t::memory_coalescing_arch_13_reduce_and_send( bool is_write, mem_
        }
    }
    
-   //core_t::pushMemAccess( mem_access_t(access_type,addr,size,is_write,info.active,info.bytes), warp_id() );
+  
    m_accessq.push_back( mem_access_t(access_type,addr,size,is_write,info.active,info.bytes) );
 }
 

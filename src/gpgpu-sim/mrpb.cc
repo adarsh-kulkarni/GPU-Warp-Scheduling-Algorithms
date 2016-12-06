@@ -31,6 +31,15 @@ void Mrpb::pushMemAccess(mem_access_t newMemAccess, unsigned warpId){
 
 }
 
+
+//method to pop a memory access object
+
+void Mrpb::popMemAccess(unsigned warpId){
+
+ 	mrpbQueue[warpId].pop();
+
+}
+
 //Get the size of a particular queue
 int Mrpb::retQueueSize(unsigned warpId){
 
