@@ -950,7 +950,12 @@ public:
     unsigned accessq_count() const { return m_accessq.size(); }
     const mem_access_t &accessq_back() { return m_accessq.back(); }
     void accessq_pop_back() { m_accessq.pop_back(); }
+   
+    //using const_iterator = std::list<mem_access_t>::const_iterator;
+    typedef std::list<mem_access_t>::const_iterator const_iterator;
 
+    const_iterator begin() const { return m_accessq.begin();}
+    const_iterator end() const { return m_accessq.end();}
 
     bool dispatch_delay()
     { 

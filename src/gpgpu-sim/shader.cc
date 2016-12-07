@@ -1338,17 +1338,18 @@ mem_stage_stall_type ldst_unit::process_memory_access_queue( cache_t *cache, war
 
     //const mem_access_t &access = inst.accessq_back();
 
+   /* mem_fetch *mf = NULL;
     if(cache == m_L1D){
  	 
- 	mem_fetch *mf = m_mf_allocator->alloc(inst,m_mrpb->getMemAccess(inst.warp_id());	   	      
+ 	mem_fetch *mf = m_mf_allocator->alloc(inst,m_mrpb->getMemAccess(inst.warp_id()));
          
     }
 
-    else{
+    else{*/
 
-  	mem_fetch *mf = m_mf_allocator->alloc(inst,inst.accessq_back());
+    mem_fetch *mf = m_mf_allocator->alloc(inst,inst.accessq_back());
 
-    }  
+   
     std::list<cache_event> events;
     enum cache_request_status status = cache->access(mf->get_addr(),mf,gpu_sim_cycle+gpu_tot_sim_cycle,events);
     return process_cache_access( cache, mf->get_addr(), inst, events, mf, status );
@@ -1404,12 +1405,13 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 	
    
    //loop through the m_accessq list and get all the accesses in mprbQueue
-   for(std::list<mem_access_t>::iterator it=m_accessq.begin(); it !=m_accessq.end(); ++it){
+  // while(!inst.accessq_empty()){ 
+	for (std::list<mem_access_t>::const_iterator it=inst.begin(); it !=inst.end(); ++it) {
 		
-	m_mrpb->pushMemAccess(inst.accessq_back(), inst.warp_id());
+	m_mrpb->pushMemAccess(*it, inst.warp_id());
 
-   }
-   //m_mrpb->pushMemAccess(inst.accessq_back(), inst.warp_id());
+    }
+  
 
    bool bypassL1D = false; 
    if ( CACHE_GLOBAL == inst.cache_op || (m_L1D == NULL) ) {
@@ -1428,10 +1430,7 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
            stall_cond = ICNT_RC_FAIL;
        } else {
            mem_fetch *mf = m_mf_allocator->alloc(inst,access);
-           m_icnt->push(mf);
-
-           //NEW
-           m_mrpb->popMemAccess(inst.warp_id());
+           m_icnt->push(mf); 
 
            inst.accessq_pop_back();
            //inst.clear_active( access.get_warp_mask() );
