@@ -46,3 +46,8 @@ int Mrpb::retQueueSize(unsigned warpId){
 	return mrpbQueue[warpId].size();
 
 }
+
+bool Mrpb::mrpbQueue_empty(unsigned warpId) const { 
+
+	return mrpbQueue[warpId].empty(); 
+}

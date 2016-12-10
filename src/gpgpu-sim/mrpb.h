@@ -28,6 +28,9 @@ public:
 
 	//Return the size of the queue for a given warpid
 	int retQueueSize (unsigned warpId);
+	
+ 	//Check if a queue is empty
+	bool mrpbQueue_empty (unsigned warpId) const;
 
 private:
 	

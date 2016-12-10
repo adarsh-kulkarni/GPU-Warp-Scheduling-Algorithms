@@ -1333,6 +1333,12 @@ mem_stage_stall_type ldst_unit::process_memory_access_queue( cache_t *cache, war
     if( inst.accessq_empty() )
         return result;
 
+
+//    if( m_mrpb->mrpbQueue_empty(inst.warp_id()))
+//	return result;
+
+    bool verify = m_mrpb->mrpbQueue_empty(inst.warp_id());
+
     if( !cache->data_port_free() ) 
         return DATA_PORT_STALL; 
 
@@ -1346,6 +1352,7 @@ mem_stage_stall_type ldst_unit::process_memory_access_queue( cache_t *cache, war
     }
 
     else{*/
+    //mem_fetch *mflol = m_mf_allocator->alloc(inst,m_mrpb->getMemAccess(inst.warp_id()));
 
     mem_fetch *mf = m_mf_allocator->alloc(inst,inst.accessq_back());
 
@@ -1406,11 +1413,11 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
    
    //loop through the m_accessq list and get all the accesses in mprbQueue
   // while(!inst.accessq_empty()){ 
-	for (std::list<mem_access_t>::const_iterator it=inst.begin(); it !=inst.end(); ++it) {
+    for (std::list<mem_access_t>::const_iterator it=inst.begin(); it !=inst.end(); ++it) {
 		
 	m_mrpb->pushMemAccess(*it, inst.warp_id());
 
-    }
+    } 
   
 
    bool bypassL1D = false; 
@@ -1433,6 +1440,7 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
            m_icnt->push(mf); 
 
            inst.accessq_pop_back();
+	   m_mrpb->popMemAccess(inst.warp_id());
            //inst.clear_active( access.get_warp_mask() );
            if( inst.is_load() ) { 
               for( unsigned r=0; r < 4; r++) 
