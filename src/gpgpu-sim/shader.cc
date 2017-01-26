@@ -1304,7 +1304,16 @@ ldst_unit::process_cache_access( cache_t* cache,
         m_core->inc_store_req( inst.warp_id() );
     if ( status == HIT ) {
         assert( !read_sent );
-        inst.accessq_pop_back();
+	if(cache == m_L1D){
+	
+		m_mrpb->popMemAccess(inst.warp_id());
+	}
+	else{
+ 	
+		inst.accessq_pop_back();
+
+	}
+       
         if ( inst.is_load() ) {
             for ( unsigned r=0; r < 4; r++)
                 if (inst.out[r] > 0)
@@ -1320,43 +1329,75 @@ ldst_unit::process_cache_access( cache_t* cache,
     } else {
         assert( status == MISS || status == HIT_RESERVED );
         //inst.clear_active( access.get_warp_mask() ); // threads in mf writeback when mf returns
-        inst.accessq_pop_back();
+
+	if(cache == m_L1D){
+
+                m_mrpb->popMemAccess(inst.warp_id());
+        }
+        else{
+        
+                inst.accessq_pop_back();
+
+        }
+
+
+
     }
-    if( !inst.accessq_empty() )
-        result = BK_CONF;
+
+    	if(cache == m_L1D){
+
+          	if(!m_mrpb->mrpbQueue_empty(inst.warp_id()))
+			result = BK_CONF;
+        }
+        else{
+        
+              
+ 		if( !inst.accessq_empty() )
+        		result = BK_CONF;
+
+        }
+
+    
+   
     return result;
 }
 
 mem_stage_stall_type ldst_unit::process_memory_access_queue( cache_t *cache, warp_inst_t &inst )
 {
     mem_stage_stall_type result = NO_RC_FAIL;
-    if( inst.accessq_empty() )
-        return result;
+   /* if( inst.accessq_empty() )
+        return result;*/
 
+    if(cache == m_L1D){
 
-//    if( m_mrpb->mrpbQueue_empty(inst.warp_id()))
-//	return result;
+	    if( m_mrpb->mrpbQueue_empty(inst.warp_id()))
+		return result;
+     }
+     else{
 
-    bool verify = m_mrpb->mrpbQueue_empty(inst.warp_id());
+	if(inst.accessq_empty())
+	     return result;
 
+    }
     if( !cache->data_port_free() ) 
         return DATA_PORT_STALL; 
 
-    //const mem_access_t &access = inst.accessq_back();
+   
 
-   /* mem_fetch *mf = NULL;
+    mem_fetch *mf = NULL;
     if(cache == m_L1D){
  	 
- 	mem_fetch *mf = m_mf_allocator->alloc(inst,m_mrpb->getMemAccess(inst.warp_id()));
+ 	mf = m_mf_allocator->alloc(inst,m_mrpb->getMemAccess());
          
     }
 
-    else{*/
+    else{
     //mem_fetch *mflol = m_mf_allocator->alloc(inst,m_mrpb->getMemAccess(inst.warp_id()));
 
-    mem_fetch *mf = m_mf_allocator->alloc(inst,inst.accessq_back());
+    	mf = m_mf_allocator->alloc(inst,inst.accessq_back());
 
-   
+    }
+
     std::list<cache_event> events;
     enum cache_request_status status = cache->access(mf->get_addr(),mf,gpu_sim_cycle+gpu_tot_sim_cycle,events);
     return process_cache_access( cache, mf->get_addr(), inst, events, mf, status );
@@ -1403,21 +1444,22 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
        return true;
    if( inst.active_count() == 0 ) 
        return true;
-   assert( !inst.accessq_empty() );
+   //assert( !inst.accessq_empty() );
 
+
+    for (std::list<mem_access_t>::const_iterator it=inst.begin(); it !=inst.end(); ++it) {
+
+	m_mrpb->pushMemAccess(*it, inst.warp_id());
+    }
+
+   assert(!m_mrpb->mrpbQueue_empty(inst.warp_id()));
+ 
+ 
    unsigned mem_queue = inst.accessq_count();
  
    mem_stage_stall_type stall_cond = NO_RC_FAIL;
-   const mem_access_t &access = inst.accessq_back();
-	
-   
-   //loop through the m_accessq list and get all the accesses in mprbQueue
-  // while(!inst.accessq_empty()){ 
-    for (std::list<mem_access_t>::const_iterator it=inst.begin(); it !=inst.end(); ++it) {
-		
-	m_mrpb->pushMemAccess(*it, inst.warp_id());
-
-    } 
+  // const mem_access_t &access = inst.accessq_back();
+   const mem_access_t &access = m_mrpb->getMemAccess(); 
   
 
    bool bypassL1D = false; 
@@ -1439,7 +1481,7 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
            mem_fetch *mf = m_mf_allocator->alloc(inst,access);
            m_icnt->push(mf); 
 
-           inst.accessq_pop_back();
+           //inst.accessq_pop_back();
 	   m_mrpb->popMemAccess(inst.warp_id());
            //inst.clear_active( access.get_warp_mask() );
            if( inst.is_load() ) { 
@@ -1453,7 +1495,8 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
        assert( CACHE_UNDEFINED != inst.cache_op );
        stall_cond = process_memory_access_queue(m_L1D,inst);
    }
-   if( !inst.accessq_empty() ) 
+   if(!m_mrpb->mrpbQueue_empty(inst.warp_id()));
+   //if( !inst.accessq_empty() ) 
        stall_cond = COAL_STALL;
    if (stall_cond != NO_RC_FAIL) {
       stall_reason = stall_cond;
@@ -1463,7 +1506,10 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
       else 
          access_type = (iswrite)?G_MEM_ST:G_MEM_LD;
    }
-   return inst.accessq_empty(); 
+   return m_mrpb->mrpbQueue_empty(inst.warp_id());
+ 
+   
+   //return inst.accessq_empty(); 
 }
 
 

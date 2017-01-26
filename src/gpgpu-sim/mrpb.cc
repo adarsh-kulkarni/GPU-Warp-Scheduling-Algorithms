@@ -18,10 +18,19 @@ Mrpb::Mrpb(unsigned warpCount){
 
 
 //Fetch a queue entry based on warp ID
-mem_access_t Mrpb::getMemAccess(unsigned warpId){
+mem_access_t Mrpb::getMemAccess(){
 
 	//TO-DO Check if there is an entry and then return
-	return mrpbQueue[warpId].back();
+//	return mrpbQueue[warpId].back();
+
+	for(std::vector<std::queue<mem_access_t>>::iterator iter = mrpbQueue.begin(); iter != mrpbQueue.end(); iter++){
+
+                if(!((*iter).empty())){
+
+                        return (*iter).front();
+
+                        }
+                }
 
 }
 
@@ -51,3 +60,4 @@ bool Mrpb::mrpbQueue_empty(unsigned warpId) const {
 
 	return mrpbQueue[warpId].empty(); 
 }
+
