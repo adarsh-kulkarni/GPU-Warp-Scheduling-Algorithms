@@ -1449,13 +1449,23 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 
     for (std::list<mem_access_t>::const_iterator it=inst.begin(); it !=inst.end(); ++it) {
 
-	m_mrpb->pushMemAccess(*it, inst.warp_id());
+	bool queueFull = m_mrpb->pushMemAccess(*it, inst.warp_id());
+
     }
 
    assert(!m_mrpb->mrpbQueue_empty(inst.warp_id()));
  
  
    unsigned mem_queue = inst.accessq_count();
+
+   //Remove the memory accesses from memory access queue
+   for(unsigned mem = 0; mem < mem_queue; ++mem){
+
+	inst.accessq_pop_back(); 
+
+    }
+   
+
  
    mem_stage_stall_type stall_cond = NO_RC_FAIL;
   // const mem_access_t &access = inst.accessq_back();
@@ -1745,7 +1755,23 @@ void ldst_unit:: issue( register_set &reg_set )
    assert(inst->empty() == false);
    if (inst->is_load() and inst->space.get_type() != shared_space) {
       unsigned warp_id = inst->warp_id();
-      unsigned n_accesses = inst->accessq_count();
+     // unsigned n_accesses = inst->accessq_count();
+     const mem_access_t &access = inst->accessq_back();
+     const mem_access_type memory_access = access.get_type();
+     unsigned n_accesses = 0;
+     if(memory_access != GLOBAL_ACC_R || memory_access != GLOBAL_ACC_W || memory_access != LOCAL_ACC_R || memory_access != LOCAL_ACC_W){
+	
+	n_accesses = inst->accessq_count();
+
+
+     }
+     else{
+
+     	n_accesses = m_mrpb->retQueueSize(warp_id); 
+
+     }
+
+
       for (unsigned r = 0; r < 4; r++) {
          unsigned reg_id = inst->out[r];
          if (reg_id > 0) {
