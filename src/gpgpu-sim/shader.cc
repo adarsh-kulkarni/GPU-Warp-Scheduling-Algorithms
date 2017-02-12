@@ -1450,10 +1450,15 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
     for (std::list<mem_access_t>::const_iterator it=inst.begin(); it !=inst.end(); ++it) {
 
 	bool queueFull = m_mrpb->pushMemAccess(*it, inst.warp_id());
+	if(queueFull)
+	  return true;
 
     }
 
    assert(!m_mrpb->mrpbQueue_empty(inst.warp_id()));
+  
+   //Check the size of queue. Should be less than 8
+   assert((m_mrpb->retQueueSize(inst.warp_id())) <= 8);
  
  
    unsigned mem_queue = inst.accessq_count();
@@ -1504,6 +1509,34 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
    } else {
        assert( CACHE_UNDEFINED != inst.cache_op );
        stall_cond = process_memory_access_queue(m_L1D,inst);
+       //Check if the stall condition is reservation fail.
+       //Bypass L1D and send the request across the interconnect
+    
+       if(stall_cond == BK_CONF){
+
+		if(access.get_type() == GLOBAL_ACC_R){
+
+			mem_fetch *mf = m_mf_allocator->alloc(inst,access);
+           		m_icnt->push(mf);
+
+         
+       		        m_mrpb->popMemAccess(inst.warp_id());
+         
+           if( inst.is_load() ) {
+              for( unsigned r=0; r < 4; r++)
+                  if(inst.out[r] > 0)
+                      assert( m_pending_writes[inst.warp_id()][inst.out[r]] > 0 );
+           } else if( inst.is_store() )
+              m_core->inc_store_req( inst.warp_id() );
+					       	
+	}
+
+    }
+
+  
+   //	return m_mrpb->mrpbQueue_empty(inst.warp_id());
+       
+
    }
    if(!m_mrpb->mrpbQueue_empty(inst.warp_id()));
    //if( !inst.accessq_empty() ) 

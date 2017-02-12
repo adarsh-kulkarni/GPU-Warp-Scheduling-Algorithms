@@ -205,6 +205,7 @@ enum cache_request_status tag_array::probe( new_addr_type addr, unsigned &idx ) 
         }
     }
     if ( all_reserved ) {
+	
         assert( m_config.m_alloc_policy == ON_MISS ); 
         return RESERVATION_FAIL; // miss and not enough space in cache to allocate on miss
     }
@@ -230,6 +231,7 @@ enum cache_request_status tag_array::access( new_addr_type addr, unsigned time, 
 enum cache_request_status tag_array::access( new_addr_type addr, unsigned time, unsigned &idx, bool &wb, cache_block_t &evicted ) 
 {
     m_access++;
+   
     shader_cache_access_log(m_core_id, m_type_id, 0); // log accesses to cache
     enum cache_request_status status = probe(addr,idx);
     switch (status) {
@@ -265,6 +267,7 @@ void tag_array::fill( new_addr_type addr, unsigned time )
 {
     assert( m_config.m_alloc_policy == ON_FILL );
     unsigned idx;
+   
     enum cache_request_status status = probe(addr,idx);
     assert(status==MISS); // MSHR should have prevented redundant memory request
     m_lines[idx].allocate( m_config.tag(addr), m_config.block_addr(addr), time );
@@ -988,6 +991,8 @@ read_only_cache::access( new_addr_type addr,
                          unsigned time,
                          std::list<cache_event> &events )
 {
+
+   
     assert( mf->get_data_size() <= m_config.get_line_sz());
     assert(m_config.m_write_policy == READ_ONLY);
     assert(!mf->get_is_write());
@@ -1070,12 +1075,15 @@ data_cache::access( new_addr_type addr,
                     std::list<cache_event> &events )
 {
 
+   
     assert( mf->get_data_size() <= m_config.get_line_sz());
     bool wr = mf->get_is_write();
     new_addr_type block_addr = m_config.block_addr(addr);
     unsigned cache_index = (unsigned)-1;
     enum cache_request_status probe_status
-        = m_tag_array->probe( block_addr, cache_index );
+        = m_tag_array->probe( block_addr, cache_index);
+
+   
     enum cache_request_status access_status
         = process_tag_probe( wr, probe_status, addr, cache_index, mf, time, events );
     m_stats.inc_stats(mf->get_access_type(),

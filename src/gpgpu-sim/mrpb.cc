@@ -36,13 +36,15 @@ mem_access_t Mrpb::getMemAccess(){
 
 bool Mrpb::pushMemAccess(mem_access_t newMemAccess, unsigned warpId){
 
-	if(retQueueSize(warpId) >= 8){
+	if(retQueueSize(warpId) > 8){
 		
-		return false;
+		return true;
 
 	}	
+
 	mrpbQueue[warpId].push(newMemAccess);
-	return true;
+
+	return false;
 
 }
 

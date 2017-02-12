@@ -21,7 +21,7 @@ public:
 	mem_access_t getMemAccess ();
 
 	//Push a memory access object onto the queue
-	void pushMemAccess (mem_access_t newMemAccess, unsigned warpId);
+	bool pushMemAccess (mem_access_t newMemAccess, unsigned warpId);
 
 	//Remove a memory access object from the queue
  	void popMemAccess (unsigned warpId);
