@@ -111,7 +111,17 @@ public:
    const memory_config *get_mem_config(){return m_mem_config;}
 
    unsigned get_num_flits(bool simt_to_mem);
+
+   //Functions below are used for bypassing the L1 data cache on writeback
+   void set_assoc_flag(bool assoc_flag){assoc_stall = assoc_flag;}
+   bool get_assoc_flag(){return assoc_stall;}
+
 private:
+  
+   //Flag to identify if we need to bypass L1D on writeback. Part of implementation of MRPB
+   bool assoc_stall;
+
+
    // request source information
    unsigned m_request_uid;
    unsigned m_sid;

@@ -23,7 +23,7 @@ mem_access_t Mrpb::getMemAccess(){
 	//TO-DO Check if there is an entry and then return
 //	return mrpbQueue[warpId].back();
 
-	for(std::vector<std::queue<mem_access_t>>::iterator iter = mrpbQueue.begin(); iter != mrpbQueue.end(); iter++){
+	for(std::vector<std::queue<mem_access_t>>::const_iterator iter = mrpbQueue.begin(); iter != mrpbQueue.end(); iter++){
 
                 if(!((*iter).empty())){
 
@@ -34,13 +34,31 @@ mem_access_t Mrpb::getMemAccess(){
 
 }
 
+
+bool Mrpb::checkEmptyQueue() const{
+
+
+	for(std::vector<std::queue<mem_access_t>>::const_iterator iter = mrpbQueue.begin(); iter != mrpbQueue.end(); iter++){
+
+                if(!((*iter).empty())){
+
+                        return false;
+
+                        }
+                }
+		return true;
+}
+
+
+
+
 bool Mrpb::pushMemAccess(mem_access_t newMemAccess, unsigned warpId){
 
-	if(retQueueSize(warpId) > 8){
+/*	if(retQueueSize(warpId) >= 8){
 		
 		return true;
 
-	}	
+	}*/
 
 	mrpbQueue[warpId].push(newMemAccess);
 

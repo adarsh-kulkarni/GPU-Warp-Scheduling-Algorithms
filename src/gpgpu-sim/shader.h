@@ -1157,7 +1157,7 @@ protected:
                                                       std::list<cache_event>& events,
                                                       mem_fetch *mf,
                                                       enum cache_request_status status );
-   mem_stage_stall_type process_memory_access_queue( cache_t *cache, warp_inst_t &inst );
+   mem_stage_stall_type process_memory_access_queue( cache_t *cache, warp_inst_t &inst, bool &checkAssocStall );
 
    const memory_config *m_memory_config;
    class mem_fetch_interface *m_icnt;

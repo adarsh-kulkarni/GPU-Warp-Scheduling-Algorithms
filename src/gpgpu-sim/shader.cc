@@ -1362,7 +1362,7 @@ ldst_unit::process_cache_access( cache_t* cache,
     return result;
 }
 
-mem_stage_stall_type ldst_unit::process_memory_access_queue( cache_t *cache, warp_inst_t &inst )
+mem_stage_stall_type ldst_unit::process_memory_access_queue( cache_t *cache, warp_inst_t &inst, bool &assocStall)
 {
     mem_stage_stall_type result = NO_RC_FAIL;
    /* if( inst.accessq_empty() )
@@ -1400,6 +1400,15 @@ mem_stage_stall_type ldst_unit::process_memory_access_queue( cache_t *cache, war
 
     std::list<cache_event> events;
     enum cache_request_status status = cache->access(mf->get_addr(),mf,gpu_sim_cycle+gpu_tot_sim_cycle,events);
+
+    //Bypassing flag for MRPB Bypassing algorithm
+
+    if(status == RESERVATION_FAIL){
+
+
+	assocStall = true;
+
+    }
     return process_cache_access( cache, mf->get_addr(), inst, events, mf, status );
 }
 
@@ -1409,7 +1418,9 @@ bool ldst_unit::constant_cycle( warp_inst_t &inst, mem_stage_stall_type &rc_fail
        return true;
    if( inst.active_count() == 0 ) 
        return true;
-   mem_stage_stall_type fail = process_memory_access_queue(m_L1C,inst);
+
+   bool assocStall = false;
+   mem_stage_stall_type fail = process_memory_access_queue(m_L1C,inst,assocStall);
    if (fail != NO_RC_FAIL){ 
       rc_fail = fail; //keep other fails if this didn't fail.
       fail_type = C_MEM;
@@ -1426,7 +1437,9 @@ bool ldst_unit::texture_cycle( warp_inst_t &inst, mem_stage_stall_type &rc_fail,
        return true;
    if( inst.active_count() == 0 ) 
        return true;
-   mem_stage_stall_type fail = process_memory_access_queue(m_L1T,inst);
+
+   bool assocStall = false;
+   mem_stage_stall_type fail = process_memory_access_queue(m_L1T,inst,assocStall);
    if (fail != NO_RC_FAIL){ 
       rc_fail = fail; //keep other fails if this didn't fail.
       fail_type = T_MEM;
@@ -1447,18 +1460,27 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
    //assert( !inst.accessq_empty() );
 
 
+   
+
     for (std::list<mem_access_t>::const_iterator it=inst.begin(); it !=inst.end(); ++it) {
 
-	bool queueFull = m_mrpb->pushMemAccess(*it, inst.warp_id());
+/*	bool queueFull = m_mrpb->pushMemAccess(*it, inst.warp_id());
 	if(queueFull)
-	  return true;
+	  return true;*/
+
+
+	/*if(memAcc >= 8)
+		break;*/
+
+	m_mrpb->pushMemAccess(*it, inst.warp_id());	
+
 
     }
 
-   assert(!m_mrpb->mrpbQueue_empty(inst.warp_id()));
+   assert(!m_mrpb->checkEmptyQueue());
   
    //Check the size of queue. Should be less than 8
-   assert((m_mrpb->retQueueSize(inst.warp_id())) <= 8);
+  // assert((m_mrpb->retQueueSize(inst.warp_id())) <= 8);
  
  
    unsigned mem_queue = inst.accessq_count();
@@ -1469,9 +1491,7 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 	inst.accessq_pop_back(); 
 
     }
-   
-
- 
+    
    mem_stage_stall_type stall_cond = NO_RC_FAIL;
   // const mem_access_t &access = inst.accessq_back();
    const mem_access_t &access = m_mrpb->getMemAccess(); 
@@ -1508,18 +1528,31 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
        }
    } else {
        assert( CACHE_UNDEFINED != inst.cache_op );
-       stall_cond = process_memory_access_queue(m_L1D,inst);
+
+       bool assocStall = false;
+       stall_cond = process_memory_access_queue(m_L1D,inst,assocStall);
+
+
        //Check if the stall condition is reservation fail.
        //Bypass L1D and send the request across the interconnect
     
-       if(stall_cond == BK_CONF){
 
-		if(access.get_type() == GLOBAL_ACC_R){
+       if(assocStall == true){
+
+
+       unsigned control_size = inst.is_store() ? WRITE_PACKET_SIZE : READ_PACKET_SIZE;
+       unsigned size = access.get_size() + control_size;
+  
+
+       if( m_icnt->full(size, inst.is_store() || inst.isatomic()) ) {
+           stall_cond = ICNT_RC_FAIL;
+	}
+        else if(access.get_type() == GLOBAL_ACC_R){
 
 			mem_fetch *mf = m_mf_allocator->alloc(inst,access);
-           		m_icnt->push(mf);
-
-         
+ 			
+			mf->set_assoc_flag(true);
+           		m_icnt->push(mf); 
        		        m_mrpb->popMemAccess(inst.warp_id());
          
            if( inst.is_load() ) {
@@ -1549,6 +1582,8 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
       else 
          access_type = (iswrite)?G_MEM_ST:G_MEM_LD;
    }
+
+   //Queue should not be accessed by warp id since we are getting the entry from the first non empty queue
    return m_mrpb->mrpbQueue_empty(inst.warp_id());
  
    
@@ -1976,6 +2011,13 @@ void ldst_unit::cycle()
                    if (m_core->get_config()->gmem_skip_L1D)
                        bypassL1D = true; 
                }
+
+		//Bypassing condition
+	       if(mf->get_assoc_flag() == true){
+			bypassL1D = true;
+		
+		}
+
                if( bypassL1D ) {
                    if ( m_next_global == NULL ) {
                        mf->set_status(IN_SHADER_FETCHED,gpu_sim_cycle+gpu_tot_sim_cycle);

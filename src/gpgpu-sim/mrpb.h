@@ -32,6 +32,8 @@ public:
  	//Check if a queue is empty
 	bool mrpbQueue_empty (unsigned warpId) const;
 
+	bool checkEmptyQueue () const;	
+
 private:
 	
 	//Queue variable

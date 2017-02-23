@@ -375,6 +375,17 @@ void memory_sub_partition::cache_cycle( unsigned cycle )
         if ( !m_config->m_L2_config.disabled() &&
               ( (m_config->m_L2_texure_only && mf->istexture()) || (!m_config->m_L2_texure_only) )
            ) {
+
+	    if(mf->get_assoc_flag() == true){
+
+	    mf->set_status(IN_PARTITION_L2_TO_DRAM_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
+            m_L2_dram_queue->push(mf);
+            m_icnt_L2_queue->pop(); 
+	    
+            }
+
+	    else{
+
             // L2 is enabled and access is for L2
             bool output_full = m_L2_icnt_queue->full(); 
             bool port_free = m_L2cache->data_port_free(); 
@@ -410,6 +421,7 @@ void memory_sub_partition::cache_cycle( unsigned cycle )
                     // L2 cache lock-up: will try again next cycle
                 }
             }
+	}
         } else {
             // L2 is disabled or non-texture access to texture-only L2
             mf->set_status(IN_PARTITION_L2_TO_DRAM_QUEUE,gpu_sim_cycle+gpu_tot_sim_cycle);
