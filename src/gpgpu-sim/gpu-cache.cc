@@ -400,6 +400,12 @@ mem_fetch *mshr_table::next_access(){
     return result;
 }
 
+bool mshr_table::get_size() const {
+
+	return m_data.size() >= 0.8*m_num_entries;
+
+}
+
 void mshr_table::display( FILE *fp ) const{
     fprintf(fp,"MSHR contents\n");
     for ( table::const_iterator e=m_data.begin(); e!=m_data.end(); ++e ) {
@@ -1074,6 +1080,7 @@ data_cache::access( new_addr_type addr,
     bool wr = mf->get_is_write();
     new_addr_type block_addr = m_config.block_addr(addr);
     unsigned cache_index = (unsigned)-1;
+
     enum cache_request_status probe_status
         = m_tag_array->probe( block_addr, cache_index );
     enum cache_request_status access_status

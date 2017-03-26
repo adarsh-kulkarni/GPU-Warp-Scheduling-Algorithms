@@ -54,7 +54,9 @@
 #include "gpu-cache.h"
 #include "traffic_breakdown.h"
 
-
+//Mascar Implementation header file
+#include "warp_status.h"
+#include "wrc.h"
 
 #define NO_OP_FLAG            0xFF
 
@@ -295,6 +297,7 @@ enum concrete_scheduler
     CONCRETE_SCHEDULER_GTO,
     CONCRETE_SCHEDULER_TWO_LEVEL_ACTIVE,
     CONCRETE_SCHEDULER_WARP_LIMITING,
+    CONCRETE_SCHEDULER_MASCAR,
     NUM_CONCRETE_SCHEDULERS
 };
 
@@ -302,7 +305,7 @@ class scheduler_unit { //this can be copied freely, so can be used in std contai
 public:
     scheduler_unit(shader_core_stats* stats, shader_core_ctx* shader, 
                    Scoreboard* scoreboard, simt_stack** simt, 
-                   std::vector<shd_warp_t>* warp, 
+		   std::vector<shd_warp_t>* warp, 
                    register_set* sp_out,
                    register_set* sfu_out,
                    register_set* mem_out,
@@ -310,6 +313,22 @@ public:
         : m_supervised_warps(), m_stats(stats), m_shader(shader),
         m_scoreboard(scoreboard), m_simt_stack(simt), /*m_pipeline_reg(pipe_regs),*/ m_warp(warp),
         m_sp_out(sp_out),m_sfu_out(sfu_out),m_mem_out(mem_out), m_id(id){}
+
+	scheduler_unit(shader_core_stats* stats, shader_core_ctx* shader, 
+                   Scoreboard* scoreboard, simt_stack** simt, 
+		   Wrc* wrc, WST* wst,
+		   std::vector<shd_warp_t>* warp, 
+                   register_set* sp_out,
+                   register_set* sfu_out,
+                   register_set* mem_out,
+                   int id) 
+        : m_supervised_warps(), m_stats(stats), m_shader(shader),
+        m_scoreboard(scoreboard), m_simt_stack(simt), m_wrc(wrc), m_wst(wst), /*m_pipeline_reg(pipe_regs),*/ m_warp(warp),
+        m_sp_out(sp_out),m_sfu_out(sfu_out),m_mem_out(mem_out), m_id(id){
+
+	
+	}
+
     virtual ~scheduler_unit(){}
     virtual void add_supervised_warp_id(int i) {
         m_supervised_warps.push_back(&warp(i));
@@ -317,6 +336,7 @@ public:
     virtual void done_adding_supervised_warps() {
         m_last_supervised_issued = m_supervised_warps.end();
     }
+
 
 
     // The core scheduler cycle method is meant to be common between
@@ -349,6 +369,16 @@ public:
                             unsigned num_warps_to_add,
                             OrderingType age_ordering,
                             bool (*priority_func)(U lhs, U rhs) );
+
+    //Ordering function for Mascar scheduler
+    template < typename U >
+    void order_by_type( std::vector< U >& result_list_memory, std::vector< U >& result_list_compute,
+                            const typename std::vector< U >& input_list,
+                            const typename std::vector< U >::const_iterator& last_issued_from_input,
+                            unsigned num_warps_to_add,
+                            OrderingType age_ordering,
+                            bool (*priority_func)(U lhs, U rhs) );
+
     static bool sort_warps_by_oldest_dynamic_id(shd_warp_t* lhs, shd_warp_t* rhs);
 
     // Derived classes can override this function to populate
@@ -373,11 +403,25 @@ protected:
     std::vector< shd_warp_t* > m_supervised_warps;
     // This is the iterator pointer to the last supervised warp you issued
     std::vector< shd_warp_t* >::const_iterator m_last_supervised_issued;
+
+    //Warps list that contain only memory instructions
+    std::vector< shd_warp_t* > memory_ready_warps;
+    
+    //Warps that contain only compute instructions
+    std::vector< shd_warp_t* > compute_ready_warps;
+
     shader_core_stats *m_stats;
     shader_core_ctx* m_shader;
     // these things should become accessors: but would need a bigger rearchitect of how shader_core_ctx interacts with its parts.
     Scoreboard* m_scoreboard; 
     simt_stack** m_simt_stack;
+
+    //Mascar scheduler hardware structures
+    Wrc* m_wrc;
+    WST* m_wst;
+
+
+
     //warp_inst_t** m_pipeline_reg;
     std::vector<shd_warp_t>* m_warp;
     register_set* m_sp_out;
@@ -421,6 +465,26 @@ public:
     }
 
 };
+
+class mascar_scheduler : public scheduler_unit {
+public:
+	mascar_scheduler ( shader_core_stats* stats, shader_core_ctx* shader,
+                    Scoreboard* scoreboard, simt_stack** simt, 
+		    Wrc* wrc, WST* wst,
+                    std::vector<shd_warp_t>* warp,
+                    register_set* sp_out,
+                    register_set* sfu_out,
+                    register_set* mem_out,
+                    int id )
+	: scheduler_unit ( stats, shader, scoreboard, simt, wrc, wst, warp, sp_out, sfu_out, mem_out, id ){}
+	virtual ~mascar_scheduler () {}
+	virtual void order_warps ();
+    virtual void done_adding_supervised_warps() {
+        m_last_supervised_issued = m_supervised_warps.begin();
+    }
+
+};
+
 
 
 class two_level_active_scheduler : public scheduler_unit {
@@ -1180,6 +1244,9 @@ protected:
 
    shader_core_stats *m_stats; 
 
+   // Mascar memory saturation flag. Used to switch between EP and MP modes. Set by the L1 data cache.
+   bool memory_saturation_flag;
+
    // for debugging
    unsigned long long m_last_inst_gpu_sim_cycle;
    unsigned long long m_last_inst_gpu_tot_sim_cycle;
@@ -1812,6 +1879,11 @@ public:
 
     //schedule
     std::vector<scheduler_unit*>  schedulers;
+
+
+    //Mascar hardware structures
+    WST *m_wst;
+    Wrc *m_wrc;
 
     // execute
     unsigned m_num_function_units;

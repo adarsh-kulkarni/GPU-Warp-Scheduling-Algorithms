@@ -121,6 +121,12 @@ shader_core_ctx::shader_core_ctx( class gpgpu_sim *gpu,
     
     m_warp.resize(m_config->max_warps_per_shader, shd_warp_t(this, warp_size));
     m_scoreboard = new Scoreboard(m_sid, m_config->max_warps_per_shader);
+
+
+    //Mascar warp status table initialization
+    m_wst = new WST(m_config->max_warps_per_shader);
+    m_wrc = new Wrc();
+ 
     
     //scedulers
     //must currently occur after all inputs have been initialized.
@@ -131,6 +137,8 @@ shader_core_ctx::shader_core_ctx( class gpgpu_sim *gpu,
                                          CONCRETE_SCHEDULER_TWO_LEVEL_ACTIVE :
                                          sched_config.find("gto") != std::string::npos ?
                                          CONCRETE_SCHEDULER_GTO :
+					 sched_config.find("mascar") != std::string::npos ?
+                                         CONCRETE_SCHEDULER_MASCAR : 
                                          sched_config.find("warp_limiting") != std::string::npos ?
                                          CONCRETE_SCHEDULER_WARP_LIMITING:
                                          NUM_CONCRETE_SCHEDULERS;
@@ -182,6 +190,23 @@ shader_core_ctx::shader_core_ctx( class gpgpu_sim *gpu,
                                      )
                 );
                 break;
+	  case CONCRETE_SCHEDULER_MASCAR:
+                schedulers.push_back(
+                    new mascar_scheduler( m_stats,
+                                       this,
+                                       m_scoreboard,
+                                       m_simt_stack, 
+				       m_wrc,
+				       m_wst,
+                                       &m_warp,
+                                       &m_pipeline_reg[ID_OC_SP],
+                                       &m_pipeline_reg[ID_OC_SFU],
+                                       &m_pipeline_reg[ID_OC_MEM],
+                                       i
+                                     )
+                );
+                break;
+
             case CONCRETE_SCHEDULER_WARP_LIMITING:
                 schedulers.push_back(
                     new swl_scheduler( m_stats,
@@ -778,13 +803,16 @@ void scheduler_unit::order_by_priority( std::vector< T >& result_list,
 
     if ( ORDERING_GREEDY_THEN_PRIORITY_FUNC == ordering ) {
         T greedy_value = *last_issued_from_input;
+
         result_list.push_back( greedy_value );
 
         std::sort( temp.begin(), temp.end(), priority_func );
         typename std::vector< T >::iterator iter = temp.begin();
         for ( unsigned count = 0; count < num_warps_to_add; ++count, ++iter ) {
             if ( *iter != greedy_value ) {
-                result_list.push_back( *iter );
+			
+			result_list.push_back( *iter );
+
             }
         }
     } else if ( ORDERED_PRIORITY_FUNC_ONLY == ordering ) {
@@ -798,6 +826,100 @@ void scheduler_unit::order_by_priority( std::vector< T >& result_list,
         abort();
     }
 }
+
+/**
+*Ordering function for the mascar scheduler.
+*Memory_ready_warps and compute_ready_warps are the two lists that need to be populated inside this function
+result_list_memory and result_list_compute represent those two reference lists
+ */
+template < class T >
+void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
+					std::vector< T >& result_list_compute,
+                                        const typename std::vector< T >& input_list,
+                                        const typename std::vector< T >::const_iterator& last_issued_from_input,
+                                        unsigned num_warps_to_add,
+                                        OrderingType ordering,
+                                        bool (*priority_func)(T lhs, T rhs) )
+{
+    assert( num_warps_to_add <= input_list.size() );
+    result_list_compute.clear();
+    result_list_memory.clear();
+    typename std::vector< T > temp = input_list;
+
+	T greedy_value = *last_issued_from_input;
+
+	//Check if the next instruction for *last_issued_from_input and set the corresponding warp bit in the WST.(Memory operation bit and the scoreboard entry. Similar to what is done for all the warps below).
+
+	result_list_compute.push_back( greedy_value );
+
+	std::sort( temp.begin(), temp.end(), priority_func );
+	typename std::vector< T >::iterator iter = temp.begin();
+	for ( unsigned count = 0; count < num_warps_to_add; ++count, ++iter ) {
+	    if ( *iter != greedy_value ) {
+
+		if(!(*iter)->ibuffer_empty()){
+
+			const warp_inst_t *inst = (*iter)->ibuffer_next_inst();
+		
+		
+		//Algorithm for mascar scheduler
+
+		//Check the instruction buffer, scoreboard for each warp, memory saturation flag (from L1 cache) and the last issued warp (from *last_issued_from_input) above through the WRC and then set the corresponding bits for each warp in the WST.
+		//Divide the warps into two queues based on the bits in the WST. Check for the case where there may not be an entry in the WST. This is possible when there is no instruction in the instruction buffer for that warp
+		//Then iterate through the WST and divide the warps as compute ready and memory ready warps based on the stall bit. 
+		//Then pass the two lists to the sort function since both the lists need to be ordered in GTO priority. (NOT SURE) 
+
+
+	
+			if(inst->op==LOAD_OP || inst->op==STORE_OP || inst->op==MEMORY_BARRIER_OP){
+
+				//Set the memory operation bit in the WST based on the above information.
+				m_wst->setMemoryBit(true, (*iter)->get_warp_id());
+				result_list_memory.push_back( *iter );
+
+				
+				//This warp's next instruction needs to access memory. Now check if the memory saturation flag is set and check if this warp is the owner warp. If it is not the owner warp and the sat flag is set then set the stall bit.
+	
+				if(m_wrc->retSatFlag) {
+
+					//Find which warp is given exclusive ownership and access to the LSU (Owner warp ID)
+
+					if((*iter)->get_warp_id() != owner_warp_id){
+
+						m_wst->setStallBit(true,(*iter)->get_warp_id());
+							
+				}		
+	
+
+			}
+			else{
+
+				result_list_compute.push_back( *iter );	
+
+			}		
+
+	    }
+
+		//If the owner warp is waiting on it's own loads, then relieves this warp of ownership and reset all the WST stall bits.
+		//TO-DO : Logic for finding the owner warp and then redo the below subsequent computation for that warp
+		//The owner warp ID should be stored in the WRC.
+		if ( inst && inst->in[i] > 0 && this->m_scoreboard->islongop((*iter)->get_warp_id(), inst->in[i])){
+
+		m_wst->clearBits();
+								
+			    }
+
+
+        }
+	
+	
+	}
+
+
+	}
+
+}
+
 
 void scheduler_unit::cycle()
 {
@@ -813,7 +935,8 @@ void scheduler_unit::cycle()
         // Don't consider warps that are not yet valid
         if ( (*iter) == NULL || (*iter)->done_exit() ) {
             continue;
-        }
+        }	
+	
         SCHED_DPRINTF( "Testing (warp_id %u, dynamic_warp_id %u)\n",
                        (*iter)->get_warp_id(), (*iter)->get_dynamic_warp_id() );
         unsigned warp_id = (*iter)->get_warp_id();
@@ -821,6 +944,7 @@ void scheduler_unit::cycle()
         unsigned issued=0;
         unsigned max_issue = m_shader->m_config->gpgpu_max_insn_issue_per_warp;
         while( !warp(warp_id).waiting() && !warp(warp_id).ibuffer_empty() && (checked < max_issue) && (checked <= issued) && (issued < max_issue) ) {
+
             const warp_inst_t *pI = warp(warp_id).ibuffer_next_inst();
             bool valid = warp(warp_id).ibuffer_next_valid();
             bool warp_inst_issued = false;
@@ -959,6 +1083,18 @@ void gto_scheduler::order_warps()
                        ORDERING_GREEDY_THEN_PRIORITY_FUNC,
                        scheduler_unit::sort_warps_by_oldest_dynamic_id );
 }
+
+void mascar_scheduler::order_warps()
+{
+    order_by_type( memory_ready_warps,
+		       compute_ready_warps,
+                       m_supervised_warps,
+                       m_last_supervised_issued,
+                       m_supervised_warps.size(),
+                       ORDERING_GREEDY_THEN_PRIORITY_FUNC,
+                       scheduler_unit::sort_warps_by_oldest_dynamic_id );
+}
+
 
 void
 two_level_active_scheduler::do_on_warp_issued( unsigned warp_id,
@@ -1394,6 +1530,18 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
            bypassL1D = true; 
    }
 
+
+    //Check if the MSHR or the miss queue are 80% full and set the memory saturation flag. Used in the Mascar scheduler
+    if(m_L1D->miss_queue_size() || m_L1D->mshr_queue_size()){
+
+	memory_saturation_flag=true;
+
+	m_core->m_wrc->setSatFlag(true);
+
+    }
+
+
+
    if( bypassL1D ) {
        // bypass L1 cache
        unsigned control_size = inst.is_store() ? WRITE_PACKET_SIZE : READ_PACKET_SIZE;
@@ -1586,6 +1734,7 @@ void ldst_unit::init( mem_fetch_interface *icnt,
     m_next_global=NULL;
     m_last_inst_gpu_sim_cycle=0;
     m_last_inst_gpu_tot_sim_cycle=0;
+    memory_saturation_flag=false;
 }
 
 

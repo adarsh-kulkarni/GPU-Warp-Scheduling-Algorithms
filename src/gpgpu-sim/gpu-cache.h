@@ -413,12 +413,16 @@ public:
     bool access_ready() const {return !m_current_response.empty();}
     /// Returns next ready access
     mem_fetch *next_access();
+
+    ///Check the size of the mshr table. Used in the Mascar scheduler
+    bool get_size () const;
+
+
     void display( FILE *fp ) const;
 
     void check_mshr_parameters( unsigned num_entries, unsigned max_merged )
     {
-    	assert(m_num_entries==num_entries && "Change of MSHR parameters between kernels is not allowed");
-    	assert(m_max_merged==max_merged && "Change of MSHR parameters between kernels is not allowed");
+    	assert(m_num_entries==num_entries && "Change of MSHR parameters between kernels is not allowed"); assert(m_max_merged==max_merged && "Change of MSHR parameters between kernels is not allowed");
     }
 
 private:
@@ -597,6 +601,20 @@ public:
     void print(FILE *fp, unsigned &accesses, unsigned &misses) const;
     void display_state( FILE *fp ) const;
 
+    //Check the size of the m_miss_queue. Used in Mascar scheduler
+    bool miss_queue_size() const{
+	return m_miss_queue.size() >= 0.8*m_config.m_miss_queue_size;
+    }
+
+
+    bool mshr_queue_size() const{
+
+	bool checkSize = m_mshrs.get_size();
+	return checkSize;
+
+    }
+
+
     // Stat collection
     const cache_stats &get_stats() const {
         return m_stats;
@@ -663,6 +681,9 @@ protected:
     bool miss_queue_full(unsigned num_miss){
     	  return ( (m_miss_queue.size()+num_miss) >= m_config.m_miss_queue_size );
     }
+
+
+
     /// Read miss handler without writeback
     void send_read_request(new_addr_type addr, new_addr_type block_addr, unsigned cache_index, mem_fetch *mf,
     		unsigned time, bool &do_miss, std::list<cache_event> &events, bool read_only, bool wa);
@@ -928,7 +949,11 @@ public:
     l1_cache(const char *name, cache_config &config,
             int core_id, int type_id, mem_fetch_interface *memport,
             mem_fetch_allocator *mfcreator, enum mem_fetch_status status )
-            : data_cache(name,config,core_id,type_id,memport,mfcreator,status, L1_WR_ALLOC_R, L1_WRBK_ACC){}
+            : data_cache(name,config,core_id,type_id,memport,mfcreator,status, L1_WR_ALLOC_R, L1_WRBK_ACC){	
+
+		
+
+	    }
 
     virtual ~l1_cache(){}
 
@@ -950,6 +975,8 @@ protected:
     : data_cache( name,
                   config,
                   core_id,type_id,memport,mfcreator,status, new_tag_array, L1_WR_ALLOC_R, L1_WRBK_ACC ){}
+
+
 
 };
 
