@@ -1081,6 +1081,7 @@ data_cache::access( new_addr_type addr,
     new_addr_type block_addr = m_config.block_addr(addr);
     unsigned cache_index = (unsigned)-1;
 
+
     enum cache_request_status probe_status
         = m_tag_array->probe( block_addr, cache_index );
     enum cache_request_status access_status
@@ -1100,6 +1101,21 @@ l1_cache::access( new_addr_type addr,
                   unsigned time,
                   std::list<cache_event> &events )
 {
+
+    //Check if the MSHR or the miss queue are 80% full and set the memory saturation flag. Used in the Mascar scheduler
+    if(miss_queue_size() || mshr_queue_size()){
+
+	memory_saturation_flag = true;
+
+    }
+   
+    else {
+
+	memory_saturation_flag = false;
+
+    }
+
+
     return data_cache::access( addr, mf, time, events );
 }
 

@@ -420,6 +420,8 @@ protected:
     Wrc* m_wrc;
     WST* m_wst;
 
+    //Warp currently owning the LDST unit
+    shd_warp_t* owner_warp; 
 
 
     //warp_inst_t** m_pipeline_reg;
@@ -1182,6 +1184,21 @@ public:
     void get_L1D_sub_stats(struct cache_sub_stats &css) const;
     void get_L1C_sub_stats(struct cache_sub_stats &css) const;
     void get_L1T_sub_stats(struct cache_sub_stats &css) const;
+
+
+     //Accessor methods for setting and getting the flag
+     void setSatFlag(bool memFlag){
+
+	memory_saturation_flag = memFlag;
+
+     }
+
+     bool retSatFlag(){
+
+ 	return memory_saturation_flag;
+
+     }
+
 
 protected:
     ldst_unit( mem_fetch_interface *icnt,

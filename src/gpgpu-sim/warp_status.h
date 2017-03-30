@@ -2,10 +2,14 @@
 #define WST_H
 
 #include <vector>
-#include "../abstract_hardware_model.h"
-
 
 class WST{
+
+private:
+	//Forward Declaration
+	struct table_entry;
+
+
 
 public:
 	
@@ -32,6 +36,11 @@ public:
 	void modifyBits (bool bitValue, unsigned warpId);
 
 	void clearBits ();
+
+	typedef std::vector<table_entry>::iterator iterator;
+
+    	iterator wst_begin() { return statusTable.begin();}
+    	iterator wst_end() { return statusTable.end();}
 
 
 private:
@@ -64,10 +73,8 @@ private:
 
 
 	//Container that holds the struct entries
-	std::vector< table_entry > statusTable;	
+	std::vector<table_entry> statusTable;	
 	
 };
 
 #endif		
-
-

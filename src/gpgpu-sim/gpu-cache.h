@@ -748,6 +748,7 @@ public:
         init( mfcreator );
         m_wr_alloc_type = wr_alloc_type;
         m_wrbk_type = wrbk_type;
+   
     }
 
     virtual ~data_cache() {}
@@ -803,16 +804,18 @@ protected:
                 enum mem_fetch_status status,
                 tag_array* new_tag_array,
                 mem_access_type wr_alloc_type,
-                mem_access_type wrbk_type)
+                mem_access_type wrbk_type )
     : baseline_cache(name, config, core_id, type_id, memport,status, new_tag_array)
     {
         init( mfcreator );
         m_wr_alloc_type = wr_alloc_type;
         m_wrbk_type = wrbk_type;
+	
     }
 
     mem_access_type m_wr_alloc_type; // Specifies type of write allocate request (e.g., L1 or L2)
     mem_access_type m_wrbk_type; // Specifies type of writeback request (e.g., L1 or L2)
+
 
     //! A general function that takes the result of a tag_array probe
     //  and performs the correspding functions based on the cache configuration
@@ -951,7 +954,7 @@ public:
             mem_fetch_allocator *mfcreator, enum mem_fetch_status status )
             : data_cache(name,config,core_id,type_id,memport,mfcreator,status, L1_WR_ALLOC_R, L1_WRBK_ACC){	
 
-		
+		memory_saturation_flag = false;
 
 	    }
 
@@ -963,6 +966,13 @@ public:
                 unsigned time,
                 std::list<cache_event> &events );
 
+
+  	bool retSatFlag(){
+
+		return memory_saturation_flag;
+		
+	}
+
 protected:
     l1_cache( const char *name,
               cache_config &config,
@@ -971,12 +981,18 @@ protected:
               mem_fetch_interface *memport,
               mem_fetch_allocator *mfcreator,
               enum mem_fetch_status status,
-              tag_array* new_tag_array )
+              tag_array* new_tag_array)
     : data_cache( name,
                   config,
-                  core_id,type_id,memport,mfcreator,status, new_tag_array, L1_WR_ALLOC_R, L1_WRBK_ACC ){}
+                  core_id,type_id,memport,mfcreator,status, new_tag_array, L1_WR_ALLOC_R, L1_WRBK_ACC ){
+
+	      memory_saturation_flag = false;
+
+}
 
 
+     //Flag for Mascar scheduler
+      bool memory_saturation_flag;
 
 };
 

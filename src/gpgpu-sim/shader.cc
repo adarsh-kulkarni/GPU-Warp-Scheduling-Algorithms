@@ -860,36 +860,24 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 		if(!(*iter)->ibuffer_empty()){
 
 			const warp_inst_t *inst = (*iter)->ibuffer_next_inst();
-		
-		
-		//Algorithm for mascar scheduler
-
-		//Check the instruction buffer, scoreboard for each warp, memory saturation flag (from L1 cache) and the last issued warp (from *last_issued_from_input) above through the WRC and then set the corresponding bits for each warp in the WST.
-		//Divide the warps into two queues based on the bits in the WST. Check for the case where there may not be an entry in the WST. This is possible when there is no instruction in the instruction buffer for that warp
-		//Then iterate through the WST and divide the warps as compute ready and memory ready warps based on the stall bit. 
-		//Then pass the two lists to the sort function since both the lists need to be ordered in GTO priority. (NOT SURE) 
-
-
 	
 			if(inst->op==LOAD_OP || inst->op==STORE_OP || inst->op==MEMORY_BARRIER_OP){
 
 				//Set the memory operation bit in the WST based on the above information.
 				m_wst->setMemoryBit(true, (*iter)->get_warp_id());
-				result_list_memory.push_back( *iter );
-
 				
 				//This warp's next instruction needs to access memory. Now check if the memory saturation flag is set and check if this warp is the owner warp. If it is not the owner warp and the sat flag is set then set the stall bit.
 	
-				if(m_wrc->retSatFlag) {
+				if(m_wrc->retSatFlag()) {
 
 					//Find which warp is given exclusive ownership and access to the LSU (Owner warp ID)
 
-					if((*iter)->get_warp_id() != owner_warp_id){
+					if((*iter)->get_warp_id() != owner_warp->get_warp_id()){
 
-						m_wst->setStallBit(true,(*iter)->get_warp_id());
-							
-				}		
+						m_wst->setStallBit(true,(*iter)->get_warp_id());	
+					}		
 	
+				}
 
 			}
 			else{
@@ -898,25 +886,54 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 
 			}		
 
-	    }
-
-		//If the owner warp is waiting on it's own loads, then relieves this warp of ownership and reset all the WST stall bits.
-		//TO-DO : Logic for finding the owner warp and then redo the below subsequent computation for that warp
-		//The owner warp ID should be stored in the WRC.
-		if ( inst && inst->in[i] > 0 && this->m_scoreboard->islongop((*iter)->get_warp_id(), inst->in[i])){
-
-		m_wst->clearBits();
-								
 			    }
 
 
-        }
-	
+				}
+				
 	
 	}
+	 
+  	    //Analyse all the instructions for the current owner warp and clear all the bits of wst if the owner is waiting on an operand
+	    for (int i=0; i<4; i++){
+		    const warp_inst_t* inst = owner_warp->ibuffer_next_inst();
+		    //Is the instruction waiting on a long operation?
+		    if ( inst && inst->in[i] > 0 && this->m_scoreboard->islongop(owner_warp->get_warp_id(), inst->in[i])){
+
+		       //Reset the owner warp and the bits in the wst
+		       owner_warp = NULL;
+		       m_wst->clearBits();
+        	    }
+	    }
+
+	
 
 
-	}
+	  /* typename std::vector< T >::iterator iter1 = temp.begin();
+	   for (auto it = m_wst->wst_begin(); it != m_wst->wst_end(); ++it,++iter1) {
+
+			
+		if( it -> memBit ){
+			
+			result_list_memory.push_back(*iter1);
+	
+		}
+		else {
+		
+			result_list_compute.push_back(*iter1);
+
+		}
+
+
+	    }*/
+
+	typename std::vector< T > temp_mem = result_list_memory;
+	typename std::vector< T > temp_comp = result_list_compute;
+
+
+	std::sort( temp_mem.begin(), temp_mem.end(), priority_func );	
+	std::sort( temp_comp.begin(), temp_comp.end(), priority_func );
+	 
 
 }
 
@@ -949,6 +966,19 @@ void scheduler_unit::cycle()
             bool valid = warp(warp_id).ibuffer_next_valid();
             bool warp_inst_issued = false;
             unsigned pc,rpc;
+
+	    //Check if the LDST unit has set the memory saturation flag. If set, update the wrc.
+	    if(m_shader->m_ldst_unit->retSatFlag()){
+		m_wrc->setSatFlag(true);
+	    }
+	
+	    else {
+
+		m_wrc->setSatFlag(false);
+
+	    }
+
+
             m_simt_stack[warp_id]->get_pdom_stack_top_info(&pc,&rpc);
             SCHED_DPRINTF( "Warp (warp_id %u, dynamic_warp_id %u) has valid instruction (%s)\n",
                            (*iter)->get_warp_id(), (*iter)->get_dynamic_warp_id(),
@@ -976,6 +1006,16 @@ void scheduler_unit::cycle()
                                 issued_inst=true;
                                 warp_inst_issued = true;
                             }
+
+
+				//Mascar scheduler : Check if memory saturation flag is set. If set then make the last issued warp the owner warp.
+				if(m_wrc->retSatFlag()){	
+
+					owner_warp = *iter;
+
+					
+				}
+			
                         } else {
                             bool sp_pipe_avail = m_sp_out->has_free();
                             bool sfu_pipe_avail = m_sfu_out->has_free();
@@ -1531,14 +1571,11 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
    }
 
 
-    //Check if the MSHR or the miss queue are 80% full and set the memory saturation flag. Used in the Mascar scheduler
-    if(m_L1D->miss_queue_size() || m_L1D->mshr_queue_size()){
-
-	memory_saturation_flag=true;
-
-	m_core->m_wrc->setSatFlag(true);
-
-    }
+   //If the memory saturation flag is set in the L1 Data cache, set the flag here so that the warp readiness checker can pick it up.
+   if(m_L1D->retSatFlag())
+	setSatFlag(true);
+   else 
+	setSatFlag(true);
 
 
 

@@ -33,7 +33,7 @@
 	char WST::getMemoryBit (unsigned warpId) const {
 
 		
-		return statusTable[warpId].stallBit;
+		return statusTable[warpId].memBit;
 
 	}
 
@@ -55,7 +55,7 @@
 		for (std::vector<table_entry>::iterator it = statusTable.begin() ; it != statusTable.end(); ++it){
 
 	
-			it.ctrlBit = false;
+			it->ctrlBit = false;
 	
 		}	
 
