@@ -48,6 +48,8 @@
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/cuda-sim.o: ../gpgpu-sim/gpu-cache.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/cuda-sim.o: ../tr1_hash_map.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/cuda-sim.o: ../gpgpu-sim/traffic_breakdown.h
+/home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/cuda-sim.o: ../gpgpu-sim/warp_status.h
+/home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/cuda-sim.o: ../gpgpu-sim/wrc.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/cuda-sim.o: ptx_sim.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/cuda-sim.o: opcodes.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/cuda-sim.o: opcodes.def
@@ -113,6 +115,8 @@
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/instructions.o: ../gpgpu-sim/stats.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/instructions.o: ../gpgpu-sim/gpu-cache.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/instructions.o: ../gpgpu-sim/traffic_breakdown.h
+/home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/instructions.o: ../gpgpu-sim/warp_status.h
+/home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/instructions.o: ../gpgpu-sim/wrc.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/memory.o: memory.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/memory.o: ../abstract_hardware_model.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/memory.o: ../tr1_hash_map.h
@@ -165,6 +169,8 @@
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx_ir.o: ../gpgpu-sim/stats.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx_ir.o: ../gpgpu-sim/gpu-cache.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx_ir.o: ../gpgpu-sim/traffic_breakdown.h
+/home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx_ir.o: ../gpgpu-sim/warp_status.h
+/home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx_ir.o: ../gpgpu-sim/wrc.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx_loader.o: ptx_loader.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx_loader.o: ptx_ir.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx_loader.o: ../abstract_hardware_model.h
@@ -201,6 +207,8 @@
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx_loader.o: ../gpgpu-sim/stats.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx_loader.o: ../gpgpu-sim/gpu-cache.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx_loader.o: ../gpgpu-sim/traffic_breakdown.h
+/home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx_loader.o: ../gpgpu-sim/warp_status.h
+/home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx_loader.o: ../gpgpu-sim/wrc.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx_loader.o: ptx_parser.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx_loader.o: /usr/include/unistd.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx_loader.o: /usr/include/getopt.h
@@ -263,6 +271,8 @@
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx_sim.o: ../gpgpu-sim/stats.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx_sim.o: ../gpgpu-sim/gpu-cache.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx_sim.o: ../gpgpu-sim/traffic_breakdown.h
+/home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx_sim.o: ../gpgpu-sim/warp_status.h
+/home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx_sim.o: ../gpgpu-sim/wrc.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx-stats.o: ptx_ir.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx-stats.o: ../abstract_hardware_model.h
 /home/adarsh/gpgpu-sim_distribution/build/gcc-4.6.4/cuda-4020/debug/cuda-sim/ptx-stats.o: /usr/include/assert.h
