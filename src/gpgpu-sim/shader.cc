@@ -124,7 +124,7 @@ shader_core_ctx::shader_core_ctx( class gpgpu_sim *gpu,
     
     m_mrpb = new Mrpb(m_config->max_warps_per_shader);
 
-    //scedulers
+    //schedulers
     //must currently occur after all inputs have been initialized.
     std::string sched_config = m_config->gpgpu_scheduler_string;
     const concrete_scheduler scheduler = sched_config.find("lrr") != std::string::npos ?
@@ -1458,11 +1458,8 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
    if( inst.active_count() == 0 ) 
        return true;
    //assert( !inst.accessq_empty() );
-
-
-   
-
-    for (std::list<mem_access_t>::const_iterator it=inst.begin(); it !=inst.end(); ++it) {
+ 
+    for (std::list<mem_access_t>::iterator it=inst.begin(); it !=inst.end();) {
 
 /*	bool queueFull = m_mrpb->pushMemAccess(*it, inst.warp_id());
 	if(queueFull)
@@ -1472,25 +1469,39 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 	/*if(memAcc >= 8)
 		break;*/
 
-	m_mrpb->pushMemAccess(*it, inst.warp_id());	
+	if( !inst.accessq_empty() ) {
+	
+		if(m_mrpb->retQueueSize(inst.warp_id()) < 8) {
 
+			m_mrpb->pushMemAccess(*it, inst.warp_id());	
+			it = inst.accessq_erase(it); 
 
-    }
+			//Remove the corresponding entry from m_accessq
+
+			}
+		else{
+
+			++it;
+		    }
+	}
+
+   }
 
    assert(!m_mrpb->checkEmptyQueue());
   
    //Check the size of queue. Should be less than 8
-  // assert((m_mrpb->retQueueSize(inst.warp_id())) <= 8);
+   assert((m_mrpb->retQueueSize(inst.warp_id())) <= 8);
  
  
    unsigned mem_queue = inst.accessq_count();
 
+  
    //Remove the memory accesses from memory access queue
-   for(unsigned mem = 0; mem < mem_queue; ++mem){
+  /* for(unsigned mem = 0; mem < memAcc; ++mem){
 
 	inst.accessq_pop_back(); 
 
-    }
+    }*/
     
    mem_stage_stall_type stall_cond = NO_RC_FAIL;
   // const mem_access_t &access = inst.accessq_back();

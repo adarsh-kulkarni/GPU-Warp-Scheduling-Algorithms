@@ -951,12 +951,16 @@ public:
     const mem_access_t &accessq_back() { return m_accessq.back(); }
     void accessq_pop_back() { m_accessq.pop_back(); }
     void accessq_pop_front() { m_accessq.pop_front(); }
-   
+
     //using const_iterator = std::list<mem_access_t>::const_iterator;
     typedef std::list<mem_access_t>::const_iterator const_iterator;
+    typedef std::list<mem_access_t>::iterator iterator;
 
-    const_iterator begin() const { return m_accessq.begin();}
-    const_iterator end() const { return m_accessq.end();}
+    iterator begin() { return m_accessq.begin();}
+    iterator end() { return m_accessq.end();}
+
+    iterator accessq_erase(iterator i) { return m_accessq.erase(i); }
+   
 
     bool dispatch_delay()
     { 
