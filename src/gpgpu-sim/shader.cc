@@ -1505,7 +1505,12 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
     
    mem_stage_stall_type stall_cond = NO_RC_FAIL;
   // const mem_access_t &access = inst.accessq_back();
-   const mem_access_t &access = m_mrpb->getMemAccess(); 
+  
+   //This variable is required to get the warp id of the request from the getMemAccess() function
+   unsigned warp_id_queue = 0;
+   const mem_access_t &access = m_mrpb->getMemAccess(warp_id_queue); 
+
+   
   
 
    bool bypassL1D = false; 
@@ -1595,7 +1600,10 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
    }
 
    //Queue should not be accessed by warp id since we are getting the entry from the first non empty queue
-   return m_mrpb->mrpbQueue_empty(inst.warp_id());
+   //CHECK
+   //return m_mrpb->mrpbQueue_empty(inst.warp_id());
+   
+   return m_mrpb->mrpbQueue_empty(warp_id_queue);
  
    
    //return inst.accessq_empty(); 

@@ -18,7 +18,7 @@ public:
 	~Mrpb();
 
 	//Get the first entry from the queue. Access the queue using the warp id
-	mem_access_t getMemAccess ();
+	mem_access_t getMemAccess (unsigned &warp_id);
 
 	//Push a memory access object onto the queue
 	bool pushMemAccess (mem_access_t newMemAccess, unsigned warpId);

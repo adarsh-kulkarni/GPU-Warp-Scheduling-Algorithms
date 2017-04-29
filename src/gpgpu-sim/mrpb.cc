@@ -18,8 +18,11 @@ Mrpb::Mrpb(unsigned warpCount){
 
 
 //Fetch a queue entry based on warp ID
-mem_access_t Mrpb::getMemAccess(){
+//The warp ID parameter to the function is used to return the warp ID to the calling function
+mem_access_t Mrpb::getMemAccess(unsigned &warp_id){
 
+
+	warp_id=0;
 	//TO-DO Check if there is an entry and then return
 //	return mrpbQueue[warpId].back();
 
@@ -30,6 +33,8 @@ mem_access_t Mrpb::getMemAccess(){
                         return (*iter).front();
 
                         }
+
+		++warp_id;
                 }
 
 }
