@@ -1385,9 +1385,12 @@ mem_stage_stall_type ldst_unit::process_memory_access_queue( cache_t *cache, war
    
 
     mem_fetch *mf = NULL;
+
+    unsigned warp_id_temp = 0;
+
     if(cache == m_L1D){
  	 
- 	mf = m_mf_allocator->alloc(inst,m_mrpb->getMemAccess());
+ 	mf = m_mf_allocator->alloc(inst,m_mrpb->getMemAccess(warp_id_temp));
          
     }
 
