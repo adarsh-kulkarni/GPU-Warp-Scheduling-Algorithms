@@ -30,7 +30,7 @@ mem_access_t Mrpb::getMemAccess(unsigned &warp_id){
 
                 if(!((*iter).empty())){
 
-                        return (*iter).front();
+                        return (*iter).back();
 
                         }
 

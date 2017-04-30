@@ -3,7 +3,7 @@
 !_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
-!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+!_TAG_PROGRAM_VERSION	5.8	//
 -name-prefix	cuda-sim/Makefile	/^	bison --name-prefix=ptx_ -v -d ptx.y --file-prefix=$(OUTPUT_DIR)\/ptx$/;"	m
 -name-prefix	cuda-sim/Makefile	/^	bison --name-prefix=ptxinfo_ -v -d ptxinfo.y --file-prefix=$(OUTPUT_DIR)\/ptxinfo$/;"	m
 -outfile	cuda-sim/Makefile	/^	flex --outfile=$(OUTPUT_DIR)\/lex.ptx_.c ptx.l $/;"	m
@@ -16,7 +16,7 @@ ADJ	gpuwattch/cacti/crossbar.cc	35;"	d	file:
 AF	gpuwattch/arch_const.h	/^const double 		AF 				= 	0.5;$/;"	v
 AF	gpuwattch/cacti/highradix.h	/^    double AF;\/\/ activity factor$/;"	m	class:HighRadix
 ALLOCATORS	intersim2/Makefile	/^ALLOCATORS:= $(wildcard allocators\/*.cpp)$/;"	m
-ALLXMLClearTag	gpuwattch/xmlParser.cc	/^typedef struct { XMLCSTR lpszOpen; int openTagLen; XMLCSTR lpszClose;} ALLXMLClearTag;$/;"	t	typeref:struct:__anon30	file:
+ALLXMLClearTag	gpuwattch/xmlParser.cc	/^typedef struct { XMLCSTR lpszOpen; int openTagLen; XMLCSTR lpszClose;} ALLXMLClearTag;$/;"	t	typeref:struct:__anon7	file:
 ALU	gpuwattch/basic_components.h	/^    ALU,$/;"	e	enum:FU_type
 ALU_OP	abstract_hardware_model.h	/^   ALU_OP=1,$/;"	e	enum:uarch_op_t
 ALU_SFU_OP	abstract_hardware_model.h	/^   ALU_SFU_OP,$/;"	e	enum:uarch_op_t
@@ -102,7 +102,7 @@ BASE64DECODE_READ_NEXT_CHAR	gpuwattch/xmlParser.cc	2872;"	d	file:
 BASIC_COMPONENTS_H_	gpuwattch/basic_components.h	33;"	d
 BEGIN	intersim2/lex.yy.c	125;"	d	file:
 BIGNUM	gpuwattch/cacti/const.h	103;"	d
-BK	gpgpu-sim/addrdec.h	/^      BK    = 1,$/;"	e	enum:linear_to_raw_address_translation::__anon5
+BK	gpgpu-sim/addrdec.h	/^      BK    = 1,$/;"	e	enum:linear_to_raw_address_translation::__anon2
 BK_CONF	gpgpu-sim/stats.h	/^   BK_CONF,$/;"	e	enum:mem_stage_stall_type
 BL	gpgpu-sim/gpu-sim.h	/^   unsigned BL;     \/\/Burst Length in bytes (4 in GDDR3, 8 in GDDR5)$/;"	m	struct:memory_config
 BPT	gpuwattch/core.h	/^	BranchPredictor * BPT;$/;"	m	class:InstFetchU
@@ -117,7 +117,7 @@ BTB_config	gpuwattch/XML_Parse.h	/^	int BTB_config[20];$/;"	m	struct:__anon16
 BTB_systemcore	gpuwattch/XML_Parse.h	/^} BTB_systemcore;$/;"	t	typeref:struct:__anon16
 BUFFER_SEPARATION_LENGTH_MULTIPLIER	gpuwattch/cacti/const.h	165;"	d
 BULK_CU_RESISTIVITY	gpuwattch/cacti/const.h	/^const double BULK_CU_RESISTIVITY = 0.018; \/\/ohm-micron$/;"	v
-BURST	gpgpu-sim/addrdec.h	/^      BURST = 4,$/;"	e	enum:linear_to_raw_address_translation::__anon5
+BURST	gpgpu-sim/addrdec.h	/^      BURST = 4,$/;"	e	enum:linear_to_raw_address_translation::__anon2
 BadPermDFlyTrafficPattern	intersim2/traffic.cpp	/^BadPermDFlyTrafficPattern::BadPermDFlyTrafficPattern(int nodes, int k, int n)$/;"	f	class:BadPermDFlyTrafficPattern
 BadPermDFlyTrafficPattern	intersim2/traffic.hpp	/^class BadPermDFlyTrafficPattern : public DigitPermutationTrafficPattern {$/;"	c
 BadPermYarcTrafficPattern	intersim2/traffic.cpp	/^BadPermYarcTrafficPattern::BadPermYarcTrafficPattern(int nodes, int k, int n, $/;"	f	class:BadPermYarcTrafficPattern
@@ -173,7 +173,7 @@ CCP	gpuwattch/gpgpu_sim_wrapper.cc	/^   CCP,$/;"	e	enum:pwr_cmp_t	file:
 CC_H	gpuwattch/XML_Parse.h	/^   CC_H,$/;"	e	enum:perf_count_t
 CC_M	gpuwattch/XML_Parse.h	/^   CC_M,$/;"	e	enum:perf_count_t
 CCdir	gpuwattch/sharedcache.h	/^class CCdir :public Component{$/;"	c
-CHIP	gpgpu-sim/addrdec.h	/^      CHIP  = 0,$/;"	e	enum:linear_to_raw_address_translation::__anon5
+CHIP	gpgpu-sim/addrdec.h	/^      CHIP  = 0,$/;"	e	enum:linear_to_raw_address_translation::__anon2
 CL	gpgpu-sim/gpu-sim.h	/^   unsigned CL;     \/\/CAS latency$/;"	m	struct:memory_config
 CLOCK64_REG	cuda-sim/opcodes.h	/^   CLOCK64_REG,$/;"	e	enum:special_regs
 CLOCKRATE	gpuwattch/arch_const.h	/^const double 		CLOCKRATE 		= 	1.2*1e9;$/;"	v
@@ -183,7 +183,7 @@ CMesh	intersim2/networks/cmesh.hpp	/^class CMesh : public Network {$/;"	c
 COALESCE_SCALE	gpuwattch/memoryctrl.cc	610;"	d	file:
 COALESCE_SCALE	gpuwattch/processor.h	103;"	d
 COAL_STALL	gpgpu-sim/stats.h	/^   COAL_STALL,$/;"	e	enum:mem_stage_stall_type
-COL	gpgpu-sim/addrdec.h	/^      COL   = 3,$/;"	e	enum:linear_to_raw_address_translation::__anon5
+COL	gpgpu-sim/addrdec.h	/^      COL   = 3,$/;"	e	enum:linear_to_raw_address_translation::__anon2
 COLUMNS	gpuwattch/cacti/highradix.h	/^    double COLUMNS;$/;"	m	class:HighRadix
 COL_BUFF_ENT	gpuwattch/cacti/highradix.h	/^    double COL_BUFF_ENT;$/;"	m	class:HighRadix
 COL_BUFF_SZ	gpuwattch/cacti/highradix.h	/^    double COL_BUFF_SZ;$/;"	m	class:HighRadix
@@ -968,16 +968,16 @@ MEM_PRE	gpuwattch/XML_Parse.h	/^   MEM_PRE,$/;"	e	enum:perf_count_t
 MEM_RD	gpuwattch/XML_Parse.h	/^   MEM_RD,$/;"	e	enum:perf_count_t
 MEM_WR	gpuwattch/XML_Parse.h	/^   MEM_WR,$/;"	e	enum:perf_count_t
 MEM__OP	abstract_hardware_model.h	/^    MEM__OP$/;"	e	enum:operation_pipeline_t
-MF_TUP	gpgpu-sim/mem_fetch.cc	72;"	d	file:
-MF_TUP	gpgpu-sim/mem_fetch.cc	76;"	d	file:
+MF_TUP	gpgpu-sim/mem_fetch.cc	74;"	d	file:
+MF_TUP	gpgpu-sim/mem_fetch.cc	78;"	d	file:
 MF_TUP	gpgpu-sim/mem_fetch.h	43;"	d
 MF_TUP	gpgpu-sim/mem_fetch.h	47;"	d
-MF_TUP_BEGIN	gpgpu-sim/mem_fetch.cc	71;"	d	file:
-MF_TUP_BEGIN	gpgpu-sim/mem_fetch.cc	75;"	d	file:
+MF_TUP_BEGIN	gpgpu-sim/mem_fetch.cc	73;"	d	file:
+MF_TUP_BEGIN	gpgpu-sim/mem_fetch.cc	77;"	d	file:
 MF_TUP_BEGIN	gpgpu-sim/mem_fetch.h	42;"	d
 MF_TUP_BEGIN	gpgpu-sim/mem_fetch.h	46;"	d
-MF_TUP_END	gpgpu-sim/mem_fetch.cc	73;"	d	file:
-MF_TUP_END	gpgpu-sim/mem_fetch.cc	77;"	d	file:
+MF_TUP_END	gpgpu-sim/mem_fetch.cc	75;"	d	file:
+MF_TUP_END	gpgpu-sim/mem_fetch.cc	79;"	d	file:
 MF_TUP_END	gpgpu-sim/mem_fetch.h	44;"	d
 MF_TUP_END	gpgpu-sim/mem_fetch.h	48;"	d
 MIN	gpgpu-sim/shader.cc	52;"	d	file:
@@ -1106,25 +1106,25 @@ NUM_PERFORMANCE_COUNTERS	gpuwattch/XML_Parse.h	/^   NUM_PERFORMANCE_COUNTERS$/;"
 NUM_SIMD_MODEL	abstract_hardware_model.h	/^   NUM_SIMD_MODEL$/;"	e	enum:divergence_support_t
 NUM_STAT_IDX	gpgpu-sim/power_stat.h	/^    NUM_STAT_IDX     \/\/ Total number of samples$/;"	e	enum:_stat_idx
 NWARPID_REG	cuda-sim/opcodes.h	/^   NWARPID_REG,$/;"	e	enum:special_regs
-N_ADDRDEC	gpgpu-sim/addrdec.h	/^      N_ADDRDEC$/;"	e	enum:linear_to_raw_address_translation::__anon5
+N_ADDRDEC	gpgpu-sim/addrdec.h	/^      N_ADDRDEC$/;"	e	enum:linear_to_raw_address_translation::__anon2
 N_MEM_STAGE_ACCESS_TYPE	gpgpu-sim/stats.h	/^   N_MEM_STAGE_ACCESS_TYPE$/;"	e	enum:mem_stage_access_type
 N_MEM_STAGE_STALL_TYPE	gpgpu-sim/stats.h	/^   N_MEM_STAGE_STALL_TYPE$/;"	e	enum:mem_stage_stall_type
 N_NETWORK_MODE	gpgpu-sim/icnt_wrapper.h	/^   N_NETWORK_MODE$/;"	e	enum:network_mode
 N_PIPELINE_STAGES	gpgpu-sim/shader.h	/^    N_PIPELINE_STAGES $/;"	e	enum:pipeline_stage_name_t
 Name	intersim2/module.hpp	/^  inline const string & Name() const { return _name; }$/;"	f	class:Module
 Ndbl	gpuwattch/cacti/cacti_interface.h	/^  int    Ndbl;$/;"	m	class:mem_array
-Ndbl	gpuwattch/cacti/cacti_interface.h	/^  int Ndbl;$/;"	m	struct:__anon29
+Ndbl	gpuwattch/cacti/cacti_interface.h	/^  int Ndbl;$/;"	m	struct:__anon10
 Ndbl	gpuwattch/cacti/parameter.h	/^    int Ndbl;$/;"	m	class:DynamicParameter
 Ndcm	gpuwattch/cacti/cacti_interface.h	/^  int    Ndcm;$/;"	m	class:mem_array
 Ndcm	gpuwattch/cacti/parameter.h	/^    int Ndcm;$/;"	m	class:DynamicParameter
 Ndsam_lev_1	gpuwattch/cacti/cacti_interface.h	/^  int    Ndsam_lev_1;$/;"	m	class:mem_array
-Ndsam_lev_1	gpuwattch/cacti/cacti_interface.h	/^  int Ndsam_lev_1;$/;"	m	struct:__anon29
+Ndsam_lev_1	gpuwattch/cacti/cacti_interface.h	/^  int Ndsam_lev_1;$/;"	m	struct:__anon10
 Ndsam_lev_1	gpuwattch/cacti/parameter.h	/^    int Ndsam_lev_1;$/;"	m	class:DynamicParameter
 Ndsam_lev_2	gpuwattch/cacti/cacti_interface.h	/^  int    Ndsam_lev_2;$/;"	m	class:mem_array
-Ndsam_lev_2	gpuwattch/cacti/cacti_interface.h	/^  int Ndsam_lev_2;$/;"	m	struct:__anon29
+Ndsam_lev_2	gpuwattch/cacti/cacti_interface.h	/^  int Ndsam_lev_2;$/;"	m	struct:__anon10
 Ndsam_lev_2	gpuwattch/cacti/parameter.h	/^    int Ndsam_lev_2;$/;"	m	class:DynamicParameter
 Ndwl	gpuwattch/cacti/cacti_interface.h	/^  int    Ndwl;$/;"	m	class:mem_array
-Ndwl	gpuwattch/cacti/cacti_interface.h	/^  int Ndwl;$/;"	m	struct:__anon29
+Ndwl	gpuwattch/cacti/cacti_interface.h	/^  int Ndwl;$/;"	m	struct:__anon10
 Ndwl	gpuwattch/cacti/parameter.h	/^    int Ndwl;$/;"	m	class:DynamicParameter
 NeighborTrafficPattern	intersim2/traffic.cpp	/^NeighborTrafficPattern::NeighborTrafficPattern(int nodes, int k, int n, int xr)$/;"	f	class:NeighborTrafficPattern
 NeighborTrafficPattern	intersim2/traffic.hpp	/^class NeighborTrafficPattern : public DigitPermutationTrafficPattern {$/;"	c
@@ -1142,7 +1142,7 @@ New	intersim2/trafficmanager.cpp	/^TrafficManager * TrafficManager::New(Configur
 NewAllocator	intersim2/allocators/allocator.cpp	/^Allocator *Allocator::NewAllocator( Module *parent, const string& name,$/;"	f	class:Allocator
 NewArbiter	intersim2/arbiters/arbiter.cpp	/^Arbiter *Arbiter::NewArbiter( Module *parent, const string& name,$/;"	f	class:Arbiter
 NewRouter	intersim2/routers/router.cpp	/^Router *Router::NewRouter( const Configuration& config,$/;"	f	class:Router
-NextToken	gpuwattch/xmlParser.cc	/^} NextToken;$/;"	t	typeref:struct:__anon32	file:
+NextToken	gpuwattch/xmlParser.cc	/^} NextToken;$/;"	t	typeref:struct:__anon9	file:
 NoC	gpuwattch/XML_Parse.h	/^    system_NoC NoC[64];$/;"	m	struct:__anon28
 NoC	gpuwattch/noc.cc	/^NoC::NoC(ParseXML *XML_interface, int ithNoC_, InputParameter* interface_ip_, double M_traffic_pattern_, double link_len_)$/;"	f	class:NoC
 NoC	gpuwattch/noc.h	/^class NoC :public Component {$/;"	c
@@ -1152,7 +1152,7 @@ NodeToPort	intersim2/networks/cmesh.cpp	/^int CMesh::NodeToPort( int address ) {
 NodeToRouter	intersim2/networks/cmesh.cpp	/^int CMesh::NodeToRouter( int address ) {$/;"	f	class:CMesh
 NonDir	gpuwattch/basic_components.h	/^	NonDir$/;"	e	enum:Dir_type
 Nspd	gpuwattch/cacti/cacti_interface.h	/^  double Nspd;$/;"	m	class:mem_array
-Nspd	gpuwattch/cacti/cacti_interface.h	/^  double Nspd;$/;"	m	struct:__anon29
+Nspd	gpuwattch/cacti/cacti_interface.h	/^  double Nspd;$/;"	m	struct:__anon10
 Nspd	gpuwattch/cacti/parameter.h	/^    double Nspd;$/;"	m	class:DynamicParameter
 Nspd_min	gpuwattch/cacti/Ucache.h	/^  double   Nspd_min;$/;"	m	struct:calc_time_mt_wrapper_struct
 Nuca	gpuwattch/cacti/nuca.cc	/^Nuca::Nuca($/;"	f	class:Nuca
@@ -1401,7 +1401,7 @@ ROUTERS	intersim2/Makefile	/^ROUTERS:= $(wildcard routers\/*.cpp)$/;"	m
 ROUTER_TYPES	gpuwattch/cacti/const.h	71;"	d
 ROUTE_LOGIC_D	gpuwattch/cacti/highradix.h	59;"	d
 ROUTE_LOGIC_L	gpuwattch/cacti/highradix.h	60;"	d
-ROW	gpgpu-sim/addrdec.h	/^      ROW   = 2,$/;"	e	enum:linear_to_raw_address_translation::__anon5
+ROW	gpgpu-sim/addrdec.h	/^      ROW   = 2,$/;"	e	enum:linear_to_raw_address_translation::__anon2
 ROWS	gpuwattch/cacti/highradix.h	/^    double ROWS;$/;"	m	class:HighRadix
 ROW_BUFF_ENT	gpuwattch/cacti/highradix.h	/^    double ROW_BUFF_ENT;$/;"	m	class:HighRadix
 ROW_BUFF_SZ	gpuwattch/cacti/highradix.h	/^    double ROW_BUFF_SZ;$/;"	m	class:HighRadix
@@ -1553,10 +1553,10 @@ STR	intersim2/y.tab.h	/^    STR = 258,$/;"	e	enum:yytokentype
 STR	intersim2/y.tab.h	54;"	d
 STREAM_MANAGER_H_INCLUDED	stream_manager.h	29;"	d
 STRSIZE	gpgpu-sim/shader.cc	117;"	d	file:
-STRSIZE	gpgpu-sim/shader.cc	1703;"	d	file:
+STRSIZE	gpgpu-sim/shader.cc	1760;"	d	file:
 STR_SIZE	cuda-sim/cuda-sim.cc	458;"	d	file:
 STR_SIZE	cuda-sim/ptx_ir.cc	42;"	d	file:
-STR_SIZE	gpgpu-sim/shader.cc	2117;"	d	file:
+STR_SIZE	gpgpu-sim/shader.cc	2181;"	d	file:
 SUB_SWITCH_SZ	gpuwattch/cacti/highradix.h	/^    double SUB_SWITCH_SZ;$/;"	m	class:HighRadix
 SWAP	gpgpu-sim/dram.cc	203;"	d	file:
 SYNC	abstract_hardware_model.h	/^   SYNC=1,$/;"	e	enum:uarch_bar_t
@@ -1624,7 +1624,7 @@ Size	intersim2/interconnect_interface.hpp	/^    inline unsigned Size(void) const
 SparseAllocator	intersim2/allocators/allocator.cpp	/^SparseAllocator::SparseAllocator( Module *parent, const string& name,$/;"	f	class:SparseAllocator
 SparseAllocator	intersim2/allocators/allocator.hpp	/^class SparseAllocator : public Allocator {$/;"	c
 SquaredSum	intersim2/stats.cpp	/^double Stats::SquaredSum( ) const$/;"	f	class:Stats
-Stack	gpgpu-sim/stack.h	/^} Stack;$/;"	t	typeref:struct:__anon6
+Stack	gpgpu-sim/stack.h	/^} Stack;$/;"	t	typeref:struct:__anon1
 StatAddSample	statwrapper.cc	/^void StatAddSample (void * st, int val)$/;"	f
 StatAverage	statwrapper.cc	/^double StatAverage(void * st) $/;"	f
 StatClear	statwrapper.cc	/^void StatClear(void * st)$/;"	f
@@ -1889,7 +1889,7 @@ XMLCSTR	gpuwattch/xmlParser.h	170;"	d
 XMLCSTR	gpuwattch/xmlParser.h	175;"	d
 XMLCharEncoding	gpuwattch/xmlParser.h	/^    typedef enum XMLCharEncoding$/;"	g	struct:XMLNode
 XMLCharEncoding	gpuwattch/xmlParser.h	/^    } XMLCharEncoding;$/;"	t	struct:XMLNode	typeref:enum:XMLNode::XMLCharEncoding
-XMLCharacterEntity	gpuwattch/xmlParser.cc	/^typedef struct { XMLCSTR s; int l; XMLCHAR c;} XMLCharacterEntity;$/;"	t	typeref:struct:__anon31	file:
+XMLCharacterEntity	gpuwattch/xmlParser.cc	/^typedef struct { XMLCSTR s; int l; XMLCHAR c;} XMLCharacterEntity;$/;"	t	typeref:struct:__anon8	file:
 XMLClear	gpuwattch/xmlParser.h	/^typedef struct XMLClear {$/;"	s
 XMLClear	gpuwattch/xmlParser.h	/^} XMLClear;$/;"	t	typeref:struct:XMLClear
 XMLClearTags	gpuwattch/xmlParser.cc	/^static ALLXMLClearTag XMLClearTags[] =$/;"	v	file:
@@ -2846,17 +2846,19 @@ access_ready	gpgpu-sim/gpu-cache.h	/^    bool access_ready() const{return !m_res
 access_time	gpuwattch/cacti/Ucache.h	/^  double access_time;$/;"	m	struct:solution
 access_time	gpuwattch/cacti/cacti_interface.h	/^    double access_time;$/;"	m	class:uca_org_t
 access_time	gpuwattch/cacti/cacti_interface.h	/^  double access_time;$/;"	m	class:mem_array
-access_time	gpuwattch/cacti/cacti_interface.h	/^  double access_time;$/;"	m	struct:__anon29
+access_time	gpuwattch/cacti/cacti_interface.h	/^  double access_time;$/;"	m	struct:__anon10
 access_time	gpuwattch/cacti/uca.h	/^    double access_time;$/;"	m	class:UCA
 accesses	gpgpu-sim/gpu-cache.h	/^    unsigned accesses;$/;"	m	struct:cache_sub_stats
 accessq_back	abstract_hardware_model.h	/^    const mem_access_t &accessq_back() { return m_accessq.back(); }$/;"	f	class:warp_inst_t
 accessq_count	abstract_hardware_model.h	/^    unsigned accessq_count() const { return m_accessq.size(); }$/;"	f	class:warp_inst_t
 accessq_empty	abstract_hardware_model.h	/^    bool accessq_empty() const { return m_accessq.empty(); }$/;"	f	class:warp_inst_t
+accessq_erase	abstract_hardware_model.h	/^    iterator accessq_erase(iterator i) { return m_accessq.erase(i); }$/;"	f	class:warp_inst_t
 accessq_pop_back	abstract_hardware_model.h	/^    void accessq_pop_back() { m_accessq.pop_back(); }$/;"	f	class:warp_inst_t
+accessq_pop_front	abstract_hardware_model.h	/^    void accessq_pop_front() { m_accessq.pop_front(); }$/;"	f	class:warp_inst_t
 accumulate_L2cache_stats	gpgpu-sim/l2cache.cc	/^void memory_sub_partition::accumulate_L2cache_stats(class cache_stats &l2_stats) const {$/;"	f	class:memory_sub_partition
 act_coeff	gpuwattch/basic_components.h	/^    double act_coeff;$/;"	m	class:DRAMParam
 activate_energy	gpuwattch/cacti/cacti_interface.h	/^  double activate_energy, read_energy, write_energy, precharge_energy,$/;"	m	class:mem_array
-activate_energy	gpuwattch/cacti/cacti_interface.h	/^  double activate_energy;$/;"	m	struct:__anon29
+activate_energy	gpuwattch/cacti/cacti_interface.h	/^  double activate_energy;$/;"	m	struct:__anon10
 activate_energy	gpuwattch/cacti/uca.h	/^    double activate_energy;$/;"	m	class:UCA
 active	abstract_hardware_model.h	/^        active_mask_t active; \/\/ threads in this transaction$/;"	m	struct:warp_inst_t::transaction_info
 active	abstract_hardware_model.h	/^    bool active( unsigned thread ) const { return m_warp_active_mask.test(thread); }$/;"	f	class:warp_inst_t
@@ -2985,9 +2987,9 @@ age	gpgpu-sim/dram.h	/^   unsigned int age;$/;"	m	class:dram_req_t
 age_based	intersim2/trafficmanager.hpp	/^  enum ePriority { class_based, age_based, network_age_based, local_age_based, queue_length_based, hop_count_based, sequence_based, none };$/;"	e	enum:TrafficManager::ePriority
 align_spec	cuda-sim/ptx.y	/^align_spec: ALIGN_DIRECTIVE INT_OPERAND { add_alignment_spec($2); }$/;"	l
 all_banks_height	gpuwattch/cacti/cacti_interface.h	/^  double all_banks_height,$/;"	m	class:mem_array
-all_banks_height	gpuwattch/cacti/cacti_interface.h	/^  double all_banks_height;$/;"	m	struct:__anon29
+all_banks_height	gpuwattch/cacti/cacti_interface.h	/^  double all_banks_height;$/;"	m	struct:__anon10
 all_banks_width	gpuwattch/cacti/cacti_interface.h	/^         all_banks_width,$/;"	m	class:mem_array
-all_banks_width	gpuwattch/cacti/cacti_interface.h	/^  double all_banks_width;$/;"	m	struct:__anon29
+all_banks_width	gpuwattch/cacti/cacti_interface.h	/^  double all_banks_width;$/;"	m	struct:__anon10
 alloc	gpgpu-sim/l2cache.cc	/^mem_fetch * partition_mf_allocator::alloc(new_addr_type addr, mem_access_type type, unsigned size, bool wr ) const $/;"	f	class:partition_mf_allocator
 alloc	gpgpu-sim/l2cache.h	/^    virtual mem_fetch * alloc(const class warp_inst_t &inst, const mem_access_t &access) const $/;"	f	class:partition_mf_allocator
 alloc	gpgpu-sim/shader.h	/^    mem_fetch *alloc( const warp_inst_t &inst, const mem_access_t &access ) const$/;"	f	class:shader_core_mem_fetch_allocator
@@ -3033,7 +3035,7 @@ arbitration_metadata	gpgpu-sim/l2cache.h	/^   class arbitration_metadata$/;"	c	c
 arch	gpuwattch/XML_Parse.h	/^	int arch;$/;"	m	struct:__anon28
 arch_freg_width	gpuwattch/basic_components.h	/^    int  arch_ireg_width, arch_freg_width, phy_ireg_width, phy_freg_width;$/;"	m	class:CoreDynParam
 arch_ireg_width	gpuwattch/basic_components.h	/^    int  arch_ireg_width, arch_freg_width, phy_ireg_width, phy_freg_width;$/;"	m	class:CoreDynParam
-arch_reg	abstract_hardware_model.h	/^    } arch_reg;$/;"	m	class:inst_t	typeref:struct:inst_t::__anon1
+arch_reg	abstract_hardware_model.h	/^    } arch_reg;$/;"	m	class:inst_t	typeref:struct:inst_t::__anon33
 arch_reg_num	cuda-sim/ptx_ir.h	/^   int arch_reg_num() const { return m_value.m_symbolic->arch_reg_num(); }$/;"	f	class:operand_info
 arch_reg_num	cuda-sim/ptx_ir.h	/^   int arch_reg_num(unsigned n) const { return (m_value.m_vector_symbolic[n])? m_value.m_vector_symbolic[n]->arch_reg_num() : -1; }$/;"	f	class:operand_info
 arch_reg_num	cuda-sim/ptx_ir.h	/^   unsigned arch_reg_num() const$/;"	f	class:symbol
@@ -3049,7 +3051,7 @@ area	gpuwattch/cacti/Ucache.h	/^  double area;$/;"	m	struct:solution
 area	gpuwattch/cacti/area.h	/^  double area;$/;"	m	class:Area
 area	gpuwattch/cacti/cacti_interface.h	/^    double area;$/;"	m	class:uca_org_t
 area	gpuwattch/cacti/cacti_interface.h	/^  double area;$/;"	m	class:mem_array
-area	gpuwattch/cacti/cacti_interface.h	/^  double area;$/;"	m	struct:__anon29
+area	gpuwattch/cacti/cacti_interface.h	/^  double area;$/;"	m	struct:__anon10
 area	gpuwattch/cacti/component.h	/^    Area area;$/;"	m	class:Component
 areaChannel	intersim2/power/power_module.cpp	/^double Power_Module:: areaChannel (double K, double N, double M){$/;"	f	class:Power_Module
 areaCrossbar	intersim2/power/power_module.cpp	/^double Power_Module:: areaCrossbar(double Inputs, double Outputs) {$/;"	f	class:Power_Module
@@ -3060,7 +3062,7 @@ area_dev	gpuwattch/cacti/cacti_interface.h	/^        cycle_time_dev, area_dev;$/
 area_dev_nuca	gpuwattch/cacti/cacti_interface.h	/^        cycle_time_dev_nuca, area_dev_nuca;$/;"	m	class:InputParameter
 area_efficiency	gpuwattch/cacti/cacti_interface.h	/^         area_efficiency;$/;"	m	class:mem_array
 area_efficiency	gpuwattch/cacti/cacti_interface.h	/^    double area_efficiency;$/;"	m	class:uca_org_t
-area_efficiency	gpuwattch/cacti/cacti_interface.h	/^  double area_efficiency;$/;"	m	struct:__anon29
+area_efficiency	gpuwattch/cacti/cacti_interface.h	/^  double area_efficiency;$/;"	m	struct:__anon10
 area_ram_cells	gpuwattch/cacti/cacti_interface.h	/^  double area_ram_cells;$/;"	m	class:mem_array
 area_wt	gpuwattch/cacti/cacti_interface.h	/^        cycle_time_wt, area_wt;$/;"	m	class:InputParameter
 area_wt_nuca	gpuwattch/cacti/cacti_interface.h	/^        cycle_time_wt_nuca, area_wt_nuca;$/;"	m	class:InputParameter
@@ -3071,14 +3073,15 @@ arg_buffer_t	cuda-sim/ptx_ir.h	/^   arg_buffer_t( const symbol *dst_sym, const o
 arg_buffer_t	cuda-sim/ptx_ir.h	/^   arg_buffer_t()$/;"	f	class:arg_buffer_t
 arg_buffer_t	cuda-sim/ptx_ir.h	/^class arg_buffer_t {$/;"	c
 arr_min	gpuwattch/cacti/cacti_interface.h	/^  min_values_t *arr_min;$/;"	m	class:mem_array
-array_inputs	gpuwattch/arch_const.h	/^} array_inputs;$/;"	t	typeref:struct:__anon10
+array_inputs	gpuwattch/arch_const.h	/^} array_inputs;$/;"	t	typeref:struct:__anon6
 aspect_ratio	gpuwattch/cacti/parameter.h	/^    double aspect_ratio;$/;"	m	class:TechnologyParameter::InterconnectType
 assignDefault	option_parser.cc	/^   virtual bool assignDefault(const char *str) { return fromString(str); }$/;"	f	class:OptionRegistry
 assignDefault	option_parser.cc	/^bool OptionRegistry<char *>::assignDefault(const char *str) $/;"	f	class:OptionRegistry
 assign_bb	cuda-sim/ptx_ir.h	/^   void assign_bb(basic_block_t* basic_block) \/\/assign instruction to a basic block$/;"	f	class:ptx_instruction
-assoc	gpuwattch/arch_const.h	/^	unsigned int assoc;\/\/fully$/;"	m	struct:__anon10
+assoc	gpuwattch/arch_const.h	/^	unsigned int assoc;\/\/fully$/;"	m	struct:__anon6
 assoc	gpuwattch/basic_components.h	/^    double    capacity, blockW, assoc, nbanks;$/;"	m	class:CacheDynParam
 assoc	gpuwattch/cacti/cacti_interface.h	/^    unsigned int assoc;$/;"	m	class:InputParameter
+assoc_stall	gpgpu-sim/mem_fetch.h	/^   bool assoc_stall;$/;"	m	class:mem_fetch
 atime	intersim2/flit.hpp	/^  int  atime;$/;"	m	class:Flit
 atom_callback	cuda-sim/instructions.cc	/^void atom_callback( const inst_t* inst, ptx_thread_info* thread)$/;"	f
 atom_impl	cuda-sim/instructions.cc	/^void atom_impl( const ptx_instruction *pI, ptx_thread_info *thread )$/;"	f
@@ -3102,12 +3105,12 @@ bandwidth_management	gpgpu-sim/gpu-cache.cc	/^baseline_cache::bandwidth_manageme
 bandwidth_management	gpgpu-sim/gpu-cache.h	/^    class bandwidth_management $/;"	c	class:baseline_cache
 bank	gpuwattch/cacti/uca.h	/^    Bank   bank;$/;"	m	class:UCA
 bank_count	gpuwattch/cacti/nuca.h	/^    int bank_count;$/;"	m	class:nuca_org_t
-bank_height	gpuwattch/cacti/cacti_interface.h	/^  double bank_height;$/;"	m	struct:__anon29
+bank_height	gpuwattch/cacti/cacti_interface.h	/^  double bank_height;$/;"	m	struct:__anon10
 bank_idle	gpgpu-sim/shader.h	/^      bool bank_idle( unsigned bank ) const$/;"	f	class:opndcoll_rfu_t::arbiter_t
 bank_pda	gpuwattch/cacti/nuca.h	/^    Component bank_pda;$/;"	m	class:nuca_org_t
 bank_t	gpgpu-sim/dram.h	/^struct bank_t$/;"	s
 bank_width	gpuwattch/basic_components.h	/^	int bank_width; \/\/ in bits$/;"	m	class:DRAMParam
-bank_width	gpuwattch/cacti/cacti_interface.h	/^  double bank_width;$/;"	m	struct:__anon29
+bank_width	gpuwattch/cacti/cacti_interface.h	/^  double bank_width;$/;"	m	struct:__anon10
 bankgrp_t	gpgpu-sim/dram.h	/^struct bankgrp_t$/;"	s
 bankreads	gpgpu-sim/mem_latency_stat.h	/^   unsigned int ***bankreads; \/\/bankreads[shader id][dram chip id][bank id]$/;"	m	class:memory_stats_t
 bankwrites	gpgpu-sim/mem_latency_stat.h	/^   unsigned int ***bankwrites; \/\/bankwrites[shader id][dram chip id][bank id]$/;"	m	class:memory_stats_t
@@ -3134,7 +3137,7 @@ basic_block_t	cuda-sim/ptx_ir.h	/^   basic_block_t( unsigned ID, ptx_instruction
 basic_block_t	cuda-sim/ptx_ir.h	/^struct basic_block_t {$/;"	s
 bb_id	cuda-sim/ptx_ir.h	/^   unsigned bb_id;$/;"	m	struct:basic_block_t
 bdata	option_parser.cc	/^   bool bdata;$/;"	m	class:testtype	file:
-begin	abstract_hardware_model.h	/^    const_iterator begin() const { return m_accessq.begin();}$/;"	f	class:warp_inst_t
+begin	abstract_hardware_model.h	/^    iterator begin() { return m_accessq.begin();}$/;"	f	class:warp_inst_t
 bfe_impl	cuda-sim/instructions.cc	/^void bfe_impl( const ptx_instruction *pI, ptx_thread_info *thread ) { inst_not_implemented(pI); }$/;"	f
 bfi_impl	cuda-sim/instructions.cc	/^void bfi_impl( const ptx_instruction *pI, ptx_thread_info *thread ) { inst_not_implemented(pI); }$/;"	f
 bfind_impl	cuda-sim/instructions.cc	/^void bfind_impl( const ptx_instruction *pI, ptx_thread_info *thread ) { inst_not_implemented(pI); }$/;"	f
@@ -3143,7 +3146,7 @@ binned_histogram	gpgpu-sim/histogram.cc	/^binned_histogram::binned_histogram (st
 binned_histogram	gpgpu-sim/histogram.h	/^class binned_histogram {$/;"	c
 bit_mux_dec	gpuwattch/cacti/mat.h	/^    Decoder * bit_mux_dec;$/;"	m	class:Mat
 bit_to_byte	gpuwattch/cacti/const.h	/^const double    bit_to_byte  = 8.0;$/;"	v
-bits	cuda-sim/ptx_sim.h	/^   } bits;$/;"	m	union:ptx_reg_t	typeref:struct:ptx_reg_t::__anon3
+bits	cuda-sim/ptx_sim.h	/^   } bits;$/;"	m	union:ptx_reg_t	typeref:struct:ptx_reg_t::__anon30
 bk	gpgpu-sim/addrdec.h	/^   unsigned bk;$/;"	m	struct:addrdec_t
 bk	gpgpu-sim/dram.h	/^   bank_t **bk;$/;"	m	class:dram_t
 bk	gpgpu-sim/dram.h	/^   unsigned int bk;$/;"	m	class:dram_req_t
@@ -3160,7 +3163,7 @@ block_power	gpuwattch/cacti/decoder.h	/^    powerDef block_power;$/;"	m	class:Pr
 block_spec	cuda-sim/ptx.y	/^block_spec: MAXNTID_DIRECTIVE INT_OPERAND COMMA INT_OPERAND COMMA INT_OPERAND {func_header_info_int(".maxntid", $2);$/;"	l
 block_spec_list	cuda-sim/ptx.y	/^block_spec_list: block_spec$/;"	l
 block_sz	gpuwattch/cacti/cacti_interface.h	/^    unsigned int block_sz;  \/\/ bytes$/;"	m	class:InputParameter
-blocksize	gpuwattch/arch_const.h	/^	unsigned int blocksize;$/;"	m	struct:__anon10
+blocksize	gpuwattch/arch_const.h	/^	unsigned int blocksize;$/;"	m	struct:__anon6
 boolint	option_parser.cc	/^   unsigned int boolint;$/;"	m	class:testtype	file:
 borrow_credit	gpgpu-sim/l2cache.cc	/^void memory_partition_unit::arbitration_metadata::borrow_credit(int inner_sub_partition_id) $/;"	f	class:memory_partition_unit::arbitration_metadata
 bra_impl	cuda-sim/instructions.cc	/^void bra_impl( const ptx_instruction *pI, ptx_thread_info *thread ) $/;"	f
@@ -3213,7 +3216,7 @@ bwutil	gpgpu-sim/dram.h	/^   unsigned int bwutil;$/;"	m	class:dram_t
 bwutil_partial	gpgpu-sim/dram.h	/^   unsigned int bwutil_partial;$/;"	m	class:dram_t
 bypass	gpuwattch/core.h	/^	Component  bypass;$/;"	m	class:EXECU
 bytes	abstract_hardware_model.h	/^        mem_access_byte_mask_t bytes;$/;"	m	struct:warp_inst_t::transaction_info
-c	gpuwattch/xmlParser.cc	/^typedef struct { XMLCSTR s; int l; XMLCHAR c;} XMLCharacterEntity;$/;"	m	struct:__anon31	file:
+c	gpuwattch/xmlParser.cc	/^typedef struct { XMLCSTR s; int l; XMLCHAR c;} XMLCharacterEntity;$/;"	m	struct:__anon8	file:
 c_arb	gpuwattch/cacti/highradix.h	/^    MCPAT_Arbiter *cb_arb, *vc_arb, *c_arb;$/;"	m	class:HighRadix
 c_buff	gpuwattch/cacti/highradix.h	/^    Mat *inp_buff, *r_buff, *c_buff;$/;"	m	class:HighRadix
 c_gate_load	gpuwattch/cacti/decoder.h	/^  double c_gate_load;$/;"	m	class:Driver
@@ -3299,10 +3302,10 @@ can_issue	gpgpu-sim/shader.h	/^    virtual bool can_issue( const warp_inst_t &in
 can_issue_to_dram	gpgpu-sim/l2cache.cc	/^bool memory_partition_unit::can_issue_to_dram(int inner_sub_partition_id) $/;"	f	class:memory_partition_unit
 can_start_kernel	gpgpu-sim/gpu-sim.cc	/^bool gpgpu_sim::can_start_kernel()$/;"	f	class:gpgpu_sim
 capacity	gpgpu-sim/gpu-cache.h	/^        unsigned capacity() const { return m_size;}$/;"	f	class:tex_cache::fifo
-capacity	gpuwattch/arch_const.h	/^	unsigned int capacity;$/;"	m	struct:__anon10
+capacity	gpuwattch/arch_const.h	/^	unsigned int capacity;$/;"	m	struct:__anon6
 capacity	gpuwattch/basic_components.h	/^    double    capacity, blockW, assoc, nbanks;$/;"	m	class:CacheDynParam
 capacity_per_channel	gpuwattch/XML_Parse.h	/^	int capacity_per_channel;$/;"	m	struct:__anon24
-cas_latency	gpuwattch/cacti/cacti_interface.h	/^  double cas_latency;$/;"	m	struct:__anon29
+cas_latency	gpuwattch/cacti/cacti_interface.h	/^  double cas_latency;$/;"	m	struct:__anon10
 cb	gpuwattch/cacti/highradix.h	/^    Crossbar *cb, *out_cb;$/;"	m	class:HighRadix
 cbEndTag	gpuwattch/xmlParser.cc	/^    int                    cbEndTag;$/;"	m	struct:XML	file:
 cbNewElement	gpuwattch/xmlParser.cc	/^    int                    cbNewElement;$/;"	m	struct:XML	file:
@@ -3357,6 +3360,7 @@ char_encoding_legacy	gpuwattch/xmlParser.h	/^        char_encoding_legacy=2,$/;"
 characterEncoding	gpuwattch/xmlParser.cc	/^static XMLNode::XMLCharEncoding characterEncoding=XMLNode::char_encoding_UTF8;$/;"	v	file:
 charmemset	gpuwattch/xmlParser.cc	/^static inline void charmemset(XMLSTR dest,XMLCHAR c,int l) { while (l--) *(dest++)=c; }$/;"	f	file:
 checkCollision	gpgpu-sim/scoreboard.cc	/^bool Scoreboard::checkCollision( unsigned wid, const class inst_t *inst ) const$/;"	f	class:Scoreboard
+checkEmptyQueue	gpgpu-sim/mrpb.cc	/^bool Mrpb::checkEmptyQueue() const{$/;"	f	class:Mrpb
 checkExecutionStatusAndUpdate	cuda-sim/cuda-sim.h	/^    virtual void checkExecutionStatusAndUpdate(warp_inst_t &inst, unsigned t, unsigned tid)$/;"	f	class:functionalCoreSim
 checkExecutionStatusAndUpdate	gpgpu-sim/shader.cc	/^void shader_core_ctx::checkExecutionStatusAndUpdate(warp_inst_t &inst, unsigned t, unsigned tid)$/;"	f	class:shader_core_ctx
 check_cta_thread_status_and_reset	cuda-sim/ptx_sim.cc	/^void ptx_cta_info::check_cta_thread_status_and_reset()$/;"	f	class:ptx_cta_info
@@ -3688,7 +3692,7 @@ cycle	intersim2/power/switch_monitor.cpp	/^void SwitchMonitor::cycle() {$/;"	f	c
 cycle_time	gpuwattch/cacti/Ucache.h	/^  double cycle_time;$/;"	m	struct:solution
 cycle_time	gpuwattch/cacti/cacti_interface.h	/^    double cycle_time;$/;"	m	class:uca_org_t
 cycle_time	gpuwattch/cacti/cacti_interface.h	/^  double cycle_time;$/;"	m	class:mem_array
-cycle_time	gpuwattch/cacti/cacti_interface.h	/^  double cycle_time;$/;"	m	struct:__anon29
+cycle_time	gpuwattch/cacti/cacti_interface.h	/^  double cycle_time;$/;"	m	struct:__anon10
 cycle_time	gpuwattch/cacti/component.h	/^    double cycle_time;$/;"	m	class:Component
 cycle_time	gpuwattch/cacti/router.h	/^    double cycle_time, max_cyc;$/;"	m	class:MCPAT_Router
 cycle_time_dev	gpuwattch/cacti/cacti_interface.h	/^        cycle_time_dev, area_dev;$/;"	m	class:InputParameter
@@ -3766,38 +3770,38 @@ decoded_stream_buffer_size	gpuwattch/XML_Parse.h	/^	int decoded_stream_buffer_si
 decrement_atomic_count	gpgpu-sim/shader.cc	/^void shader_core_ctx::decrement_atomic_count( unsigned wid, unsigned n )$/;"	f	class:shader_core_ctx
 deepCopy	gpuwattch/xmlParser.cc	/^XMLNode XMLNode::deepCopy() const$/;"	f	class:XMLNode
 deg_bl_muxing	gpuwattch/cacti/cacti_interface.h	/^  int    deg_bl_muxing;$/;"	m	class:mem_array
-deg_bl_muxing	gpuwattch/cacti/cacti_interface.h	/^  int deg_bl_muxing;$/;"	m	struct:__anon29
+deg_bl_muxing	gpuwattch/cacti/cacti_interface.h	/^  int deg_bl_muxing;$/;"	m	struct:__anon10
 deg_bl_muxing	gpuwattch/cacti/mat.h	/^    int      deg_bl_muxing;$/;"	m	class:Mat
 deg_bl_muxing	gpuwattch/cacti/parameter.h	/^    int deg_bl_muxing;$/;"	m	class:DynamicParameter
 deg_senseamp_muxing_non_associativity	gpuwattch/cacti/parameter.h	/^    int deg_senseamp_muxing_non_associativity;$/;"	m	class:DynamicParameter
 delay	gpuwattch/cacti/component.h	/^    double delay;$/;"	m	class:Component
 delay	gpuwattch/cacti/decoder.h	/^    double delay;$/;"	m	class:Decoder
 delay	gpuwattch/cacti/decoder.h	/^  double delay;$/;"	m	class:Driver
-delay_addr_din_horizontal_htree	gpuwattch/cacti/cacti_interface.h	/^  double delay_addr_din_horizontal_htree;$/;"	m	struct:__anon29
-delay_addr_din_vertical_htree	gpuwattch/cacti/cacti_interface.h	/^  double delay_addr_din_vertical_htree;$/;"	m	struct:__anon29
+delay_addr_din_horizontal_htree	gpuwattch/cacti/cacti_interface.h	/^  double delay_addr_din_horizontal_htree;$/;"	m	struct:__anon10
+delay_addr_din_vertical_htree	gpuwattch/cacti/cacti_interface.h	/^  double delay_addr_din_vertical_htree;$/;"	m	struct:__anon10
 delay_array_to_sa_mux_lev_1_decoder	gpuwattch/cacti/uca.h	/^    double delay_array_to_sa_mux_lev_1_decoder;$/;"	m	class:UCA
 delay_array_to_sa_mux_lev_2_decoder	gpuwattch/cacti/uca.h	/^    double delay_array_to_sa_mux_lev_2_decoder;$/;"	m	class:UCA
 delay_before_decoder	gpuwattch/cacti/mat.h	/^    double   delay_before_decoder;$/;"	m	class:Mat
 delay_before_subarray_output_driver	gpuwattch/cacti/cacti_interface.h	/^  double delay_before_subarray_output_driver;$/;"	m	class:mem_array
 delay_before_subarray_output_driver	gpuwattch/cacti/uca.h	/^    double delay_before_subarray_output_driver;$/;"	m	class:UCA
-delay_bit_mux_decoder	gpuwattch/cacti/cacti_interface.h	/^  double delay_bit_mux_decoder;$/;"	m	struct:__anon29
-delay_bit_mux_predecode_driver_and_block	gpuwattch/cacti/cacti_interface.h	/^  double delay_bit_mux_predecode_driver_and_block;$/;"	m	struct:__anon29
+delay_bit_mux_decoder	gpuwattch/cacti/cacti_interface.h	/^  double delay_bit_mux_decoder;$/;"	m	struct:__anon10
+delay_bit_mux_predecode_driver_and_block	gpuwattch/cacti/cacti_interface.h	/^  double delay_bit_mux_predecode_driver_and_block;$/;"	m	struct:__anon10
 delay_bitline	gpuwattch/cacti/mat.h	/^    double   delay_bitline;$/;"	m	class:Mat
 delay_bitlines	gpuwattch/cacti/cacti_interface.h	/^         delay_bitlines,$/;"	m	class:mem_array
-delay_bitlines	gpuwattch/cacti/cacti_interface.h	/^  double delay_bitlines;$/;"	m	struct:__anon29
+delay_bitlines	gpuwattch/cacti/cacti_interface.h	/^  double delay_bitlines;$/;"	m	struct:__anon10
 delay_bl_restore	gpuwattch/cacti/mat.h	/^    double   delay_bl_restore;$/;"	m	class:Mat
 delay_cam	gpuwattch/cacti/mat.h	/^    double   delay_fa_tag, delay_cam;$/;"	m	class:Mat
 delay_cam_ml_reset	gpuwattch/cacti/mat.h	/^    double   delay_cam_ml_reset;$/;"	m	class:Mat
 delay_cam_sl_restore	gpuwattch/cacti/mat.h	/^    double   delay_cam_sl_restore;$/;"	m	class:Mat
 delay_comparator	gpuwattch/cacti/cacti_interface.h	/^         delay_comparator,$/;"	m	class:mem_array
-delay_comparator	gpuwattch/cacti/cacti_interface.h	/^  double delay_comparator;$/;"	m	struct:__anon29
+delay_comparator	gpuwattch/cacti/cacti_interface.h	/^  double delay_comparator;$/;"	m	struct:__anon10
 delay_comparator	gpuwattch/cacti/mat.h	/^    double   delay_comparator;$/;"	m	class:Mat
-delay_crossbar	gpuwattch/cacti/cacti_interface.h	/^  double delay_crossbar;$/;"	m	struct:__anon29
+delay_crossbar	gpuwattch/cacti/cacti_interface.h	/^  double delay_crossbar;$/;"	m	struct:__anon10
 delay_dev	gpuwattch/cacti/cacti_interface.h	/^    int delay_dev, dynamic_power_dev, leakage_power_dev,$/;"	m	class:InputParameter
 delay_dev_nuca	gpuwattch/cacti/cacti_interface.h	/^    int delay_dev_nuca, dynamic_power_dev_nuca, leakage_power_dev_nuca,$/;"	m	class:InputParameter
-delay_dout_horizontal_htree	gpuwattch/cacti/cacti_interface.h	/^  double delay_dout_horizontal_htree;$/;"	m	struct:__anon29
+delay_dout_horizontal_htree	gpuwattch/cacti/cacti_interface.h	/^  double delay_dout_horizontal_htree;$/;"	m	struct:__anon10
 delay_dout_htree	gpuwattch/cacti/cacti_interface.h	/^         delay_dout_htree,$/;"	m	class:mem_array
-delay_dout_vertical_htree	gpuwattch/cacti/cacti_interface.h	/^  double delay_dout_vertical_htree;$/;"	m	struct:__anon29
+delay_dout_vertical_htree	gpuwattch/cacti/cacti_interface.h	/^  double delay_dout_vertical_htree;$/;"	m	struct:__anon10
 delay_fa_ram_wl	gpuwattch/cacti/mat.h	/^    double   delay_fa_ram_wl;$/;"	m	class:Mat
 delay_fa_tag	gpuwattch/cacti/mat.h	/^    double   delay_fa_tag, delay_cam;$/;"	m	class:Mat
 delay_from_subarray_out_drv_to_out	gpuwattch/cacti/uca.h	/^    double delay_from_subarray_out_drv_to_out;$/;"	m	class:UCA
@@ -3805,8 +3809,8 @@ delay_from_subarray_output_driver_to_output	gpuwattch/cacti/cacti_interface.h	/^
 delay_hit_miss	gpuwattch/cacti/mat.h	/^    double   delay_hit_miss;$/;"	m	class:Mat
 delay_hit_miss_reset	gpuwattch/cacti/mat.h	/^    double   delay_hit_miss_reset;$/;"	m	class:Mat
 delay_input_htree	gpuwattch/cacti/cacti_interface.h	/^         delay_input_htree,$/;"	m	class:mem_array
-delay_input_htree	gpuwattch/cacti/cacti_interface.h	/^  double delay_input_htree;$/;"	m	struct:__anon29
-delay_inside_mat	gpuwattch/cacti/cacti_interface.h	/^  double delay_inside_mat;$/;"	m	struct:__anon29
+delay_input_htree	gpuwattch/cacti/cacti_interface.h	/^  double delay_input_htree;$/;"	m	struct:__anon10
+delay_inside_mat	gpuwattch/cacti/cacti_interface.h	/^  double delay_inside_mat;$/;"	m	struct:__anon10
 delay_matchchline	gpuwattch/cacti/mat.h	/^    double   delay_matchchline;$/;"	m	class:Mat
 delay_matchlines	gpuwattch/cacti/cacti_interface.h	/^         delay_matchlines;$/;"	m	class:mem_array
 delay_nand2_path	gpuwattch/cacti/decoder.h	/^  double delay_nand2_path;$/;"	m	class:PredecBlk
@@ -3814,28 +3818,28 @@ delay_nand2_path	gpuwattch/cacti/decoder.h	/^  double delay_nand2_path;$/;"	m	cl
 delay_nand3_path	gpuwattch/cacti/decoder.h	/^  double delay_nand3_path;$/;"	m	class:PredecBlk
 delay_nand3_path	gpuwattch/cacti/decoder.h	/^  double delay_nand3_path;$/;"	m	class:PredecBlkDrv
 delay_optimal_wire	gpuwattch/cacti/wire.cc	/^void Wire::delay_optimal_wire ()$/;"	f	class:Wire
-delay_output_htree	gpuwattch/cacti/cacti_interface.h	/^  double delay_output_htree;$/;"	m	struct:__anon29
-delay_reply_network	gpuwattch/cacti/cacti_interface.h	/^  double delay_reply_network;$/;"	m	struct:__anon29
-delay_request_network	gpuwattch/cacti/cacti_interface.h	/^  double delay_request_network;$/;"	m	struct:__anon29
+delay_output_htree	gpuwattch/cacti/cacti_interface.h	/^  double delay_output_htree;$/;"	m	struct:__anon10
+delay_reply_network	gpuwattch/cacti/cacti_interface.h	/^  double delay_reply_network;$/;"	m	struct:__anon10
+delay_request_network	gpuwattch/cacti/cacti_interface.h	/^  double delay_request_network;$/;"	m	struct:__anon10
 delay_route_to_bank	gpuwattch/cacti/cacti_interface.h	/^  double delay_route_to_bank,$/;"	m	class:mem_array
-delay_route_to_bank	gpuwattch/cacti/cacti_interface.h	/^  double delay_route_to_bank;$/;"	m	struct:__anon29
+delay_route_to_bank	gpuwattch/cacti/cacti_interface.h	/^  double delay_route_to_bank;$/;"	m	struct:__anon10
 delay_row_decoder	gpuwattch/cacti/cacti_interface.h	/^         delay_row_decoder,$/;"	m	class:mem_array
-delay_row_decoder	gpuwattch/cacti/cacti_interface.h	/^  double delay_row_decoder;$/;"	m	struct:__anon29
+delay_row_decoder	gpuwattch/cacti/cacti_interface.h	/^  double delay_row_decoder;$/;"	m	struct:__anon10
 delay_row_predecode_driver_and_block	gpuwattch/cacti/cacti_interface.h	/^         delay_row_predecode_driver_and_block,$/;"	m	class:mem_array
-delay_row_predecode_driver_and_block	gpuwattch/cacti/cacti_interface.h	/^  double delay_row_predecode_driver_and_block;$/;"	m	struct:__anon29
+delay_row_predecode_driver_and_block	gpuwattch/cacti/cacti_interface.h	/^  double delay_row_predecode_driver_and_block;$/;"	m	struct:__anon10
 delay_sa	gpuwattch/cacti/mat.h	/^    double   delay_sa;$/;"	m	class:Mat
 delay_searchline	gpuwattch/cacti/mat.h	/^    double   delay_searchline;$/;"	m	class:Mat
 delay_sense_amp	gpuwattch/cacti/cacti_interface.h	/^         delay_sense_amp,$/;"	m	class:mem_array
-delay_sense_amp	gpuwattch/cacti/cacti_interface.h	/^  double delay_sense_amp;$/;"	m	struct:__anon29
+delay_sense_amp	gpuwattch/cacti/cacti_interface.h	/^  double delay_sense_amp;$/;"	m	struct:__anon10
 delay_senseamp_mux_decoder	gpuwattch/cacti/cacti_interface.h	/^  double delay_senseamp_mux_decoder;$/;"	m	class:mem_array
-delay_senseamp_mux_lev_1_decoder	gpuwattch/cacti/cacti_interface.h	/^  double delay_senseamp_mux_lev_1_decoder;$/;"	m	struct:__anon29
-delay_senseamp_mux_lev_1_predecode_driver_and_block	gpuwattch/cacti/cacti_interface.h	/^  double delay_senseamp_mux_lev_1_predecode_driver_and_block;$/;"	m	struct:__anon29
-delay_senseamp_mux_lev_2_decoder	gpuwattch/cacti/cacti_interface.h	/^  double delay_senseamp_mux_lev_2_decoder;$/;"	m	struct:__anon29
-delay_senseamp_mux_lev_2_predecode_driver_and_block	gpuwattch/cacti/cacti_interface.h	/^  double delay_senseamp_mux_lev_2_predecode_driver_and_block;$/;"	m	struct:__anon29
+delay_senseamp_mux_lev_1_decoder	gpuwattch/cacti/cacti_interface.h	/^  double delay_senseamp_mux_lev_1_decoder;$/;"	m	struct:__anon10
+delay_senseamp_mux_lev_1_predecode_driver_and_block	gpuwattch/cacti/cacti_interface.h	/^  double delay_senseamp_mux_lev_1_predecode_driver_and_block;$/;"	m	struct:__anon10
+delay_senseamp_mux_lev_2_decoder	gpuwattch/cacti/cacti_interface.h	/^  double delay_senseamp_mux_lev_2_decoder;$/;"	m	struct:__anon10
+delay_senseamp_mux_lev_2_predecode_driver_and_block	gpuwattch/cacti/cacti_interface.h	/^  double delay_senseamp_mux_lev_2_predecode_driver_and_block;$/;"	m	struct:__anon10
 delay_subarray_out_drv	gpuwattch/cacti/mat.h	/^    double   delay_subarray_out_drv;$/;"	m	class:Mat
 delay_subarray_out_drv_htree	gpuwattch/cacti/mat.h	/^    double   delay_subarray_out_drv_htree;$/;"	m	class:Mat
 delay_subarray_output_driver	gpuwattch/cacti/cacti_interface.h	/^         delay_subarray_output_driver,$/;"	m	class:mem_array
-delay_subarray_output_driver	gpuwattch/cacti/cacti_interface.h	/^  double delay_subarray_output_driver;$/;"	m	struct:__anon29
+delay_subarray_output_driver	gpuwattch/cacti/cacti_interface.h	/^  double delay_subarray_output_driver;$/;"	m	struct:__anon10
 delay_wl_reset	gpuwattch/cacti/mat.h	/^    double   delay_wl_reset;$/;"	m	class:Mat
 delay_writeback	gpuwattch/cacti/mat.h	/^    double   delay_writeback;$/;"	m	class:Mat
 delay_wt	gpuwattch/cacti/cacti_interface.h	/^    int delay_wt, dynamic_power_wt, leakage_power_wt,$/;"	m	class:InputParameter
@@ -4006,7 +4010,7 @@ dram_act	gpuwattch/XML_Parse.h	/^	double dram_act;$/;"	m	struct:__anon25
 dram_act_coeff	gpuwattch/XML_Parse.h	/^	double dram_act_coeff;$/;"	m	struct:__anon25
 dram_activity	gpuwattch/XML_Parse.h	/^	double dram_activity;$/;"	m	struct:__anon25
 dram_activity_coeff	gpuwattch/XML_Parse.h	/^	double dram_activity_coeff;$/;"	m	struct:__anon25
-dram_array_availability	gpuwattch/cacti/cacti_interface.h	/^  double dram_array_availability;$/;"	m	struct:__anon29
+dram_array_availability	gpuwattch/cacti/cacti_interface.h	/^  double dram_array_availability;$/;"	m	struct:__anon10
 dram_atom_size	gpgpu-sim/gpu-sim.h	/^   unsigned dram_atom_size; \/\/ number of bytes transferred per read or write command $/;"	m	struct:memory_config
 dram_callback_t	abstract_hardware_model.h	/^   dram_callback_t() { function=NULL; instruction=NULL; thread=NULL; }$/;"	f	struct:dram_callback_t
 dram_callback_t	abstract_hardware_model.h	/^struct dram_callback_t {$/;"	s
@@ -4034,7 +4038,7 @@ dram_pre	gpuwattch/XML_Parse.h	/^	double dram_pre;$/;"	m	struct:__anon25
 dram_pre_coeff	gpuwattch/XML_Parse.h	/^	double dram_pre_coeff;$/;"	m	struct:__anon25
 dram_rd	gpuwattch/XML_Parse.h	/^	double dram_rd;$/;"	m	struct:__anon25
 dram_rd_coeff	gpuwattch/XML_Parse.h	/^	double dram_rd_coeff;$/;"	m	struct:__anon25
-dram_refresh_period	gpuwattch/cacti/cacti_interface.h	/^  double dram_refresh_period;$/;"	m	struct:__anon29
+dram_refresh_period	gpuwattch/cacti/cacti_interface.h	/^  double dram_refresh_period;$/;"	m	struct:__anon10
 dram_refresh_period	gpuwattch/cacti/parameter.h	/^    double dram_refresh_period;$/;"	m	class:DynamicParameter
 dram_req	gpuwattch/XML_Parse.h	/^	double dram_req;$/;"	m	struct:__anon25
 dram_req_coeff	gpuwattch/XML_Parse.h	/^	double dram_req_coeff;$/;"	m	struct:__anon25
@@ -4055,7 +4059,7 @@ driver_power	gpuwattch/cacti/decoder.h	/^    powerDef driver_power;$/;"	m	class:
 dropWhiteSpace	gpuwattch/xmlParser.cc	/^static char guessWideCharChars=1, dropWhiteSpace=1, removeCommentsInMiddleOfText=1;$/;"	v	file:
 drv1	gpuwattch/cacti/decoder.h	/^    PredecBlkDrv * drv1;$/;"	m	class:Predec
 drv2	gpuwattch/cacti/decoder.h	/^    PredecBlkDrv * drv2;$/;"	m	class:Predec
-dst	abstract_hardware_model.h	/^        int dst[MAX_REG_OPERANDS];$/;"	m	struct:inst_t::__anon1
+dst	abstract_hardware_model.h	/^        int dst[MAX_REG_OPERANDS];$/;"	m	struct:inst_t::__anon33
 dst	cuda-sim/ptx_ir.h	/^   const operand_info &dst() const $/;"	f	class:ptx_instruction
 dst	cuda-sim/ptx_ir.h	/^   operand_info &dst() $/;"	f	class:ptx_instruction
 dst_vc	intersim2/routers/event_router.hpp	/^    int  dst_vc;$/;"	m	struct:EventRouter::tArrivalEvent
@@ -4097,9 +4101,9 @@ duty_cycle	gpuwattch/basic_components.h	/^    double duty_cycle, perc_load;$/;"	
 duty_cycle	gpuwattch/basic_components.h	/^    double duty_cycle, perc_load;$/;"	m	class:PCIeParam
 duty_cycle	gpuwattch/basic_components.h	/^    double frontend_duty_cycle, duty_cycle, perc_load;$/;"	m	class:MCParam
 dyn_power_before_scaling	gpuwattch/processor.h	/^		double dyn_power_before_scaling;$/;"	m	class:Processor
-dyn_read_energy_from_closed_page	gpuwattch/cacti/cacti_interface.h	/^  double dyn_read_energy_from_closed_page;$/;"	m	struct:__anon29
+dyn_read_energy_from_closed_page	gpuwattch/cacti/cacti_interface.h	/^  double dyn_read_energy_from_closed_page;$/;"	m	struct:__anon10
 dyn_read_energy_from_closed_page	gpuwattch/cacti/uca.h	/^    double dyn_read_energy_from_closed_page;$/;"	m	class:UCA
-dyn_read_energy_from_open_page	gpuwattch/cacti/cacti_interface.h	/^  double dyn_read_energy_from_open_page;$/;"	m	struct:__anon29
+dyn_read_energy_from_open_page	gpuwattch/cacti/cacti_interface.h	/^  double dyn_read_energy_from_open_page;$/;"	m	struct:__anon10
 dyn_read_energy_from_open_page	gpuwattch/cacti/uca.h	/^    double dyn_read_energy_from_open_page;$/;"	m	class:UCA
 dyn_read_energy_remaining_words_in_burst	gpuwattch/cacti/uca.h	/^    double dyn_read_energy_remaining_words_in_burst;$/;"	m	class:UCA
 dynamic	gpuwattch/cacti/cacti_interface.h	/^    double dynamic;$/;"	m	class:powerComponents
@@ -4186,12 +4190,12 @@ enable_ptx_file_line_stats	cuda-sim/ptx-stats.cc	/^bool enable_ptx_file_line_sta
 enabled	trace.cc	/^    bool enabled = false;$/;"	m	namespace:Trace	file:
 encode	gpuwattch/xmlParser.cc	/^XMLSTR XMLParserBase64Tool::encode(unsigned char *inbuf, unsigned int inlen, char formatted)$/;"	f	class:XMLParserBase64Tool
 encodeLength	gpuwattch/xmlParser.cc	/^int XMLParserBase64Tool::encodeLength(int inlen, char formatted)$/;"	f	class:XMLParserBase64Tool
-end	abstract_hardware_model.h	/^    const_iterator end() const { return m_accessq.end();}$/;"	f	class:warp_inst_t
+end	abstract_hardware_model.h	/^    iterator end() { return m_accessq.end();}$/;"	f	class:warp_inst_t
 end_function	cuda-sim/ptx_parser.cc	/^void end_function() $/;"	f
 energy	gpuwattch/logic.h	/^	double energy, base_energy,per_access_energy, leakage, gate_leakage;$/;"	m	class:FunctionalUnit
 entry	abstract_hardware_model.h	/^   class function_info *entry() { return m_kernel_entry; }$/;"	f	class:kernel_info_t
 entry	abstract_hardware_model.h	/^   const class function_info *entry() const { return m_kernel_entry; }$/;"	f	class:kernel_info_t
-entry_t	intersim2/arbiters/arbiter.hpp	/^  } entry_t ;$/;"	t	class:Arbiter	typeref:struct:Arbiter::__anon33
+entry_t	intersim2/arbiters/arbiter.hpp	/^  } entry_t ;$/;"	t	class:Arbiter	typeref:struct:Arbiter::__anon32
 enumContents	gpuwattch/xmlParser.cc	/^XMLNodeContents XMLNode::enumContents(int i) const$/;"	f	class:XMLNode
 error	gpuwattch/xmlParser.cc	/^    enum XMLError          error;$/;"	m	struct:XML	typeref:enum:XML::XMLError	file:
 error	gpuwattch/xmlParser.h	/^    enum XMLError error;$/;"	m	struct:XMLResults	typeref:enum:XMLResults::XMLError
@@ -4617,7 +4621,7 @@ getChildNodeWithAttribute	gpuwattch/xmlParser.cc	/^XMLNode XMLNode::getChildNode
 getClear	gpuwattch/xmlParser.cc	/^XMLClear     XMLNode::getClear         (int i) const { if ((!d)||(i>=d->nClear    )) return emptyXMLClear;     return d->pClear[i];     }$/;"	f	class:XMLNode
 getError	gpuwattch/xmlParser.cc	/^XMLCSTR XMLNode::getError(XMLError xerror)$/;"	f	class:XMLNode
 getExecuteWarp	abstract_hardware_model.cc	/^warp_inst_t core_t::getExecuteWarp(unsigned warpId)$/;"	f	class:core_t
-getMemAccess	gpgpu-sim/mrpb.cc	/^mem_access_t Mrpb::getMemAccess(){$/;"	f	class:Mrpb
+getMemAccess	gpgpu-sim/mrpb.cc	/^mem_access_t Mrpb::getMemAccess(unsigned &warp_id){$/;"	f	class:Mrpb
 getMemoryConfig	gpgpu-sim/gpu-sim.cc	/^const struct memory_config * gpgpu_sim::getMemoryConfig()$/;"	f	class:gpgpu_sim
 getName	gpuwattch/xmlParser.cc	/^XMLCSTR XMLNode::getName() const { if (!d) return NULL; return d->lpszName;   }$/;"	f	class:XMLNode
 getNextChar	gpuwattch/xmlParser.cc	/^static inline XMLCHAR getNextChar(XML *pXML)$/;"	f	file:
@@ -4662,6 +4666,7 @@ get_area	gpuwattch/cacti/area.h	/^  double get_area() const$/;"	f	class:Area
 get_arg	cuda-sim/ptx_ir.h	/^   const symbol* get_arg( unsigned n ) const$/;"	f	class:function_info
 get_array_dim	cuda-sim/ptx_ir.h	/^   int get_array_dim() const { assert(m_init); return m_array_dim; }$/;"	f	class:type_info_key
 get_array_type	cuda-sim/ptx_ir.cc	/^type_info *symbol_table::get_array_type( type_info *base_type, unsigned array_dim ) $/;"	f	class:symbol_table
+get_assoc_flag	gpgpu-sim/mem_fetch.h	/^   bool get_assoc_flag(){return assoc_stall;}$/;"	f	class:mem_fetch
 get_atomic	cuda-sim/ptx_ir.h	/^   unsigned get_atomic() const { return m_atomic_spec;}$/;"	f	class:ptx_instruction
 get_bank	abstract_hardware_model.h	/^   unsigned get_bank() const { return m_bank; }$/;"	f	class:memory_space_t
 get_bank	gpgpu-sim/shader.h	/^      unsigned get_bank() const { return m_bank; }$/;"	f	class:opndcoll_rfu_t::op_t
@@ -5206,8 +5211,8 @@ head	intersim2/routers/event_router.hpp	/^    bool head;$/;"	m	struct:EventRoute
 height	abstract_hardware_model.h	/^   int height;$/;"	m	struct:cudaArray
 height	gpuwattch/cacti/cacti_interface.h	/^  double height;$/;"	m	class:mem_array
 height_sense_amplifier	gpuwattch/cacti/component.cc	/^double Component::height_sense_amplifier(double pitch_sense_amp)$/;"	f	class:Component
-high	cuda-sim/ptx_sim.h	/^       unsigned int high;$/;"	m	struct:ptx_reg_t::__anon4
-highest	cuda-sim/ptx_sim.h	/^       unsigned int highest;$/;"	m	struct:ptx_reg_t::__anon4
+high	cuda-sim/ptx_sim.h	/^       unsigned int high;$/;"	m	struct:ptx_reg_t::__anon31
+highest	cuda-sim/ptx_sim.h	/^       unsigned int highest;$/;"	m	struct:ptx_reg_t::__anon31
 hit	gpuwattch/basic_components.h	/^    double hit;$/;"	m	class:statsComponents
 hit_watchpoint	debug.cc	/^void hit_watchpoint( unsigned watchpoint_num, ptx_thread_info *thd, const ptx_instruction *pI )$/;"	f
 homenode_read_accesses	gpuwattch/XML_Parse.h	/^	double homenode_read_accesses;$/;"	m	struct:__anon20
@@ -5322,7 +5327,7 @@ icnt_transfer	gpgpu-sim/icnt_wrapper.cc	/^icnt_transfer_p              icnt_tran
 icnt_transfer_p	gpgpu-sim/icnt_wrapper.h	/^typedef void (*icnt_transfer_p)( );$/;"	t
 icnt_wrapper_init	gpgpu-sim/icnt_wrapper.cc	/^void icnt_wrapper_init()$/;"	f
 id	gpgpu-sim/dram.h	/^   unsigned int id;$/;"	m	class:dram_t
-id	intersim2/arbiters/arbiter.hpp	/^    int id ;$/;"	m	struct:Arbiter::__anon33
+id	intersim2/arbiters/arbiter.hpp	/^    int id ;$/;"	m	struct:Arbiter::__anon32
 id	intersim2/credit.hpp	/^  int  id;$/;"	m	class:Credit
 id	intersim2/flit.hpp	/^  int  id;$/;"	m	class:Flit
 id	intersim2/routers/event_router.hpp	/^    int  id;    \/\/ debug$/;"	m	struct:EventRouter::tArrivalEvent
@@ -5718,6 +5723,7 @@ issue_width	gpuwattch/logic.h	/^	double pipeline_stage,num_hthreads,issue_width;
 issue_width	gpuwattch/logic.h	/^	int issue_width;$/;"	m	class:selection_logic
 issued_count	abstract_hardware_model.h	/^    unsigned issued_count() const { assert(m_empty == false); return m_warp_issued_mask.count(); }  \/\/ for instruction counting $/;"	f	class:warp_inst_t
 istexture	gpgpu-sim/mem_fetch.cc	/^bool mem_fetch::istexture() const$/;"	f	class:mem_fetch
+iterator	abstract_hardware_model.h	/^    typedef std::list<mem_access_t>::iterator iterator;$/;"	t	class:warp_inst_t
 iterator	cuda-sim/ptx_ir.h	/^   typedef std::list<symbol*>::iterator iterator;$/;"	t	class:symbol_table
 ithCache	gpuwattch/sharedcache.h	/^    int ithCache;$/;"	m	class:CCdir
 ithCache	gpuwattch/sharedcache.h	/^    int ithCache;$/;"	m	class:SharedCache
@@ -5755,7 +5761,7 @@ kernel_power	gpuwattch/gpgpu_sim_wrapper.h	/^    avg_max_min_counters<double> ke
 kernel_sample_count	gpuwattch/gpgpu_sim_wrapper.h	/^    int kernel_sample_count; \/\/ # of samples per kernel$/;"	m	class:gpgpu_sim_wrapper
 kernel_tot_power	gpuwattch/gpgpu_sim_wrapper.h	/^    double kernel_tot_power; \/\/ Total per-kernel power$/;"	m	class:gpgpu_sim_wrapper
 kinv	gpuwattch/cacti/parameter.h	/^  double kinv;$/;"	m	class:TechnologyParameter
-l	gpuwattch/xmlParser.cc	/^typedef struct { XMLCSTR s; int l; XMLCHAR c;} XMLCharacterEntity;$/;"	m	struct:__anon31	file:
+l	gpuwattch/xmlParser.cc	/^typedef struct { XMLCSTR s; int l; XMLCHAR c;} XMLCharacterEntity;$/;"	m	struct:__anon8	file:
 l1_cache	gpgpu-sim/gpu-cache.h	/^    l1_cache( const char *name,$/;"	f	class:l1_cache
 l1_cache	gpgpu-sim/gpu-cache.h	/^    l1_cache(const char *name, cache_config &config,$/;"	f	class:l1_cache
 l1_cache	gpgpu-sim/gpu-cache.h	/^class l1_cache : public data_cache {$/;"	c
@@ -5834,15 +5840,15 @@ ldst_unit	gpgpu-sim/shader.h	/^class ldst_unit: public pipelined_simd_unit {$/;"
 ldst_unit_response_buffer_full	gpgpu-sim/shader.cc	/^bool shader_core_ctx::ldst_unit_response_buffer_full() const$/;"	f	class:shader_core_ctx
 ldst_unit_response_queue_size	gpgpu-sim/shader.h	/^    unsigned ldst_unit_response_queue_size;$/;"	m	struct:shader_core_config
 ldu_impl	cuda-sim/instructions.cc	/^void ldu_impl( const ptx_instruction *pI, ptx_thread_info *thread ) $/;"	f
-leak_power_request_and_reply_networks	gpuwattch/cacti/cacti_interface.h	/^  double leak_power_request_and_reply_networks;$/;"	m	struct:__anon29
+leak_power_request_and_reply_networks	gpuwattch/cacti/cacti_interface.h	/^  double leak_power_request_and_reply_networks;$/;"	m	struct:__anon10
 leak_power_request_and_reply_networks	gpuwattch/cacti/cacti_interface.h	/^  leak_power_request_and_reply_networks;$/;"	m	class:mem_array
 leak_power_request_and_reply_networks	gpuwattch/cacti/uca.h	/^    double leak_power_request_and_reply_networks;$/;"	m	class:UCA
 leak_power_sense_amps_closed_page_state	gpuwattch/cacti/mat.h	/^    double   leak_power_sense_amps_closed_page_state;$/;"	m	class:Mat
 leak_power_sense_amps_open_page_state	gpuwattch/cacti/mat.h	/^    double   leak_power_sense_amps_open_page_state;$/;"	m	class:Mat
-leak_power_subbank_closed_page	gpuwattch/cacti/cacti_interface.h	/^  double leak_power_subbank_closed_page;$/;"	m	struct:__anon29
+leak_power_subbank_closed_page	gpuwattch/cacti/cacti_interface.h	/^  double leak_power_subbank_closed_page;$/;"	m	struct:__anon10
 leak_power_subbank_closed_page	gpuwattch/cacti/cacti_interface.h	/^  refresh_power, leak_power_subbank_closed_page, leak_power_subbank_open_page,$/;"	m	class:mem_array
 leak_power_subbank_closed_page	gpuwattch/cacti/uca.h	/^    double leak_power_subbank_closed_page;$/;"	m	class:UCA
-leak_power_subbank_open_page	gpuwattch/cacti/cacti_interface.h	/^  double leak_power_subbank_open_page;$/;"	m	struct:__anon29
+leak_power_subbank_open_page	gpuwattch/cacti/cacti_interface.h	/^  double leak_power_subbank_open_page;$/;"	m	struct:__anon10
 leak_power_subbank_open_page	gpuwattch/cacti/cacti_interface.h	/^  refresh_power, leak_power_subbank_closed_page, leak_power_subbank_open_page,$/;"	m	class:mem_array
 leak_power_subbank_open_page	gpuwattch/cacti/uca.h	/^    double leak_power_subbank_open_page;$/;"	m	class:UCA
 leak_power_with_sleep_transistors_in_mats	gpuwattch/cacti/cacti_interface.h	/^    double leak_power_with_sleep_transistors_in_mats;$/;"	m	class:uca_org_t
@@ -5944,27 +5950,27 @@ longer_channel_device_reduction	gpuwattch/basic_components.cc	/^double longer_ch
 longer_channel_leakage	gpuwattch/cacti/cacti_interface.h	/^    double longer_channel_leakage;$/;"	m	class:powerComponents
 longopregs	gpgpu-sim/scoreboard.h	/^    std::vector< std::set<unsigned> > longopregs;$/;"	m	class:Scoreboard
 lookup	cuda-sim/ptx_ir.cc	/^symbol *symbol_table::lookup( const char *identifier ) $/;"	f	class:symbol_table
-low	cuda-sim/ptx_sim.h	/^       unsigned int low;$/;"	m	struct:ptx_reg_t::__anon4
+low	cuda-sim/ptx_sim.h	/^       unsigned int low;$/;"	m	struct:ptx_reg_t::__anon31
 low_swing	gpuwattch/cacti/wire.cc	/^    Component Wire::low_swing;$/;"	m	class:Wire	file:
 low_swing	gpuwattch/cacti/wire.h	/^    static Component low_swing;$/;"	m	class:Wire
 low_swing_model	gpuwattch/cacti/wire.cc	/^Wire::low_swing_model()$/;"	f	class:Wire
-lowest	cuda-sim/ptx_sim.h	/^       unsigned int lowest;$/;"	m	struct:ptx_reg_t::__anon4
+lowest	cuda-sim/ptx_sim.h	/^       unsigned int lowest;$/;"	m	struct:ptx_reg_t::__anon31
 lpEndTag	gpuwattch/xmlParser.cc	/^    XMLCSTR                lpEndTag;$/;"	m	struct:XML	file:
 lpNewElement	gpuwattch/xmlParser.cc	/^    XMLCSTR                lpNewElement;$/;"	m	struct:XML	file:
 lpXML	gpuwattch/xmlParser.cc	/^    XMLCSTR                lpXML;$/;"	m	struct:XML	file:
 lp_dram	gpuwattch/cacti/const.h	/^  lp_dram   = 3,$/;"	e	enum:ram_cell_tech_type_num
-lpszClose	gpuwattch/xmlParser.cc	/^typedef struct { XMLCSTR lpszOpen; int openTagLen; XMLCSTR lpszClose;} ALLXMLClearTag;$/;"	m	struct:__anon30	file:
+lpszClose	gpuwattch/xmlParser.cc	/^typedef struct { XMLCSTR lpszOpen; int openTagLen; XMLCSTR lpszClose;} ALLXMLClearTag;$/;"	m	struct:__anon7	file:
 lpszCloseTag	gpuwattch/xmlParser.h	/^    XMLCSTR lpszValue; XMLCSTR lpszOpenTag; XMLCSTR lpszCloseTag;$/;"	m	struct:XMLClear
 lpszName	gpuwattch/xmlParser.h	/^          XMLCSTR                lpszName;        \/\/ Element name (=NULL if root)$/;"	m	struct:XMLNode::XMLNodeDataTag
 lpszName	gpuwattch/xmlParser.h	/^    XMLCSTR lpszName; XMLCSTR lpszValue;$/;"	m	struct:XMLAttribute
-lpszOpen	gpuwattch/xmlParser.cc	/^typedef struct { XMLCSTR lpszOpen; int openTagLen; XMLCSTR lpszClose;} ALLXMLClearTag;$/;"	m	struct:__anon30	file:
+lpszOpen	gpuwattch/xmlParser.cc	/^typedef struct { XMLCSTR lpszOpen; int openTagLen; XMLCSTR lpszClose;} ALLXMLClearTag;$/;"	m	struct:__anon7	file:
 lpszOpenTag	gpuwattch/xmlParser.h	/^    XMLCSTR lpszValue; XMLCSTR lpszOpenTag; XMLCSTR lpszCloseTag;$/;"	m	struct:XMLClear
 lpszText	gpuwattch/xmlParser.cc	/^    XMLCSTR                lpszText;$/;"	m	struct:XML	file:
 lpszValue	gpuwattch/xmlParser.h	/^    XMLCSTR lpszName; XMLCSTR lpszValue;$/;"	m	struct:XMLAttribute
 lpszValue	gpuwattch/xmlParser.h	/^    XMLCSTR lpszValue; XMLCSTR lpszOpenTag; XMLCSTR lpszCloseTag;$/;"	m	struct:XMLClear
 lrr_scheduler	gpgpu-sim/shader.h	/^	lrr_scheduler ( shader_core_stats* stats, shader_core_ctx* shader,$/;"	f	class:lrr_scheduler
 lrr_scheduler	gpgpu-sim/shader.h	/^class lrr_scheduler : public scheduler_unit {$/;"	c
-ls	cuda-sim/ptx_sim.h	/^      unsigned ls;$/;"	m	struct:ptx_reg_t::__anon3
+ls	cuda-sim/ptx_sim.h	/^      unsigned ls;$/;"	m	struct:ptx_reg_t::__anon30
 lsq_height	gpuwattch/core.h	/^	double lsq_height;$/;"	m	class:EXECU
 lsq_height	gpuwattch/core.h	/^	double lsq_height;$/;"	m	class:LoadStoreU
 lsqassoc	gpuwattch/arch_const.h	/^const int lsqassoc=0;$/;"	v
@@ -6166,7 +6172,7 @@ m_dispatch_units	gpgpu-sim/shader.h	/^   std::vector<dispatch_unit_t> m_dispatch
 m_done	stream_manager.h	/^    bool m_done;$/;"	m	class:stream_operation
 m_done	stream_manager.h	/^   bool m_done;$/;"	m	class:CUevent_st
 m_done_exit	gpgpu-sim/shader.h	/^    bool m_done_exit; \/\/ true once thread exit has been registered for threads in this warp$/;"	m	class:shd_warp_t
-m_double	cuda-sim/ptx_ir.h	/^      double          m_double;$/;"	m	union:operand_info::__anon2
+m_double	cuda-sim/ptx_ir.h	/^      double          m_double;$/;"	m	union:operand_info::__anon29
 m_double_operand_type	cuda-sim/ptx_ir.h	/^   int m_double_operand_type;$/;"	m	class:operand_info
 m_dram	gpgpu-sim/dram_sched.h	/^   dram_t *m_dram;$/;"	m	class:frfcfs_scheduler
 m_dram	gpgpu-sim/l2cache.h	/^   class dram_t *m_dram;$/;"	m	class:memory_partition_unit	typeref:class:memory_partition_unit::dram_t
@@ -6193,9 +6199,9 @@ m_fileline	debug.h	/^   std::string  m_fileline;$/;"	m	class:brk_pt
 m_fill_port_occupied_cycles	gpgpu-sim/gpu-cache.h	/^        int m_fill_port_occupied_cycles; \/\/< Number of cycle that the fill port remains used $/;"	m	class:baseline_cache::bandwidth_management
 m_fill_time	gpgpu-sim/gpu-cache.h	/^    unsigned         m_fill_time;$/;"	m	struct:cache_block_t
 m_finished_kernel	gpgpu-sim/gpu-sim.h	/^   std::list<unsigned> m_finished_kernel;$/;"	m	class:gpgpu_sim
-m_float	cuda-sim/ptx_ir.h	/^      float           m_float;$/;"	m	union:operand_info::__anon2
+m_float	cuda-sim/ptx_ir.h	/^      float           m_float;$/;"	m	union:operand_info::__anon29
 m_fragment_fifo	gpgpu-sim/gpu-cache.h	/^    fifo<fragment_entry>    m_fragment_fifo;$/;"	m	class:tex_cache
-m_fragment_fifo_entries	gpgpu-sim/gpu-cache.h	/^        unsigned m_fragment_fifo_entries;$/;"	m	union:cache_config::__anon7
+m_fragment_fifo_entries	gpgpu-sim/gpu-cache.h	/^        unsigned m_fragment_fifo_entries;$/;"	m	union:cache_config::__anon3
 m_free	gpgpu-sim/shader.h	/^      bool m_free;$/;"	m	class:opndcoll_rfu_t::collector_unit_t
 m_frfcfs_scheduler	gpgpu-sim/dram.h	/^   class frfcfs_scheduler* m_frfcfs_scheduler;$/;"	m	class:dram_t	typeref:class:dram_t::frfcfs_scheduler
 m_fu	gpgpu-sim/shader.h	/^    std::vector<simd_function_unit*> m_fu; \/\/ stallable pipelines should be last in this array$/;"	m	class:shader_core_ctx
@@ -6263,7 +6269,7 @@ m_instr_mem	cuda-sim/ptx_ir.h	/^   ptx_instruction **m_instr_mem;$/;"	m	class:fu
 m_instr_mem_index	cuda-sim/ptx_ir.h	/^   int m_instr_mem_index; \/\/index into m_instr_mem array$/;"	m	class:ptx_instruction
 m_instr_mem_size	cuda-sim/ptx_ir.h	/^   unsigned m_instr_mem_size;$/;"	m	class:function_info
 m_instructions	cuda-sim/ptx_ir.h	/^   std::list<ptx_instruction*> m_instructions;$/;"	m	class:function_info
-m_int	cuda-sim/ptx_ir.h	/^      int             m_int;$/;"	m	union:operand_info::__anon2
+m_int	cuda-sim/ptx_ir.h	/^      int             m_int;$/;"	m	union:operand_info::__anon29
 m_isParsed	option_parser.cc	/^   bool m_isParsed; \/\/ true if the target variable has been updated by fromString()$/;"	m	class:OptionRegistryInterface	file:
 m_is_const	cuda-sim/ptx_ir.h	/^   bool m_is_const;$/;"	m	class:symbol
 m_is_func_addr	cuda-sim/ptx_ir.h	/^   bool m_is_func_addr;$/;"	m	class:symbol
@@ -6368,12 +6374,12 @@ m_min_len	gpgpu-sim/delayqueue.h	/^   unsigned int m_min_len;$/;"	m	class:fifo_p
 m_miss	gpgpu-sim/gpu-cache.h	/^        bool       m_miss;        \/\/ true if sent memory request$/;"	m	struct:tex_cache::fragment_entry
 m_miss	gpgpu-sim/gpu-cache.h	/^    unsigned m_miss;$/;"	m	class:tag_array
 m_miss_queue	gpgpu-sim/gpu-cache.h	/^    std::list<mem_fetch*> m_miss_queue;$/;"	m	class:baseline_cache
-m_miss_queue_size	gpgpu-sim/gpu-cache.h	/^        unsigned m_miss_queue_size;$/;"	m	union:cache_config::__anon9
+m_miss_queue_size	gpgpu-sim/gpu-cache.h	/^        unsigned m_miss_queue_size;$/;"	m	union:cache_config::__anon5
 m_miss_queue_status	gpgpu-sim/gpu-cache.h	/^    enum mem_fetch_status m_miss_queue_status;$/;"	m	class:baseline_cache	typeref:enum:baseline_cache::mem_fetch_status
 m_mrpb	gpgpu-sim/shader.h	/^    Mrpb *m_mrpb;$/;"	m	class:shader_core_ctx
 m_mrpb	gpgpu-sim/shader.h	/^   Mrpb *m_mrpb;$/;"	m	class:ldst_unit
-m_mshr_entries	gpgpu-sim/gpu-cache.h	/^        unsigned m_mshr_entries;$/;"	m	union:cache_config::__anon7
-m_mshr_max_merge	gpgpu-sim/gpu-cache.h	/^        unsigned m_mshr_max_merge;$/;"	m	union:cache_config::__anon8
+m_mshr_entries	gpgpu-sim/gpu-cache.h	/^        unsigned m_mshr_entries;$/;"	m	union:cache_config::__anon3
+m_mshr_max_merge	gpgpu-sim/gpu-cache.h	/^        unsigned m_mshr_max_merge;$/;"	m	union:cache_config::__anon4
 m_mshr_type	gpgpu-sim/gpu-cache.h	/^    enum mshr_config_t m_mshr_type;$/;"	m	class:cache_config	typeref:enum:cache_config::mshr_config_t
 m_mshrs	gpgpu-sim/gpu-cache.h	/^    mshr_table m_mshrs;$/;"	m	class:baseline_cache
 m_n_active_cta	gpgpu-sim/shader.h	/^    unsigned m_n_active_cta; \/\/ number of Cooperative Thread Arrays (blocks) currently running on this shader.$/;"	m	class:shader_core_ctx
@@ -6565,7 +6571,7 @@ m_req_size	abstract_hardware_model.h	/^   unsigned      m_req_size; \/\/ bytes$/
 m_request	gpgpu-sim/gpu-cache.h	/^        mem_fetch *m_request;     \/\/ request information$/;"	m	struct:tex_cache::fragment_entry
 m_request	gpgpu-sim/gpu-cache.h	/^        mem_fetch *m_request;$/;"	m	struct:tex_cache::rob_entry
 m_request_fifo	gpgpu-sim/gpu-cache.h	/^    fifo<mem_fetch*>        m_request_fifo;$/;"	m	class:tex_cache
-m_request_fifo_entries	gpgpu-sim/gpu-cache.h	/^        unsigned m_request_fifo_entries;$/;"	m	union:cache_config::__anon8
+m_request_fifo_entries	gpgpu-sim/gpu-cache.h	/^        unsigned m_request_fifo_entries;$/;"	m	union:cache_config::__anon4
 m_request_queue_status	gpgpu-sim/gpu-cache.h	/^    enum mem_fetch_status   m_request_queue_status;$/;"	m	class:tex_cache	typeref:enum:tex_cache::mem_fetch_status
 m_request_tracker	gpgpu-sim/l2cache.h	/^   std::set<mem_fetch*> m_request_tracker;$/;"	m	class:memory_sub_partition
 m_request_uid	gpgpu-sim/mem_fetch.h	/^   unsigned m_request_uid;$/;"	m	class:mem_fetch
@@ -6583,7 +6589,7 @@ m_return_var_src	cuda-sim/ptx_sim.h	/^   const symbol  *m_return_var_src;$/;"	m	
 m_return_var_sym	cuda-sim/ptx_ir.h	/^   const symbol *m_return_var_sym;$/;"	m	class:function_info
 m_rfu	gpgpu-sim/shader.h	/^      opndcoll_rfu_t *m_rfu;$/;"	m	class:opndcoll_rfu_t::collector_unit_t
 m_rob	gpgpu-sim/gpu-cache.h	/^    fifo<rob_entry>         m_rob;$/;"	m	class:tex_cache
-m_rob_entries	gpgpu-sim/gpu-cache.h	/^        unsigned m_rob_entries;$/;"	m	union:cache_config::__anon9
+m_rob_entries	gpgpu-sim/gpu-cache.h	/^        unsigned m_rob_entries;$/;"	m	union:cache_config::__anon5
 m_rob_index	gpgpu-sim/gpu-cache.h	/^        unsigned m_rob_index;$/;"	m	struct:tex_cache::extra_mf_fields
 m_rob_status	gpgpu-sim/gpu-cache.h	/^    enum mem_fetch_status   m_rob_status;$/;"	m	class:tex_cache	typeref:enum:tex_cache::mem_fetch_status
 m_rop	gpgpu-sim/l2cache.h	/^   std::queue<rop_delay_t> m_rop;$/;"	m	class:memory_sub_partition
@@ -6669,7 +6675,7 @@ m_surf_mem	abstract_hardware_model.h	/^    class memory_space *m_surf_mem;$/;"	m
 m_symbol	stream_manager.h	/^    const char *m_symbol;$/;"	m	class:stream_operation
 m_symbol_table	cuda-sim/ptx_sim.h	/^   symbol_table  *m_symbol_table;$/;"	m	class:ptx_thread_info
 m_symbol_table	cuda-sim/ptx_sim.h	/^   symbol_table  *m_symbol_table;$/;"	m	struct:stack_entry
-m_symbolic	cuda-sim/ptx_ir.h	/^      const symbol*  m_symbolic;$/;"	m	union:operand_info::__anon2
+m_symbolic	cuda-sim/ptx_ir.h	/^      const symbol*  m_symbolic;$/;"	m	union:operand_info::__anon29
 m_symbols	cuda-sim/ptx_ir.h	/^   std::map<std::string, symbol *> m_symbols; \/\/map from name of register to pointers to the registers$/;"	m	class:symbol_table
 m_symtab	cuda-sim/ptx_ir.h	/^   symbol_table *m_symtab;$/;"	m	class:function_info
 m_tag	gpgpu-sim/gpu-cache.h	/^    new_addr_type    m_tag;$/;"	m	struct:cache_block_t
@@ -6725,7 +6731,7 @@ m_uid	stream_manager.h	/^    unsigned m_uid;$/;"	m	struct:CUstream_st
 m_uid	stream_manager.h	/^   int m_uid;$/;"	m	class:CUevent_st
 m_uni	cuda-sim/ptx_ir.h	/^   bool                m_uni; \/\/if branch instruction, this evaluates to true for uniform branches (ie jumps)$/;"	m	class:ptx_instruction
 m_unit	gpgpu-sim/l2cache.h	/^    memory_sub_partition *m_unit;$/;"	m	class:L2interface
-m_unsigned	cuda-sim/ptx_ir.h	/^      unsigned int    m_unsigned;$/;"	m	union:operand_info::__anon2
+m_unsigned	cuda-sim/ptx_ir.h	/^      unsigned int    m_unsigned;$/;"	m	union:operand_info::__anon29
 m_updates	stream_manager.h	/^   int m_updates;$/;"	m	class:CUevent_st
 m_valid	abstract_hardware_model.h	/^    bool m_valid;$/;"	m	struct:core_config
 m_valid	cuda-sim/ptx_ir.h	/^   bool m_valid;$/;"	m	class:operand_info
@@ -6745,19 +6751,19 @@ m_valid	gpgpu-sim/shader.h	/^       bool m_valid;$/;"	m	struct:shd_warp_t::ibuff
 m_valid	gpgpu-sim/shader.h	/^      bool m_valid;$/;"	m	class:opndcoll_rfu_t::op_t
 m_valid	gpgpu-sim/shader.h	/^    bool m_valid;$/;"	m	struct:ifetch_buffer_t
 m_value	cuda-sim/ptx_ir.h	/^   param_t m_value;$/;"	m	class:param_info
-m_value	cuda-sim/ptx_ir.h	/^   } m_value;$/;"	m	class:operand_info	typeref:union:operand_info::__anon2
+m_value	cuda-sim/ptx_ir.h	/^   } m_value;$/;"	m	class:operand_info	typeref:union:operand_info::__anon29
 m_value	debug.h	/^   unsigned     m_value;$/;"	m	class:brk_pt
 m_value_set	cuda-sim/ptx_ir.h	/^   bool m_value_set;$/;"	m	class:param_info
 m_variable	option_parser.cc	/^   T &m_variable;$/;"	m	class:OptionRegistry	file:
-m_vdouble	cuda-sim/ptx_ir.h	/^      double          m_vdouble[4];$/;"	m	union:operand_info::__anon2
+m_vdouble	cuda-sim/ptx_ir.h	/^      double          m_vdouble[4];$/;"	m	union:operand_info::__anon29
 m_vector	cuda-sim/ptx_ir.h	/^   bool m_vector;$/;"	m	class:operand_info
 m_vector_spec	cuda-sim/ptx_ir.h	/^   int m_vector_spec;$/;"	m	class:ptx_instruction
 m_vector_spec	cuda-sim/ptx_ir.h	/^   int m_vector_spec;$/;"	m	class:type_info_key
-m_vector_symbolic	cuda-sim/ptx_ir.h	/^      const symbol**  m_vector_symbolic;$/;"	m	union:operand_info::__anon2
-m_vfloat	cuda-sim/ptx_ir.h	/^      float           m_vfloat[4];$/;"	m	union:operand_info::__anon2
-m_vint	cuda-sim/ptx_ir.h	/^      int             m_vint[4];$/;"	m	union:operand_info::__anon2
+m_vector_symbolic	cuda-sim/ptx_ir.h	/^      const symbol**  m_vector_symbolic;$/;"	m	union:operand_info::__anon29
+m_vfloat	cuda-sim/ptx_ir.h	/^      float           m_vfloat[4];$/;"	m	union:operand_info::__anon29
+m_vint	cuda-sim/ptx_ir.h	/^      int             m_vint[4];$/;"	m	union:operand_info::__anon29
 m_vote_mode	cuda-sim/ptx_ir.h	/^   enum vote_mode_t m_vote_mode;$/;"	m	class:ptx_instruction	typeref:enum:ptx_instruction::vote_mode_t
-m_vunsigned	cuda-sim/ptx_ir.h	/^      unsigned int    m_vunsigned[4];$/;"	m	union:operand_info::__anon2
+m_vunsigned	cuda-sim/ptx_ir.h	/^      unsigned int    m_vunsigned[4];$/;"	m	union:operand_info::__anon29
 m_wallclock	stream_manager.h	/^   time_t m_wallclock;$/;"	m	class:CUevent_st
 m_warp	gpgpu-sim/shader.h	/^      const warp_inst_t *m_warp;$/;"	m	class:opndcoll_rfu_t::op_t
 m_warp	gpgpu-sim/shader.h	/^      warp_inst_t  *m_warp;$/;"	m	class:opndcoll_rfu_t::collector_unit_t
@@ -6834,10 +6840,10 @@ mask_and	cuda-sim/ptx_sim.h	/^   void mask_and( unsigned ms, unsigned ls )$/;"	f
 mask_or	cuda-sim/ptx_sim.h	/^   void mask_or( unsigned ms, unsigned ls )$/;"	f	union:ptx_reg_t
 mat	gpuwattch/cacti/bank.h	/^    Mat   mat;$/;"	m	class:Bank
 mat_height	gpuwattch/cacti/cacti_interface.h	/^  double mat_height;$/;"	m	class:mem_array
-mat_height	gpuwattch/cacti/cacti_interface.h	/^  double mat_height;$/;"	m	struct:__anon29
+mat_height	gpuwattch/cacti/cacti_interface.h	/^  double mat_height;$/;"	m	struct:__anon10
 mat_height	gpuwattch/cacti/htree2.h	/^    double mat_height;$/;"	m	class:Htree2
 mat_length	gpuwattch/cacti/cacti_interface.h	/^  double mat_length;$/;"	m	class:mem_array
-mat_width	gpuwattch/cacti/cacti_interface.h	/^  double mat_width;$/;"	m	struct:__anon29
+mat_width	gpuwattch/cacti/cacti_interface.h	/^  double mat_width;$/;"	m	struct:__anon10
 mat_width	gpuwattch/cacti/htree2.h	/^    double mat_width;$/;"	m	class:Htree2
 max	cuda-sim/cuda-math.h	71;"	d
 max	gpuwattch/gpgpu_sim_wrapper.h	/^	T max;$/;"	m	struct:avg_max_min_counters
@@ -6860,7 +6866,7 @@ max_mrqs	gpgpu-sim/dram.h	/^   unsigned int max_mrqs;$/;"	m	class:dram_t
 max_mrqs_temp	gpgpu-sim/dram.h	/^   unsigned int max_mrqs_temp;$/;"	m	class:dram_t
 max_servicetime2samerow	gpgpu-sim/mem_latency_stat.h	/^   unsigned int **max_servicetime2samerow; \/\/max_servicetime2samerow[dram chip id][bank id]$/;"	m	class:memory_stats_t
 max_sfu_latency	gpgpu-sim/shader.h	/^    unsigned max_sfu_latency;$/;"	m	struct:shader_core_config
-max_size	gpgpu-sim/stack.h	/^   int max_size;$/;"	m	struct:__anon6
+max_size	gpgpu-sim/stack.h	/^   int max_size;$/;"	m	struct:__anon1
 max_sp_latency	gpgpu-sim/shader.h	/^    unsigned max_sp_latency;$/;"	m	struct:shader_core_config
 max_unpipelined_link_delay	gpuwattch/cacti/htree2.h	/^    double max_unpipelined_link_delay;$/;"	m	class:Htree2
 max_unpipelined_link_delay	gpuwattch/interconnect.h	/^    double max_unpipelined_link_delay;$/;"	m	class:interconnect
@@ -7032,7 +7038,7 @@ mrq	gpgpu-sim/dram.h	/^   dram_req_t *mrq;$/;"	m	struct:bank_t
 mrq_lat_table	gpgpu-sim/mem_latency_stat.h	/^   unsigned mrq_lat_table[32];$/;"	m	class:memory_stats_t
 mrqq	gpgpu-sim/dram.h	/^   fifo_pipeline<dram_req_t> *mrqq;$/;"	m	class:dram_t
 mrqq_Dist	gpgpu-sim/dram.h	/^   class Stats* mrqq_Dist; \/\/memory request queue inside DRAM  $/;"	m	class:dram_t	typeref:class:dram_t::Stats
-ms	cuda-sim/ptx_sim.h	/^      unsigned ms;$/;"	m	struct:ptx_reg_t::__anon3
+ms	cuda-sim/ptx_sim.h	/^      unsigned ms;$/;"	m	struct:ptx_reg_t::__anon30
 mshr_config_t	gpgpu-sim/gpu-cache.h	/^enum mshr_config_t {$/;"	g
 mshr_entry	gpgpu-sim/gpu-cache.h	/^        mshr_entry() : m_has_atomic(false) { }$/;"	f	struct:mshr_table::mshr_entry
 mshr_entry	gpgpu-sim/gpu-cache.h	/^    struct mshr_entry {$/;"	s	class:mshr_table
@@ -7043,7 +7049,7 @@ mul24_impl	cuda-sim/instructions.cc	/^void mul24_impl( const ptx_instruction *pI
 mul_accesses	gpuwattch/XML_Parse.h	/^	double mul_accesses;$/;"	m	struct:__anon17
 mul_impl	cuda-sim/instructions.cc	/^void mul_impl( const ptx_instruction *pI, ptx_thread_info *thread ) $/;"	f
 multisubbank_interleave_cycle_time	gpuwattch/cacti/cacti_interface.h	/^  double multisubbank_interleave_cycle_time;$/;"	m	class:mem_array
-multisubbank_interleave_cycle_time	gpuwattch/cacti/cacti_interface.h	/^  double multisubbank_interleave_cycle_time;$/;"	m	struct:__anon29
+multisubbank_interleave_cycle_time	gpuwattch/cacti/cacti_interface.h	/^  double multisubbank_interleave_cycle_time;$/;"	m	struct:__anon10
 multisubbank_interleave_cycle_time	gpuwattch/cacti/uca.h	/^    double multisubbank_interleave_cycle_time;$/;"	m	class:UCA
 multithreaded	gpuwattch/basic_components.h	/^    bool regWindowing,multithreaded;$/;"	m	class:CoreDynParam
 myFree	gpuwattch/xmlParser.cc	/^static inline void myFree(void *p) { if (p) free(p); }$/;"	f	file:
@@ -7343,7 +7349,7 @@ num_updates	stream_manager.h	/^   unsigned num_updates() const { return m_update
 num_warps_issuable	gpgpu-sim/shader.h	/^    unsigned *num_warps_issuable;$/;"	m	struct:shader_core_stats_pod
 num_wr_ports	gpuwattch/cacti/cacti_interface.h	/^    unsigned int num_wr_ports;$/;"	m	class:InputParameter
 num_wr_ports	gpuwattch/cacti/parameter.h	/^    unsigned int num_wr_ports;$/;"	m	class:DynamicParameter
-number_activated_mats_horizontal_direction	gpuwattch/cacti/cacti_interface.h	/^  int number_activated_mats_horizontal_direction;$/;"	m	struct:__anon29
+number_activated_mats_horizontal_direction	gpuwattch/cacti/cacti_interface.h	/^  int number_activated_mats_horizontal_direction;$/;"	m	struct:__anon10
 number_addr_bits_mat	gpuwattch/cacti/parameter.h	/^    int number_addr_bits_mat;             \/\/ per port$/;"	m	class:DynamicParameter
 number_cache_levels	gpuwattch/XML_Parse.h	/^	int number_cache_levels;$/;"	m	struct:__anon28
 number_cache_levels	gpuwattch/arch_const.h	/^const int			number_cache_levels	=	3;$/;"	v
@@ -7379,7 +7385,7 @@ number_of_inputs_of_crossbars	gpuwattch/XML_Parse.h	/^	int number_of_inputs_of_c
 number_of_outputs_of_crossbars	gpuwattch/XML_Parse.h	/^	int number_of_outputs_of_crossbars;$/;"	m	struct:__anon22
 number_ranks	gpuwattch/XML_Parse.h	/^	int number_ranks;$/;"	m	struct:__anon24
 number_ranks	gpuwattch/XML_Parse.h	/^	int number_ranks;$/;"	m	struct:__anon25
-number_subbanks	gpuwattch/cacti/cacti_interface.h	/^  int number_subbanks;$/;"	m	struct:__anon29
+number_subbanks	gpuwattch/cacti/cacti_interface.h	/^  int number_subbanks;$/;"	m	struct:__anon10
 number_subbanks_decode	gpuwattch/cacti/parameter.h	/^    int number_subbanks_decode;           \/\/ per_port$/;"	m	class:DynamicParameter
 number_units	gpuwattch/XML_Parse.h	/^	int number_units;$/;"	m	struct:__anon26
 number_units	gpuwattch/XML_Parse.h	/^	int number_units;$/;"	m	struct:__anon27
@@ -7416,7 +7422,7 @@ opcode_t	cuda-sim/opcodes.h	/^enum opcode_t {$/;"	g
 opcode_width	gpuwattch/XML_Parse.h	/^	int opcode_width;$/;"	m	struct:__anon17
 opcodes_h_included	cuda-sim/opcodes.h	29;"	d
 openFileHelper	gpuwattch/xmlParser.cc	/^XMLNode XMLNode::openFileHelper(XMLCSTR filename, XMLCSTR tag)$/;"	f	class:XMLNode
-openTagLen	gpuwattch/xmlParser.cc	/^typedef struct { XMLCSTR lpszOpen; int openTagLen; XMLCSTR lpszClose;} ALLXMLClearTag;$/;"	m	struct:__anon30	file:
+openTagLen	gpuwattch/xmlParser.cc	/^typedef struct { XMLCSTR lpszOpen; int openTagLen; XMLCSTR lpszClose;} ALLXMLClearTag;$/;"	m	struct:__anon7	file:
 open_files	gpuwattch/gpgpu_sim_wrapper.cc	/^void gpgpu_sim_wrapper::open_files()$/;"	f	class:gpgpu_sim_wrapper
 operand	cuda-sim/ptx.y	/^operand: IDENTIFIER  { add_scalar_operand( $1 ); }$/;"	l
 operand_info	cuda-sim/ptx_ir.h	/^   operand_info( const symbol *addr )$/;"	f	class:operand_info
@@ -7549,14 +7555,14 @@ p	gpuwattch/gpgpu_sim_wrapper.h	/^	ParseXML * p;$/;"	m	class:gpgpu_sim_wrapper
 pAttribute	gpuwattch/xmlParser.h	/^          XMLAttribute           *pAttribute;     \/\/ Array of attributes$/;"	m	struct:XMLNode::XMLNodeDataTag
 pChild	gpuwattch/xmlParser.h	/^          XMLNode                *pChild;         \/\/ Array of child nodes$/;"	m	struct:XMLNode::XMLNodeDataTag
 pClear	gpuwattch/xmlParser.h	/^          XMLClear               *pClear;         \/\/ Array of clear fields$/;"	m	struct:XMLNode::XMLNodeDataTag
-pClr	gpuwattch/xmlParser.cc	/^    ALLXMLClearTag *pClr;$/;"	m	struct:__anon32	file:
+pClr	gpuwattch/xmlParser.cc	/^    ALLXMLClearTag *pClr;$/;"	m	struct:__anon9	file:
 pOrder	gpuwattch/xmlParser.h	/^          int                    *pOrder;         \/\/ order of the child_nodes,text_fields,clear_fields$/;"	m	struct:XMLNode::XMLNodeDataTag
 pParent	gpuwattch/xmlParser.h	/^          struct XMLNodeDataTag  *pParent;        \/\/ Pointer to parent element (=NULL if root)$/;"	m	struct:XMLNode::XMLNodeDataTag	typeref:struct:XMLNode::XMLNodeDataTag::XMLNodeDataTag
-pStr	gpuwattch/xmlParser.cc	/^    XMLCSTR     pStr;$/;"	m	struct:__anon32	file:
+pStr	gpuwattch/xmlParser.cc	/^    XMLCSTR     pStr;$/;"	m	struct:__anon9	file:
 pText	gpuwattch/xmlParser.h	/^          XMLCSTR                *pText;          \/\/ Array of text fields$/;"	m	struct:XMLNode::XMLNodeDataTag
 p_address_width	gpuwattch/basic_components.h	/^    int  int_data_width, fp_data_width,v_address_width, p_address_width;$/;"	m	class:CoreDynParam
 pad_address	cuda-sim/ptx_parser.cc	/^int pad_address (new_addr_type address, unsigned size, unsigned maxalign) {$/;"	f
-page_size_in_bits	gpuwattch/cacti/cacti_interface.h	/^  int page_size_in_bits;$/;"	m	struct:__anon29
+page_size_in_bits	gpuwattch/cacti/cacti_interface.h	/^  int page_size_in_bits;$/;"	m	struct:__anon10
 page_size_of_DRAM_chip	gpuwattch/XML_Parse.h	/^	int page_size_of_DRAM_chip;$/;"	m	struct:__anon24
 page_sz_bits	gpuwattch/cacti/cacti_interface.h	/^    unsigned int page_sz_bits;$/;"	m	class:InputParameter
 parallel	gpuwattch/cacti/basic_circuit.h	/^    parallel,$/;"	e	enum:Half_net_topology
@@ -7714,42 +7720,42 @@ powerWireClk	intersim2/power/power_module.cpp	/^double Power_Module:: powerWireC
 powerWireDFF	intersim2/power/power_module.cpp	/^double Power_Module::powerWireDFF(double M, double W, double alpha){$/;"	f	class:Power_Module
 powerWordLine	intersim2/power/power_module.cpp	/^double Power_Module::powerWordLine(double memoryWidth, double memoryDepth){$/;"	f	class:Power_Module
 power_L2	gpuwattch/cacti/decoder.h	/^  powerDef power_L2;$/;"	m	class:PredecBlk
-power_addr_horizontal_htree	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_addr_horizontal_htree;$/;"	m	struct:__anon29
+power_addr_horizontal_htree	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_addr_horizontal_htree;$/;"	m	struct:__anon10
 power_addr_input_htree	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_addr_input_htree;$/;"	m	class:mem_array
-power_addr_input_htree	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_addr_input_htree;$/;"	m	struct:__anon29
-power_addr_vertical_htree	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_addr_vertical_htree;$/;"	m	struct:__anon29
+power_addr_input_htree	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_addr_input_htree;$/;"	m	struct:__anon10
+power_addr_vertical_htree	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_addr_vertical_htree;$/;"	m	struct:__anon10
 power_bit	gpuwattch/cacti/htree2.h	/^    powerDef power_bit;$/;"	m	class:Htree2
 power_bit	gpuwattch/interconnect.h	/^    powerDef power_bit;$/;"	m	class:interconnect
 power_bit_mux_decoders	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_bit_mux_decoders;$/;"	m	class:mem_array
-power_bit_mux_decoders	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_bit_mux_decoders;$/;"	m	struct:__anon29
+power_bit_mux_decoders	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_bit_mux_decoders;$/;"	m	struct:__anon10
 power_bit_mux_decoders	gpuwattch/cacti/mat.h	/^    powerDef power_bit_mux_decoders;$/;"	m	class:Mat
 power_bit_mux_predecoder_blocks	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_bit_mux_predecoder_blocks;$/;"	m	class:mem_array
-power_bit_mux_predecoder_blocks	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_bit_mux_predecoder_blocks;$/;"	m	struct:__anon29
+power_bit_mux_predecoder_blocks	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_bit_mux_predecoder_blocks;$/;"	m	struct:__anon10
 power_bit_mux_predecoder_drivers	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_bit_mux_predecoder_drivers;$/;"	m	class:mem_array
-power_bit_mux_predecoder_drivers	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_bit_mux_predecoder_drivers;$/;"	m	struct:__anon29
+power_bit_mux_predecoder_drivers	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_bit_mux_predecoder_drivers;$/;"	m	struct:__anon10
 power_bitline	gpuwattch/cacti/mat.h	/^    powerDef power_bitline, power_searchline, power_matchline;$/;"	m	class:Mat
 power_bitlines	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_bitlines;$/;"	m	class:mem_array
-power_bitlines	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_bitlines;$/;"	m	struct:__anon29
+power_bitlines	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_bitlines;$/;"	m	struct:__anon10
 power_bl_precharge_eq_drv	gpuwattch/cacti/mat.h	/^    powerDef power_bl_precharge_eq_drv;$/;"	m	class:Mat
 power_cam_all_active	gpuwattch/cacti/mat.h	/^    powerDef power_cam_all_active;$/;"	m	class:Mat
 power_cam_bitline_precharge_eq_drv	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_cam_bitline_precharge_eq_drv;$/;"	m	class:mem_array
 power_comparator	gpuwattch/cacti/mat.h	/^    powerDef power_comparator;$/;"	m	class:Mat
 power_comparators	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_comparators;$/;"	m	class:mem_array
-power_comparators	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_comparators;$/;"	m	struct:__anon29
+power_comparators	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_comparators;$/;"	m	struct:__anon10
 power_config	gpgpu-sim/gpu-sim.h	/^	power_config()$/;"	f	struct:power_config
 power_config	gpgpu-sim/gpu-sim.h	/^struct power_config {$/;"	s
 power_core_stat_t	gpgpu-sim/power_stat.cc	/^power_core_stat_t::power_core_stat_t( const struct shader_core_config *shader_config, shader_core_stats *core_stats )$/;"	f	class:power_core_stat_t
 power_core_stat_t	gpgpu-sim/power_stat.h	/^class power_core_stat_t : public shader_core_power_stats_pod {$/;"	c
-power_crossbar	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_crossbar;$/;"	m	struct:__anon29
+power_crossbar	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_crossbar;$/;"	m	struct:__anon10
 power_data_input_htree	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_data_input_htree;$/;"	m	class:mem_array
-power_data_input_htree	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_data_input_htree;$/;"	m	struct:__anon29
+power_data_input_htree	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_data_input_htree;$/;"	m	struct:__anon10
 power_data_output_htree	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_data_output_htree;$/;"	m	class:mem_array
-power_data_output_htree	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_data_output_htree;$/;"	m	struct:__anon29
-power_datain_horizontal_htree	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_datain_horizontal_htree;$/;"	m	struct:__anon29
-power_datain_vertical_htree	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_datain_vertical_htree;$/;"	m	struct:__anon29
-power_dataout_horizontal_htree	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_dataout_horizontal_htree;$/;"	m	struct:__anon29
+power_data_output_htree	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_data_output_htree;$/;"	m	struct:__anon10
+power_datain_horizontal_htree	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_datain_horizontal_htree;$/;"	m	struct:__anon10
+power_datain_vertical_htree	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_datain_vertical_htree;$/;"	m	struct:__anon10
+power_dataout_horizontal_htree	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_dataout_horizontal_htree;$/;"	m	struct:__anon10
 power_dataout_vertical_htree	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_dataout_vertical_htree;$/;"	m	class:mem_array
-power_dataout_vertical_htree	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_dataout_vertical_htree;$/;"	m	struct:__anon29
+power_dataout_vertical_htree	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_dataout_vertical_htree;$/;"	m	struct:__anon10
 power_fa_cam	gpuwattch/cacti/mat.h	/^    powerDef power_fa_cam;  \/\/ TODO: leakage power is not computed yet$/;"	m	class:Mat
 power_htree_in_search	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_htree_in_search;$/;"	m	class:mem_array
 power_htree_out_search	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_htree_out_search;$/;"	m	class:mem_array
@@ -7767,19 +7773,19 @@ power_nand2_path	gpuwattch/cacti/decoder.h	/^  powerDef power_nand2_path;$/;"	m	
 power_nand3_path	gpuwattch/cacti/decoder.h	/^  powerDef power_nand3_path;$/;"	m	class:PredecBlk
 power_nand3_path	gpuwattch/cacti/decoder.h	/^  powerDef power_nand3_path;$/;"	m	class:PredecBlkDrv
 power_output_drivers_at_subarray	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_output_drivers_at_subarray;$/;"	m	class:mem_array
-power_output_drivers_at_subarray	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_output_drivers_at_subarray;$/;"	m	struct:__anon29
+power_output_drivers_at_subarray	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_output_drivers_at_subarray;$/;"	m	struct:__anon10
 power_prechg_eq_drivers	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_prechg_eq_drivers;$/;"	m	class:mem_array
-power_prechg_eq_drivers	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_prechg_eq_drivers;$/;"	m	struct:__anon29
+power_prechg_eq_drivers	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_prechg_eq_drivers;$/;"	m	struct:__anon10
 power_routing_to_bank	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_routing_to_bank;$/;"	m	class:mem_array
-power_routing_to_bank	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_routing_to_bank;$/;"	m	struct:__anon29
+power_routing_to_bank	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_routing_to_bank;$/;"	m	struct:__anon10
 power_routing_to_bank	gpuwattch/cacti/uca.h	/^    powerDef power_routing_to_bank;$/;"	m	class:UCA
 power_row_decoders	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_row_decoders;$/;"	m	class:mem_array
-power_row_decoders	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_row_decoders;$/;"	m	struct:__anon29
+power_row_decoders	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_row_decoders;$/;"	m	struct:__anon10
 power_row_decoders	gpuwattch/cacti/mat.h	/^    powerDef power_row_decoders;$/;"	m	class:Mat
 power_row_predecoder_blocks	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_row_predecoder_blocks;$/;"	m	class:mem_array
-power_row_predecoder_blocks	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_row_predecoder_blocks;$/;"	m	struct:__anon29
+power_row_predecoder_blocks	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_row_predecoder_blocks;$/;"	m	struct:__anon10
 power_row_predecoder_drivers	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_row_predecoder_drivers;$/;"	m	class:mem_array
-power_row_predecoder_drivers	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_row_predecoder_drivers;$/;"	m	struct:__anon29
+power_row_predecoder_drivers	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_row_predecoder_drivers;$/;"	m	struct:__anon10
 power_sa	gpuwattch/cacti/mat.h	/^    powerDef power_sa;$/;"	m	class:Mat
 power_sa_mux_lev_1_decoders	gpuwattch/cacti/mat.h	/^    powerDef power_sa_mux_lev_1_decoders;$/;"	m	class:Mat
 power_sa_mux_lev_2_decoders	gpuwattch/cacti/mat.h	/^    powerDef power_sa_mux_lev_2_decoders;$/;"	m	class:Mat
@@ -7788,19 +7794,19 @@ power_searchline	gpuwattch/cacti/mat.h	/^    powerDef power_bitline, power_searc
 power_searchline_precharge	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_searchline_precharge;$/;"	m	class:mem_array
 power_searchline_precharge	gpuwattch/cacti/mat.h	/^    powerDef power_searchline_precharge;$/;"	m	class:Mat
 power_sense_amps	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_sense_amps;$/;"	m	class:mem_array
-power_sense_amps	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_sense_amps;$/;"	m	struct:__anon29
+power_sense_amps	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_sense_amps;$/;"	m	struct:__anon10
 power_senseamp_mux_lev_1_decoders	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_senseamp_mux_lev_1_decoders;$/;"	m	class:mem_array
-power_senseamp_mux_lev_1_decoders	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_senseamp_mux_lev_1_decoders;$/;"	m	struct:__anon29
+power_senseamp_mux_lev_1_decoders	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_senseamp_mux_lev_1_decoders;$/;"	m	struct:__anon10
 power_senseamp_mux_lev_1_predecoder_blocks	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_senseamp_mux_lev_1_predecoder_blocks;$/;"	m	class:mem_array
-power_senseamp_mux_lev_1_predecoder_blocks	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_senseamp_mux_lev_1_predecoder_blocks;$/;"	m	struct:__anon29
+power_senseamp_mux_lev_1_predecoder_blocks	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_senseamp_mux_lev_1_predecoder_blocks;$/;"	m	struct:__anon10
 power_senseamp_mux_lev_1_predecoder_drivers	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_senseamp_mux_lev_1_predecoder_drivers;$/;"	m	class:mem_array
-power_senseamp_mux_lev_1_predecoder_drivers	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_senseamp_mux_lev_1_predecoder_drivers;$/;"	m	struct:__anon29
+power_senseamp_mux_lev_1_predecoder_drivers	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_senseamp_mux_lev_1_predecoder_drivers;$/;"	m	struct:__anon10
 power_senseamp_mux_lev_2_decoders	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_senseamp_mux_lev_2_decoders;$/;"	m	class:mem_array
-power_senseamp_mux_lev_2_decoders	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_senseamp_mux_lev_2_decoders;$/;"	m	struct:__anon29
+power_senseamp_mux_lev_2_decoders	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_senseamp_mux_lev_2_decoders;$/;"	m	struct:__anon10
 power_senseamp_mux_lev_2_predecoder_blocks	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_senseamp_mux_lev_2_predecoder_blocks;$/;"	m	class:mem_array
-power_senseamp_mux_lev_2_predecoder_blocks	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_senseamp_mux_lev_2_predecoder_blocks;$/;"	m	struct:__anon29
+power_senseamp_mux_lev_2_predecoder_blocks	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_senseamp_mux_lev_2_predecoder_blocks;$/;"	m	struct:__anon10
 power_senseamp_mux_lev_2_predecoder_drivers	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_senseamp_mux_lev_2_predecoder_drivers;$/;"	m	class:mem_array
-power_senseamp_mux_lev_2_predecoder_drivers	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_senseamp_mux_lev_2_predecoder_drivers;$/;"	m	struct:__anon29
+power_senseamp_mux_lev_2_predecoder_drivers	gpuwattch/cacti/cacti_interface.h	/^  powerDef power_senseamp_mux_lev_2_predecoder_drivers;$/;"	m	struct:__anon10
 power_stat_t	gpgpu-sim/power_stat.cc	/^power_stat_t::power_stat_t( const struct shader_core_config *shader_config,float * average_pipeline_duty_cycle,float *active_sms,shader_core_stats * shader_stats, const struct memory_config *mem_config,memory_stats_t * memory_stats)$/;"	f	class:power_stat_t
 power_stat_t	gpgpu-sim/power_stat.h	/^class power_stat_t {$/;"	c
 power_subarray_out_drv	gpuwattch/cacti/mat.h	/^    powerDef power_subarray_out_drv;$/;"	m	class:Mat
@@ -7833,10 +7839,10 @@ pre_dec	gpuwattch/logic.h	/^	Predec *  pre_dec;$/;"	m	class:inst_decoder
 pre_decode	abstract_hardware_model.h	/^    virtual void pre_decode() {}$/;"	f	class:inst_t
 pre_decode	cuda-sim/cuda-sim.cc	/^void ptx_instruction::pre_decode()$/;"	f	class:ptx_instruction
 precharge_delay	gpuwattch/cacti/cacti_interface.h	/^  double precharge_delay;$/;"	m	class:mem_array
-precharge_delay	gpuwattch/cacti/cacti_interface.h	/^  double precharge_delay;$/;"	m	struct:__anon29
+precharge_delay	gpuwattch/cacti/cacti_interface.h	/^  double precharge_delay;$/;"	m	struct:__anon10
 precharge_delay	gpuwattch/cacti/uca.h	/^    double precharge_delay;$/;"	m	class:UCA
 precharge_energy	gpuwattch/cacti/cacti_interface.h	/^  double activate_energy, read_energy, write_energy, precharge_energy,$/;"	m	class:mem_array
-precharge_energy	gpuwattch/cacti/cacti_interface.h	/^  double precharge_energy;$/;"	m	struct:__anon29
+precharge_energy	gpuwattch/cacti/cacti_interface.h	/^  double precharge_energy;$/;"	m	struct:__anon10
 precharge_energy	gpuwattch/cacti/uca.h	/^    double precharge_energy;$/;"	m	class:UCA
 pred	abstract_hardware_model.h	/^    int pred; \/\/ predicate register number$/;"	m	class:inst_t
 pred_lookup	cuda-sim/decuda_pred_table/decuda_pred_table.cc	/^bool pred_lookup(int condition, int flags)$/;"	f
@@ -7872,7 +7878,7 @@ prefetchb	gpuwattch/array.h	/^  ArrayST* prefetchb;$/;"	m	class:InstCache
 prefetchb_size	gpuwattch/basic_components.h	/^    int missb_size, fu_size, prefetchb_size, wbb_size;$/;"	m	class:CacheDynParam
 prefetchu_impl	cuda-sim/instructions.cc	/^void prefetchu_impl( const ptx_instruction *pI, ptx_thread_info *thread ) { inst_not_implemented(pI); }$/;"	f
 pres	intersim2/routers/event_router.hpp	/^    int  pres;$/;"	m	struct:EventNextVCState::tWaiting
-pri	intersim2/arbiters/arbiter.hpp	/^    int pri ;$/;"	m	struct:Arbiter::__anon33
+pri	intersim2/arbiters/arbiter.hpp	/^    int pri ;$/;"	m	struct:Arbiter::__anon32
 pri	intersim2/arbiters/prio_arb.hpp	/^    int pri;$/;"	m	struct:PriorityArbiter::sRequest
 pri	intersim2/flit.hpp	/^  int  pri;$/;"	m	class:Flit
 pri	intersim2/outputset.hpp	/^    int pri;$/;"	m	struct:OutputSet::sSetElement
@@ -7985,7 +7991,7 @@ procdynp	gpuwattch/processor.h	/^    ProcParam procdynp;$/;"	m	class:Processor
 process_banks	gpgpu-sim/shader.h	/^   void process_banks()$/;"	f	class:opndcoll_rfu_t
 process_cache_access	gpgpu-sim/shader.cc	/^ldst_unit::process_cache_access( cache_t* cache,$/;"	f	class:ldst_unit
 process_ind	gpuwattch/logic.h	/^	bool process_ind;$/;"	m	class:Pipeline
-process_memory_access_queue	gpgpu-sim/shader.cc	/^mem_stage_stall_type ldst_unit::process_memory_access_queue( cache_t *cache, warp_inst_t &inst )$/;"	f	class:ldst_unit
+process_memory_access_queue	gpgpu-sim/shader.cc	/^mem_stage_stall_type ldst_unit::process_memory_access_queue( cache_t *cache, warp_inst_t &inst, bool &assocStall)$/;"	f	class:ldst_unit
 process_tag_probe	gpgpu-sim/gpu-cache.cc	/^data_cache::process_tag_probe( bool wr,$/;"	f	class:data_cache
 ptr_align_spec	cuda-sim/ptx.y	/^ptr_align_spec: ALIGN_DIRECTIVE INT_OPERAND$/;"	l
 ptr_space_spec	cuda-sim/ptx.y	/^ptr_space_spec: GLOBAL_DIRECTIVE { add_ptr_spec(global_space); }$/;"	l
@@ -8137,7 +8143,7 @@ read_accesses	gpuwattch/XML_Parse.h	/^	double read_accesses;$/;"	m	struct:__anon
 read_accesses	gpuwattch/XML_Parse.h	/^	double read_accesses;$/;"	m	struct:__anon20
 read_accesses	gpuwattch/XML_Parse.h	/^	double read_accesses;$/;"	m	struct:__anon21
 read_energy	gpuwattch/cacti/cacti_interface.h	/^  double activate_energy, read_energy, write_energy, precharge_energy,$/;"	m	class:mem_array
-read_energy	gpuwattch/cacti/cacti_interface.h	/^  double read_energy;$/;"	m	struct:__anon29
+read_energy	gpuwattch/cacti/cacti_interface.h	/^  double read_energy;$/;"	m	struct:__anon10
 read_energy	gpuwattch/cacti/uca.h	/^    double read_energy;$/;"	m	class:UCA
 read_hits	gpuwattch/XML_Parse.h	/^	double read_hits;$/;"	m	struct:__anon13
 read_hits	gpuwattch/XML_Parse.h	/^	double read_hits;$/;"	m	struct:__anon14
@@ -8177,7 +8183,7 @@ reduce_precision	cuda-sim/instructions.cc	/^float reduce_precision( float x, uns
 reduction_storage	abstract_hardware_model.h	/^        unsigned reduction_storage[MAX_CTA_PER_SHADER][MAX_BARRIERS_PER_CTA];$/;"	m	class:core_t
 reduction_type	abstract_hardware_model.h	/^typedef enum uarch_red_t reduction_type;$/;"	t	typeref:enum:uarch_red_t
 ref_count	gpuwattch/xmlParser.h	/^          int                    ref_count;       \/\/ for garbage collection (smart pointers)$/;"	m	struct:XMLNode::XMLNodeDataTag
-refresh_power	gpuwattch/cacti/cacti_interface.h	/^  double refresh_power;$/;"	m	struct:__anon29
+refresh_power	gpuwattch/cacti/cacti_interface.h	/^  double refresh_power;$/;"	m	struct:__anon10
 refresh_power	gpuwattch/cacti/cacti_interface.h	/^  refresh_power, leak_power_subbank_closed_page, leak_power_subbank_open_page,$/;"	m	class:mem_array
 refresh_power	gpuwattch/cacti/uca.h	/^    double refresh_power;  \/\/ only for DRAM$/;"	m	class:UCA
 reg1_num	cuda-sim/ptx_ir.h	/^   int reg1_num() const { return m_value.m_vector_symbolic[0]->reg_num();}$/;"	f	class:operand_info
@@ -8275,7 +8281,7 @@ resistivity	gpuwattch/cacti/wire.h	/^    double resistivity;$/;"	m	class:Wire
 response_buffer_full	gpgpu-sim/shader.cc	/^bool ldst_unit::response_buffer_full() const$/;"	f	class:ldst_unit
 response_queue_full	gpgpu-sim/shader.h	/^    bool response_queue_full() {$/;"	f	class:simt_core_cluster
 restore_info_of_last_inst_at_barrier	gpgpu-sim/shader.h	/^    const warp_inst_t * restore_info_of_last_inst_at_barrier(){ return m_inst_at_barrier;}$/;"	f	class:shd_warp_t
-results_mem_array	gpuwattch/cacti/cacti_interface.h	/^} results_mem_array;$/;"	t	typeref:struct:__anon29
+results_mem_array	gpuwattch/cacti/cacti_interface.h	/^} results_mem_array;$/;"	t	typeref:struct:__anon10
 retQueueSize	gpgpu-sim/mrpb.cc	/^int Mrpb::retQueueSize(unsigned warpId){$/;"	f	class:Mrpb
 ret_impl	cuda-sim/instructions.cc	/^void ret_impl( const ptx_instruction *pI, ptx_thread_info *thread ) $/;"	f
 retp_impl	cuda-sim/instructions.cc	/^void retp_impl( const ptx_instruction *pI, ptx_thread_info *thread )$/;"	f
@@ -8308,8 +8314,8 @@ router	gpuwattch/noc.h	/^	MCPAT_Router * router;$/;"	m	class:NoC
 router_exist	gpuwattch/noc.h	/^	bool router_exist;$/;"	m	class:NoC
 router_list	intersim2/networks/anynet.hpp	/^  vector<map<int,  map<int, pair<int,int> > > > router_list;$/;"	m	class:AnyNet
 routing	intersim2/vc.hpp	/^  enum eVCState { state_min = 0, idle = state_min, routing, vc_alloc, active, $/;"	e	enum:VC::eVCState
-routing_area_height_within_bank	gpuwattch/cacti/cacti_interface.h	/^  double routing_area_height_within_bank;$/;"	m	struct:__anon29
-routing_area_width_within_bank	gpuwattch/cacti/cacti_interface.h	/^  double routing_area_width_within_bank;$/;"	m	struct:__anon29
+routing_area_height_within_bank	gpuwattch/cacti/cacti_interface.h	/^  double routing_area_height_within_bank;$/;"	m	struct:__anon10
+routing_area_width_within_bank	gpuwattch/cacti/cacti_interface.h	/^  double routing_area_width_within_bank;$/;"	m	struct:__anon10
 routing_table	intersim2/networks/anynet.hpp	/^  vector<map<int, int> > routing_table;$/;"	m	class:AnyNet
 row	gpgpu-sim/addrdec.h	/^   unsigned row;$/;"	m	struct:addrdec_t
 row	gpgpu-sim/dram.h	/^   unsigned int row;$/;"	m	class:dram_req_t
@@ -8336,7 +8342,7 @@ rw	gpgpu-sim/dram.h	/^   unsigned char rw;    \/\/is the bank reading or writing
 rw	gpgpu-sim/dram.h	/^   unsigned char rw;    \/\/is the request a read or a write?$/;"	m	class:dram_req_t
 rw	gpgpu-sim/dram.h	/^   unsigned char rw; \/\/was last request a read or write? (important for RTW, WTR)$/;"	m	class:dram_t
 rwq	gpgpu-sim/dram.h	/^   fifo_pipeline<dram_req_t> *rwq;$/;"	m	class:dram_t
-s	gpuwattch/xmlParser.cc	/^typedef struct { XMLCSTR s; int l; XMLCHAR c;} XMLCharacterEntity;$/;"	m	struct:__anon31	file:
+s	gpuwattch/xmlParser.cc	/^typedef struct { XMLCSTR s; int l; XMLCHAR c;} XMLCharacterEntity;$/;"	m	struct:__anon8	file:
 s16	cuda-sim/ptx_sim.h	/^   signed short      s16;$/;"	m	union:ptx_reg_t
 s2f	cuda-sim/instructions.cc	/^ptx_reg_t s2f( ptx_reg_t x, unsigned from_width, unsigned to_width, int to_sign, int rounding_mode, int saturation_mode )$/;"	f
 s32	cuda-sim/ptx_sim.h	/^   signed int        s32;$/;"	m	union:ptx_reg_t
@@ -8446,6 +8452,7 @@ set_addr_space	cuda-sim/ptx_ir.h	/^   void set_addr_space(enum _memory_space_t s
 set_address	cuda-sim/ptx_ir.h	/^   void set_address( addr_t addr )$/;"	f	class:symbol
 set_area	gpuwattch/cacti/area.h	/^  void set_area(double a_) { area = a_; }$/;"	f	class:Area
 set_array_dim	cuda-sim/ptx_ir.h	/^   void set_array_dim( int array_dim ) { m_array_dim = array_dim; }$/;"	f	class:type_info_key
+set_assoc_flag	gpgpu-sim/mem_fetch.h	/^   void set_assoc_flag(bool assoc_flag){assoc_stall = assoc_flag;}$/;"	f	class:mem_fetch
 set_bank	abstract_hardware_model.h	/^   void set_bank( unsigned b ) { m_bank = b; }$/;"	f	class:memory_space_t
 set_bar_count	abstract_hardware_model.h	/^    void set_bar_count(unsigned count) {bar_count=count;}$/;"	f	class:inst_t
 set_bar_id	abstract_hardware_model.h	/^    void set_bar_id(unsigned id) {bar_id=id;}$/;"	f	class:inst_t
@@ -8716,7 +8723,7 @@ sqrt_impl	cuda-sim/instructions.cc	/^void sqrt_impl( const ptx_instruction *pI, 
 sram	gpuwattch/cacti/parameter.h	/^  MemoryType sram;$/;"	m	class:TechnologyParameter
 sram_cell	gpuwattch/cacti/parameter.h	/^  DeviceType sram_cell;   \/\/ SRAM cell transistor$/;"	m	class:TechnologyParameter
 sram_num_cells_wl_stitching_	gpuwattch/cacti/const.h	/^const static uint32_t sram_num_cells_wl_stitching_ = 16;$/;"	v
-src	abstract_hardware_model.h	/^        int src[MAX_REG_OPERANDS];$/;"	m	struct:inst_t::__anon1
+src	abstract_hardware_model.h	/^        int src[MAX_REG_OPERANDS];$/;"	m	struct:inst_t::__anon33
 src	intersim2/flit.hpp	/^  int  src;$/;"	m	class:Flit
 src1	cuda-sim/ptx_ir.h	/^   const operand_info &src1() const $/;"	f	class:ptx_instruction
 src2	cuda-sim/ptx_ir.h	/^   const operand_info &src2() const $/;"	f	class:ptx_instruction
@@ -8800,8 +8807,8 @@ sub_switch_power	gpuwattch/cacti/highradix.cc	/^HighRadix::sub_switch_power()$/;
 subarray	gpuwattch/cacti/mat.h	/^    Subarray subarray;$/;"	m	class:Mat
 subarray_height	gpuwattch/cacti/cacti_interface.h	/^  double subarray_height;$/;"	m	class:mem_array
 subarray_length	gpuwattch/cacti/cacti_interface.h	/^  double subarray_length;$/;"	m	class:mem_array
-subarray_memory_cell_area_height	gpuwattch/cacti/cacti_interface.h	/^  double subarray_memory_cell_area_height;$/;"	m	struct:__anon29
-subarray_memory_cell_area_width	gpuwattch/cacti/cacti_interface.h	/^  double subarray_memory_cell_area_width;$/;"	m	struct:__anon29
+subarray_memory_cell_area_height	gpuwattch/cacti/cacti_interface.h	/^  double subarray_memory_cell_area_height;$/;"	m	struct:__anon10
+subarray_memory_cell_area_width	gpuwattch/cacti/cacti_interface.h	/^  double subarray_memory_cell_area_width;$/;"	m	struct:__anon10
 subarray_out_wire	gpuwattch/cacti/mat.h	/^    Wire   * subarray_out_wire;$/;"	m	class:Mat
 subc_impl	cuda-sim/instructions.cc	/^void subc_impl( const ptx_instruction *pI, ptx_thread_info *thread ) { inst_not_implemented(pI); }$/;"	f
 subnetwork	intersim2/flit.hpp	/^  int  subnetwork;$/;"	m	class:Flit
@@ -8974,7 +8981,7 @@ tokenize_int	intersim2/config_utils.cpp	/^vector<int> tokenize_int(string const 
 tokenize_str	intersim2/config_utils.cpp	/^vector<string> tokenize_str(string const & data)$/;"	f
 top	gpgpu-sim/delayqueue.h	/^   T* top() const$/;"	f	class:fifo_pipeline
 top	gpgpu-sim/l2cache.cc	/^mem_fetch* memory_sub_partition::top() $/;"	f	class:memory_sub_partition
-top	gpgpu-sim/stack.h	/^   int top;$/;"	m	struct:__anon6
+top	gpgpu-sim/stack.h	/^   int top;$/;"	m	struct:__anon1
 top_stack	gpgpu-sim/stack.cc	/^address_type top_stack(Stack *S) {$/;"	f
 topology	gpuwattch/XML_Parse.h	/^	char topology[20];$/;"	m	struct:__anon23
 totalTime	intersim2/power/power_module.hpp	/^  double totalTime;$/;"	m	class:Power_Module
@@ -9015,7 +9022,7 @@ total_n_reads	gpgpu-sim/mem_latency_stat.h	/^   unsigned total_n_reads;$/;"	m	cl
 total_n_writes	gpgpu-sim/mem_latency_stat.h	/^   unsigned total_n_writes;$/;"	m	class:memory_stats_t
 total_nodes	gpuwattch/basic_components.h	/^    int    horizontal_nodes,vertical_nodes, total_nodes;$/;"	m	class:NoCParam
 total_power	gpuwattch/cacti/Ucache.h	/^  powerDef total_power;$/;"	m	struct:solution
-total_power	gpuwattch/cacti/cacti_interface.h	/^  powerDef total_power;$/;"	m	struct:__anon29
+total_power	gpuwattch/cacti/cacti_interface.h	/^  powerDef total_power;$/;"	m	struct:__anon10
 total_sample_count	gpuwattch/gpgpu_sim_wrapper.h	/^    int total_sample_count; \/\/ # of samples per benchmark$/;"	m	class:gpgpu_sim_wrapper
 totalbankaccesses	gpgpu-sim/mem_latency_stat.h	/^   unsigned int **totalbankaccesses; \/\/bankaccesses[dram chip id][bank id]$/;"	m	class:memory_stats_t
 totalbankreads	gpgpu-sim/mem_latency_stat.h	/^   unsigned int **totalbankreads; \/\/bankreads[dram chip id][bank id]$/;"	m	class:memory_stats_t
@@ -9045,7 +9052,7 @@ transmission_buf_outcap	gpuwattch/cacti/router.cc	/^MCPAT_Router::transmission_b
 transmitter	gpuwattch/cacti/wire.h	/^    Component transmitter;$/;"	m	class:Wire
 trap_impl	cuda-sim/instructions.cc	/^void trap_impl( const ptx_instruction *pI, ptx_thread_info *thread ) { inst_not_implemented(pI); }$/;"	f
 traversal	intersim2/power/switch_monitor.cpp	/^void SwitchMonitor::traversal( int input, int output, Flit const * f ) {$/;"	f	class:SwitchMonitor
-trcd	gpuwattch/cacti/cacti_interface.h	/^  double trcd;$/;"	m	struct:__anon29
+trcd	gpuwattch/cacti/cacti_interface.h	/^  double trcd;$/;"	m	struct:__anon10
 tree4_anca	intersim2/routefunc.cpp	/^void tree4_anca( const Router *r, const Flit *f,$/;"	f
 tree4_nca	intersim2/routefunc.cpp	/^void tree4_nca( const Router *r, const Flit *f,$/;"	f
 tree_type	gpuwattch/cacti/htree2.h	/^    enum Htree_type tree_type;$/;"	m	class:Htree2	typeref:enum:Htree2::Htree_type
@@ -9084,7 +9091,7 @@ type_info_key	cuda-sim/ptx_ir.h	/^class type_info_key {$/;"	c
 type_info_key_compare	cuda-sim/ptx_ir.h	/^struct type_info_key_compare {$/;"	s
 type_spec	cuda-sim/ptx.y	/^type_spec: scalar_type $/;"	l
 types_of_operands	abstract_hardware_model.h	/^typedef enum uarch_operand_type_t types_of_operands;$/;"	t	typeref:enum:uarch_operand_type_t
-u128	cuda-sim/ptx_sim.h	/^   } u128;$/;"	m	union:ptx_reg_t	typeref:struct:ptx_reg_t::__anon4
+u128	cuda-sim/ptx_sim.h	/^   } u128;$/;"	m	union:ptx_reg_t	typeref:struct:ptx_reg_t::__anon31
 u16	cuda-sim/ptx_sim.h	/^   unsigned short    u16;$/;"	m	union:ptx_reg_t
 u2f	cuda-sim/instructions.cc	/^ptx_reg_t u2f( ptx_reg_t x, unsigned from_width, unsigned to_width, int to_sign, int rounding_mode, int saturation_mode )$/;"	f
 u32	cuda-sim/ptx_sim.h	/^   unsigned int      u32;$/;"	m	union:ptx_reg_t
@@ -9156,7 +9163,7 @@ use_cuobjdump	abstract_hardware_model.h	/^    bool use_cuobjdump() const { retur
 use_data_port	gpgpu-sim/gpu-cache.cc	/^void baseline_cache::bandwidth_management::use_data_port(mem_fetch *mf, enum cache_request_status outcome, const std::list<cache_event> &events)$/;"	f	class:baseline_cache::bandwidth_management
 use_fill_port	gpgpu-sim/gpu-cache.cc	/^void baseline_cache::bandwidth_management::use_fill_port(mem_fetch *mf)$/;"	f	class:baseline_cache::bandwidth_management
 use_inp_params	gpuwattch/cacti/parameter.h	/^    int use_inp_params;$/;"	m	class:DynamicParameter
-v	gpgpu-sim/stack.h	/^   address_type *v;$/;"	m	struct:__anon6
+v	gpgpu-sim/stack.h	/^   address_type *v;$/;"	m	struct:__anon1
 v_address_width	gpuwattch/basic_components.h	/^    int  int_data_width, fp_data_width,v_address_width, p_address_width;$/;"	m	class:CoreDynParam
 v_double_op_t	cuda-sim/ptx_ir.h	/^   unsigned_t, symbolic_t, label_t, v_reg_t, v_float_op_t, v_double_op_t,$/;"	e	enum:operand_type
 v_float_op_t	cuda-sim/ptx_ir.h	/^   unsigned_t, symbolic_t, label_t, v_reg_t, v_float_op_t, v_double_op_t,$/;"	e	enum:operand_type
@@ -9173,7 +9180,7 @@ valiant_torus	intersim2/routefunc.cpp	/^void valiant_torus( const Router *r, con
 valid	abstract_hardware_model.h	/^    bool valid() const { return m_decoded; }$/;"	f	class:inst_t
 valid	gpgpu-sim/shader.h	/^      bool valid() const { return m_valid; }$/;"	f	class:opndcoll_rfu_t::op_t
 valid	gpuwattch/cacti/cacti_interface.h	/^    bool valid;$/;"	m	class:uca_org_t
-valid	intersim2/arbiters/arbiter.hpp	/^    bool valid ;$/;"	m	struct:Arbiter::__anon33
+valid	intersim2/arbiters/arbiter.hpp	/^    bool valid ;$/;"	m	struct:Arbiter::__anon32
 var_spec	cuda-sim/ptx.y	/^var_spec: space_spec $/;"	l
 var_spec_list	cuda-sim/ptx.y	/^var_spec_list: var_spec $/;"	l
 variable_declaration	cuda-sim/ptx.y	/^variable_declaration: variable_spec identifier_list { add_variables(); }$/;"	l
@@ -9389,7 +9396,7 @@ write_backs	gpuwattch/XML_Parse.h	/^	double write_backs;$/;"	m	struct:__anon15
 write_backs	gpuwattch/XML_Parse.h	/^	double write_backs;$/;"	m	struct:__anon20
 write_backs	gpuwattch/XML_Parse.h	/^	double write_backs;$/;"	m	struct:__anon21
 write_energy	gpuwattch/cacti/cacti_interface.h	/^  double activate_energy, read_energy, write_energy, precharge_energy,$/;"	m	class:mem_array
-write_energy	gpuwattch/cacti/cacti_interface.h	/^  double write_energy;$/;"	m	struct:__anon29
+write_energy	gpuwattch/cacti/cacti_interface.h	/^  double write_energy;$/;"	m	struct:__anon10
 write_energy	gpuwattch/cacti/uca.h	/^    double write_energy;$/;"	m	class:UCA
 write_hits	gpuwattch/XML_Parse.h	/^	double write_hits;$/;"	m	struct:__anon14
 write_hits	gpuwattch/XML_Parse.h	/^	double write_hits;$/;"	m	struct:__anon15
