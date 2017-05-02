@@ -1556,7 +1556,7 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
        //Bypass L1D and send the request across the interconnect
     
 
-       if(assocStall == true && access.get_type == GLOBAL_ACC_R){
+       if(assocStall == true && access.get_type() == GLOBAL_ACC_R){
 
 
        unsigned control_size = inst.is_store() ? WRITE_PACKET_SIZE : READ_PACKET_SIZE;
