@@ -1590,9 +1590,11 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
        
 
    }
-   if(!m_mrpb->mrpbQueue_empty(inst.warp_id()));
-   //if( !inst.accessq_empty() ) 
+   if(!m_mrpb->mrpbQueue_empty(warp_id_queue)) {
+ 
        stall_cond = COAL_STALL;
+
+   }
    if (stall_cond != NO_RC_FAIL) {
       stall_reason = stall_cond;
       bool iswrite = inst.is_store();
