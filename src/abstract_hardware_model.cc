@@ -34,6 +34,8 @@
 #include "cuda-sim/cuda-sim.h"
 #include "gpgpu-sim/gpu-sim.h"
 #include "option_parser.h"
+#include "mrpb.h"
+
 #include <algorithm>
 
 unsigned mem_access_t::sm_next_access_uid = 0;   
