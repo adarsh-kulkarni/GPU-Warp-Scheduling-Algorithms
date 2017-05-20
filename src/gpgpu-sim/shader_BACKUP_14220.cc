@@ -1489,6 +1489,31 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
        return true;
    //assert( !inst.accessq_empty() );
  
+<<<<<<< HEAD
+=======
+    for (std::list<mem_access_t>::iterator it=inst.begin(); it !=inst.end();) {
+
+
+	if( !inst.accessq_empty() ) {
+	
+		if(m_mrpb->retQueueSize(inst.warp_id()) < 8) {
+
+			m_mrpb->pushMemAccess(*it, inst.warp_id());	
+			it = inst.accessq_erase(it); 
+
+			//++it;
+
+			//Remove the corresponding entry from m_accessq
+
+			}
+		else{
+
+			break;	
+		    }
+	}
+
+   }
+>>>>>>> 6325626d8f5eb4447ee06bf3b94c136537ff28b1
 
    assert(!m_mrpb->checkEmptyQueue());
   
