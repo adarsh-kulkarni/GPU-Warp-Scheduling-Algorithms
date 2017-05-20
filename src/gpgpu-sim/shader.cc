@@ -676,6 +676,32 @@ void shader_core_ctx::func_exec_inst( warp_inst_t &inst )
     execute_warp_inst_t(inst);
     if( inst.is_load() || inst.is_store() )
         inst.generate_mem_accesses();
+
+    //Get the memory accesses from memory access queue
+    for (std::list<mem_access_t>::iterator it=inst.begin(); it !=inst.end();) {
+
+
+	if( !inst.accessq_empty() ) {
+
+		if( inst.space.get_type() == (global_space || local_space || param_space_local )) {
+	
+			if(m_mrpb->retQueueSize(inst.warp_id()) < 8) {
+
+				m_mrpb->pushMemAccess(*it, inst.warp_id());	
+				it = inst.accessq_erase(it); 
+
+				//Remove the corresponding entry from m_accessq
+
+				}
+			else{
+
+				++it;
+			    }
+		}
+	}
+
+   }
+
 }
 
 void shader_core_ctx::issue_warp( register_set& pipe_reg_set, const warp_inst_t* next_inst, const active_mask_t &active_mask, unsigned warp_id )
@@ -689,6 +715,7 @@ void shader_core_ctx::issue_warp( register_set& pipe_reg_set, const warp_inst_t*
     (*pipe_reg)->issue( active_mask, warp_id, gpu_tot_sim_cycle + gpu_sim_cycle, m_warp[warp_id].get_dynamic_warp_id() ); // dynamic instruction information
     m_stats->shader_cycle_distro[2+(*pipe_reg)->active_count()]++;
     func_exec_inst( **pipe_reg );
+    
     if( next_inst->op == BARRIER_OP ){
     	m_warp[warp_id].store_info_of_last_inst_at_barrier(*pipe_reg);
         m_barriers.warp_reaches_barrier(m_warp[warp_id].get_cta_id(),warp_id,const_cast<warp_inst_t*> (next_inst));
@@ -1462,33 +1489,6 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
        return true;
    //assert( !inst.accessq_empty() );
  
-    for (std::list<mem_access_t>::iterator it=inst.begin(); it !=inst.end();) {
-
-/*	bool queueFull = m_mrpb->pushMemAccess(*it, inst.warp_id());
-	if(queueFull)
-	  return true;*/
-
-
-	/*if(memAcc >= 8)
-		break;*/
-
-	if( !inst.accessq_empty() ) {
-	
-		if(m_mrpb->retQueueSize(inst.warp_id()) < 8) {
-
-			m_mrpb->pushMemAccess(*it, inst.warp_id());	
-			it = inst.accessq_erase(it); 
-
-			//Remove the corresponding entry from m_accessq
-
-			}
-		else{
-
-			++it;
-		    }
-	}
-
-   }
 
    assert(!m_mrpb->checkEmptyQueue());
   
