@@ -678,31 +678,31 @@ void shader_core_ctx::func_exec_inst( warp_inst_t &inst )
         inst.generate_mem_accesses();
 
     //Get the memory accesses from memory access queue
-    for (std::list<mem_access_t>::iterator it=inst.begin(); it !=inst.end();) {
+    
+    if( !inst.accessq_empty() ) {
+	   
+
+		if( inst.space.get_type() == global_space || inst.space.get_type() == local_space || inst.space.get_type() == param_space_local ) {
 
 
-	if( !inst.accessq_empty() ) {
-
-		if( inst.space.get_type() == (global_space || local_space || param_space_local )) {
+    			for (std::list<mem_access_t>::iterator it=inst.begin(); it !=inst.end();) {
 	
-			if(m_mrpb->retQueueSize(inst.warp_id()) < 8) {
+ 				if(m_mrpb->retQueueSize(inst.warp_id()) >= 8)
+					break;
 
 				m_mrpb->pushMemAccess(*it, inst.warp_id());	
 				it = inst.accessq_erase(it); 
 
-				//Remove the corresponding entry from m_accessq
+				//Remove the corresponding entry from m_accessq	
 
-				}
-			else{
-
-				++it;
-			    }
+			}
 		}
-	}
 
-   }
+    	}
+
 
 }
+
 
 void shader_core_ctx::issue_warp( register_set& pipe_reg_set, const warp_inst_t* next_inst, const active_mask_t &active_mask, unsigned warp_id )
 {
@@ -1487,6 +1487,8 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
        return true;
    if( inst.active_count() == 0 ) 
        return true;
+   if( m_mrpb->checkEmptyQueue() )
+       return true;
    //assert( !inst.accessq_empty() );
  
 
@@ -1496,7 +1498,7 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
    assert((m_mrpb->retQueueSize(inst.warp_id())) <= 8);
  
  
-   unsigned mem_queue = inst.accessq_count(); 
+   //unsigned mem_queue = inst.accessq_count(); 
     
    mem_stage_stall_type stall_cond = NO_RC_FAIL;
   // const mem_access_t &access = inst.accessq_back();
