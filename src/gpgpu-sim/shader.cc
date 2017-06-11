@@ -847,28 +847,74 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
     typename std::vector< T > temp = input_list;
 
 
-
+	   
 	    //Check if the LDST unit has set the memory saturation flag. If set, update the wrc.
 	    if(m_shader->m_ldst_unit->retSatFlag()){
 		m_wrc->setSatFlag(true);
 	    }
 	
 	    else {
-
+		//TO-DO : Shouldnt this flag be false by default and I would just have to reset it somewhere ?
 		m_wrc->setSatFlag(false);
 
 	    }
 
+	
+	 T greedy_value = NULL; 
 
-	T greedy_value = *last_issued_from_input;
+	
+	if(*last_issued_from_input != NULL) {
+		T greedy_value = *last_issued_from_input;
 
-	//Check if the next instruction for *last_issued_from_input and set the corresponding warp bit in the WST.(Memory operation bit and the scoreboard entry. Similar to what is done for all the warps below).
 
-	result_list_compute.push_back( greedy_value );
+		if(!(greedy_value)->ibuffer_empty()){
+
+					const warp_inst_t *inst = (greedy_value)->ibuffer_next_inst();
+			
+					if(inst->op==LOAD_OP || inst->op==STORE_OP || inst->op==MEMORY_BARRIER_OP){
+
+						//Set the memory operation bit in the WST based on the above information.
+						m_wst->setMemoryBit(true, (greedy_value)->get_warp_id());
+
+
+						result_list_memory.push_back( greedy_value );	
+						
+						
+			
+						if(m_wrc->retSatFlag()) {
+
+							//Find which warp is given exclusive ownership and access to the LSU (Owner warp ID)
+
+							if(owner_warp) {
+
+								if((greedy_value)->get_warp_id() != owner_warp->get_warp_id()){
+
+									m_wst->setStallBit(true,(greedy_value)->get_warp_id());	
+								}		
+
+				
+							}
+			
+						}
+
+					}
+					else{
+
+						result_list_compute.push_back( greedy_value );	
+
+					}		
+
+		}
+
+
+	}
+	
 
 	std::sort( temp.begin(), temp.end(), priority_func );
+
 	typename std::vector< T >::iterator iter = temp.begin();
 	for ( unsigned count = 0; count < num_warps_to_add; ++count, ++iter ) {
+	
 	    if ( *iter != greedy_value ) {
 
 		if(!(*iter)->ibuffer_empty()){
@@ -879,6 +925,11 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 
 				//Set the memory operation bit in the WST based on the above information.
 				m_wst->setMemoryBit(true, (*iter)->get_warp_id());
+
+
+
+
+				result_list_memory.push_back( *iter );	
 				
 				//This warp's next instruction needs to access memory. Now check if the memory saturation flag is set and check if this warp is the owner warp. If it is not the owner warp and the sat flag is set then set the stall bit.
 	
@@ -914,44 +965,8 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 	}
 
 	
-         if(owner_warp != NULL) {
-	   if(!(owner_warp->ibuffer_empty())){
- 
-	 
-  	    //Analyse all the instructions for the current owner warp and clear all the bits of wst if the owner is waiting on an operand
-	    for (int i=0; i<4; i++){
-		    const warp_inst_t* inst = owner_warp->ibuffer_next_inst();
-		    //Is the instruction waiting on a long operation?
-		    if ( inst && inst->in[i] > 0 && this->m_scoreboard->islongop(owner_warp->get_warp_id(), inst->in[i])){
-
-		       //Reset the owner warp and the bits in the wst
-		       owner_warp = NULL;
-		       m_wst->clearBits();
-        	    }
-	    }
-
-	}
-	
-       }
 
 
-	  /* typename std::vector< T >::iterator iter1 = temp.begin();
-	   for (auto it = m_wst->wst_begin(); it != m_wst->wst_end(); ++it,++iter1) {
-
-			
-		if( it -> memBit ){
-			
-			result_list_memory.push_back(*iter1);
-	
-		}
-		else {
-		
-			result_list_compute.push_back(*iter1);
-
-		}
-
-
-	    }*/
 
 	typename std::vector< T > temp_mem = result_list_memory;
 	typename std::vector< T > temp_comp = result_list_compute;
@@ -1119,11 +1134,16 @@ void scheduler_unit::cycle()
 
 	std::vector< shd_warp_t* >::const_iterator iterM = memory_ready_warps.begin();
 	std::vector< shd_warp_t* >::const_iterator iterC = compute_ready_warps.begin();
-	while(true)
+
+	//TO-DO : Check if the queues are empty or put conditions in the while loop checking for end of iteration. Ex while (iterM != memory_ready_warps.end() ..)
+	while(iterM != memory_ready_warps.end() || iterC != compute_ready_warps.end())
 	{
 
 
 	if(m_wrc->retSatFlag()) {
+
+		if(iterM == compute_ready_warps.end())
+			goto compute_ready;
 
 		// Don't consider warps that are not yet valid
 		while ( (*iterM) == NULL || (*iterM)->done_exit() ) {
@@ -1137,6 +1157,7 @@ void scheduler_unit::cycle()
         unsigned issued=0;
         unsigned max_issue = m_shader->m_config->gpgpu_max_insn_issue_per_warp;
         while( !warp(warp_id).waiting() && !warp(warp_id).ibuffer_empty() && (checked < max_issue) && (checked <= issued) && (issued < max_issue) ) {
+		//TO-DO: Need to check the owner warp. If the warp in this iteration is not the owner warp, then do not issue memory instruction from this warp.
 
             const warp_inst_t *pI = warp(warp_id).ibuffer_next_inst();
             bool valid = warp(warp_id).ibuffer_next_valid();
@@ -1165,6 +1186,8 @@ void scheduler_unit::cycle()
                         assert( warp(warp_id).inst_in_pipeline() );
                         
                             if( m_mem_out->has_free() ) {
+
+				//Check if this warp is the owner warp before issuing to the pipeline. If it is not the owner warp then do not issue a memory instruction but switch to a different warp and issue a compute instruction.
                                 m_shader->issue_warp(*m_mem_out,pI,active_mask,warp_id);
                                 issued++;
                                 issued_inst=true;
@@ -1172,7 +1195,35 @@ void scheduler_unit::cycle()
 
 
 				owner_warp = *iterM;
+				//TO-DO : Update the issued warp in the WRC
+				m_wrc->setIssuedWarp((*iterM)->get_warp_id());
+
 				//Since the saturation flag is set, make this warp the owner warp	
+				//
+				//After this, check if the next instruction of this warp is dependent on the instruction we issued. If it is, then assign a new owner warp. to check for the dependency, refer to the TO-DO section of the order_by_type() function.
+
+	
+
+				 if(owner_warp != NULL) {
+				   if(!(owner_warp->ibuffer_empty())){
+			 
+				 
+				    //Analyse all the instructions for the current owner warp and clear all the bits of wst if the owner is waiting on an operand
+				    for (int i=0; i<4; i++){
+					    const warp_inst_t* inst = owner_warp->ibuffer_next_inst();
+					    //Is the instruction waiting on a long operation?
+					    if ( inst && inst->in[i] > 0 && this->m_scoreboard->islongop(owner_warp->get_warp_id(), inst->in[i])){
+
+					       //Reset the owner warp and the bits in the wst
+					       owner_warp = NULL;
+					       m_wst->clearBits();
+					    }
+				    }
+
+				}
+				
+			       }
+
 				
                             }
 
@@ -1249,8 +1300,12 @@ void scheduler_unit::cycle()
 
 
 	else { //start of EP mode
+	
+	compute_ready:
 
-
+	if(iterC == compute_ready_warps.end())
+		break;
+	
 		// Don't consider warps that are not yet valid
 		while ( (*iterC) == NULL || (*iterC)->done_exit() ) {
 		 	++iterC; 
