@@ -1148,11 +1148,17 @@ void scheduler_unit::cycle()
     std::vector< shd_warp_t* >::iterator iterC = ordered_warps.begin() + (memory_ready_size + compute_ready_size);
 
 
+    std::vector< shd_warp_t* >::iterator iterM = memory_ready_warps.begin(); 
 
-    for ( std::vector< shd_warp_t* >::const_iterator iterM = memory_ready_warps.begin(), iterC = compute_ready_warps.begin(); iterC != ordered_warps.end();
-          iter++ ) {
+
+    std::vector< shd_warp_t* >::iterator iterC = compute_ready_warps.begin();
+
+   // for ( std::vector< shd_warp_t* >::const_iterator iterM = memory_ready_warps.begin(), iterC = compute_ready_warps.begin(); iterC != ordered_warps.end() && iterM != ordered_warps.end();
+         // iter++ ) {
+	for( unsigned i = 0; i < (memory_ready_size + compute_ready_size); i++) {
+
         // Don't consider warps that are not yet valid
-        if ( (*iter) == NULL || (*iter)->done_exit() ) {
+        if ( (*iterM) && (*iterC) == NULL || (*iterM)->done_exit() && (*iterC)->done_exit() {
             continue;
         }
 
@@ -1161,7 +1167,25 @@ void scheduler_unit::cycle()
 
         SCHED_DPRINTF( "Testing (warp_id %u, dynamic_warp_id %u)\n",
                        (*iter)->get_warp_id(), (*iter)->get_dynamic_warp_id() );
-        unsigned warp_id = (*iter)->get_warp_id();
+
+	unsigned warp_id;
+
+	std::vector< shd_warp_t* >::iterator iter;
+
+	if(*iterM){
+
+        	warp_id = (*iterM)->get_warp_id();
+		iter = iterM;
+		iterM++;
+
+	}
+
+	else
+
+		warp_id = (*iterC)->get_warp_id();
+		iter = iterC;
+		iterC++;
+
         unsigned checked=0;
         unsigned issued=0;
         unsigned max_issue = m_shader->m_config->gpgpu_max_insn_issue_per_warp;
@@ -1242,7 +1266,19 @@ void scheduler_unit::cycle()
 	//If memory saturation flag is set
 	else {
 
+		//Get warp from the compute_ready_warps queue. If empty, get from memory_ready_warps queue
+		
 
+
+
+
+		//Assign owner warp
+		
+
+
+
+
+		//Share owner warp with other warp schedulers
 
 
 
