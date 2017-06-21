@@ -1142,10 +1142,10 @@ void scheduler_unit::cycle()
    ordered_warps.insert( ordered_warps.end(), compute_ready_warps.begin(), compute_ready_warps.end() ); 
 
     //Get iterator pointer of a specific element
-    std::vector< shd_warp_t* >::iterator iterM = ordered_warps.begin() + memory_ready_size;
+    //std::vector< shd_warp_t* >::iterator iterM = ordered_warps.begin() + memory_ready_size;
 
     //Check for this iterator pointer to be greater than the iterM pointer
-    std::vector< shd_warp_t* >::iterator iterC = ordered_warps.begin() + (memory_ready_size + compute_ready_size);
+    //std::vector< shd_warp_t* >::iterator iterC = ordered_warps.begin() + (memory_ready_size + compute_ready_size);
 
 
     std::vector< shd_warp_t* >::iterator iterM = memory_ready_warps.begin(); 
@@ -1158,25 +1158,26 @@ void scheduler_unit::cycle()
 	for( unsigned i = 0; i < (memory_ready_size + compute_ready_size); i++) {
 
         // Don't consider warps that are not yet valid
-        if ( (*iterM) && (*iterC) == NULL || (*iterM)->done_exit() && (*iterC)->done_exit() {
+        if ( ((*iterM) && (*iterC) == NULL) || ((*iterM)->done_exit() && (*iterC)->done_exit())) {
             continue;
+	    //TO-DO : Increment the iterator. Otherwise its an infinite loop
         }
 
 	if(!m_wrc->retSatFlag()) {
 
 
-        SCHED_DPRINTF( "Testing (warp_id %u, dynamic_warp_id %u)\n",
-                       (*iter)->get_warp_id(), (*iter)->get_dynamic_warp_id() );
+        
+                     
 
 	unsigned warp_id;
 
 	std::vector< shd_warp_t* >::iterator iter;
 
-	if(*iterM){
+	if(iterM){
 
         	warp_id = (*iterM)->get_warp_id();
 		iter = iterM;
-		iterM++;
+	
 
 	}
 
@@ -1184,8 +1185,9 @@ void scheduler_unit::cycle()
 
 		warp_id = (*iterC)->get_warp_id();
 		iter = iterC;
-		iterC++;
+	
 
+	SCHED_DPRINTF( "Testing (warp_id %u, dynamic_warp_id %u)\n", (*iter)->get_warp_id(), (*iter)->get_dynamic_warp_id() );
         unsigned checked=0;
         unsigned issued=0;
         unsigned max_issue = m_shader->m_config->gpgpu_max_insn_issue_per_warp;
@@ -1220,6 +1222,7 @@ void scheduler_unit::cycle()
                                 issued++;
                                 issued_inst=true;
                                 warp_inst_issued = true;
+				iterM++;
                             }
                         } else {
                             bool sp_pipe_avail = m_sp_out->has_free();
@@ -1230,14 +1233,17 @@ void scheduler_unit::cycle()
                                 issued++;
                                 issued_inst=true;
                                 warp_inst_issued = true;
+				iterC++;
                             } else if ( (pI->op == SFU_OP) || (pI->op == ALU_SFU_OP) ) {
                                 if( sfu_pipe_avail ) {
                                     m_shader->issue_warp(*m_sfu_out,pI,active_mask,warp_id);
                                     issued++;
                                     issued_inst=true;
                                     warp_inst_issued = true;
+				    iterC++;
                                 }
-                            }                         }
+                            }                      
+		     	}
                     } else {
                         SCHED_DPRINTF( "Warp (warp_id %u, dynamic_warp_id %u) fails scoreboard\n",
                                        (*iter)->get_warp_id(), (*iter)->get_dynamic_warp_id() );
@@ -1267,21 +1273,98 @@ void scheduler_unit::cycle()
 	else {
 
 		//Get warp from the compute_ready_warps queue. If empty, get from memory_ready_warps queue
-		
+        unsigned warp_id;                                                               
+                                                                                        
+        std::vector< shd_warp_t* >::iterator iter;                                      
+                                                                                        
+        if(iterC){                                                                     
+                                                                                        
+                warp_id = (*iterC)->get_warp_id();                                      
+                iter = iterC;                                                           
+               
+                                                                                        
+        }                                                                               
+                                                                                        
+        else                                                                            
+                                                                                        
+                warp_id = (*iterM)->get_warp_id();                                      
+                iter = iterM;                                                           
+              
 
-
-
-
-		//Assign owner warp
-		
-
-
-
-
-		//Share owner warp with other warp schedulers
-
-
-
+	
+	SCHED_DPRINTF( "Testing (warp_id %u, dynamic_warp_id %u)\n",                    
+                       (*iter)->get_warp_id(), (*iter)->get_dynamic_warp_id() );        
+                                                                                        
+                                                                                        
+        unsigned checked=0;                                                             
+        unsigned issued=0;                                                              
+        unsigned max_issue = m_shader->m_config->gpgpu_max_insn_issue_per_warp;         
+        while( !warp(warp_id).waiting() && !warp(warp_id).ibuffer_empty() && (checked < max_issue) && (checked <= issued) && (issued < max_issue) ) {                           
+            const warp_inst_t *pI = warp(warp_id).ibuffer_next_inst();                  
+            bool valid = warp(warp_id).ibuffer_next_valid();                            
+            bool warp_inst_issued = false;                                              
+            unsigned pc,rpc;                                                            
+            m_simt_stack[warp_id]->get_pdom_stack_top_info(&pc,&rpc);                   
+            SCHED_DPRINTF( "Warp (warp_id %u, dynamic_warp_id %u) has valid instruction (%s)\n",                                                                                
+                           (*iter)->get_warp_id(), (*iter)->get_dynamic_warp_id(),      
+                           ptx_get_insn_str( pc).c_str() );                             
+            if( pI ) {                                                                  
+                assert(valid);                                                          
+                if( pc != pI->pc ) {                                                    
+                    SCHED_DPRINTF( "Warp (warp_id %u, dynamic_warp_id %u) control hazard instruction flush\n",(*iter)->get_warp_id(), (*iter)->get_dynamic_warp_id() );                                                                                
+                        ready_inst = true;                                              
+                        const active_mask_t &active_mask = m_simt_stack[warp_id]->get_active_mask();                                                                            
+                        assert( warp(warp_id).inst_in_pipeline() );                     
+                        if ( (pI->op == LOAD_OP) || (pI->op == STORE_OP) || (pI->op == MEMORY_BARRIER_OP) ) {                                                                   
+                            if( m_mem_out->has_free() ) {                               
+                                m_shader->issue_warp(*m_mem_out,pI,active_mask,warp_id);
+                                issued++;                                               
+                                issued_inst=true;                                       
+                                warp_inst_issued = true;                                
+				iterM++;
+                            }                                                           
+                        } else {                                                        
+                            bool sp_pipe_avail = m_sp_out->has_free();                  
+                            bool sfu_pipe_avail = m_sfu_out->has_free();                
+                            if( sp_pipe_avail && (pI->op != SFU_OP) ) {                 
+                                // always prefer SP pipe for operations that can use both SP and SFU pipelines                                                                  
+                                m_shader->issue_warp(*m_sp_out,pI,active_mask,warp_id); 
+                                issued++;                                               
+                                issued_inst=true;                                       
+                                warp_inst_issued = true;                                
+				iterC++;
+                            } else if ( (pI->op == SFU_OP) || (pI->op == ALU_SFU_OP) ) {
+                                if( sfu_pipe_avail ) {                                  
+                                    m_shader->issue_warp(*m_sfu_out,pI,active_mask,warp_id);                                                                                    
+                                    issued++;                                           
+                                    issued_inst=true;                                   
+                                    warp_inst_issued = true;
+				    iterC++;
+			    		
+				}                                                       
+                            }                        
+		       	}                                 
+                    } else {                                                            
+                        SCHED_DPRINTF( "Warp (warp_id %u, dynamic_warp_id %u) fails scoreboard\n",                                                                              
+                                       (*iter)->get_warp_id(), (*iter)->get_dynamic_warp_id() );                                                                                
+                    }                                                                   
+                }                                                                       
+            } else if( valid ) {                                                        
+               // this case can happen after a return instruction in diverged warp      
+               SCHED_DPRINTF( "Warp (warp_id %u, dynamic_warp_id %u) return from diverged warp flush\n",                                                                        
+                              (*iter)->get_warp_id(), (*iter)->get_dynamic_warp_id() ); 
+               warp(warp_id).set_next_pc(pc);                                           
+               warp(warp_id).ibuffer_flush();                                           
+            }                                                                           
+            if(warp_inst_issued) {                                                      
+                SCHED_DPRINTF( "Warp (warp_id %u, dynamic_warp_id %u) issued %u instructions\n",                                                                                
+                               (*iter)->get_warp_id(),                                  
+                               (*iter)->get_dynamic_warp_id(),                          
+                               issued );                                                
+                do_on_warp_issued( warp_id, issued, iter );                             
+            }                                                                           
+            checked++;                                                                  
+        }       	    
 
 
 	}
