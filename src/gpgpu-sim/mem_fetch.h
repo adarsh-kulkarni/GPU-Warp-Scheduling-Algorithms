@@ -100,6 +100,9 @@ public:
    unsigned get_return_timestamp() const { return m_timestamp2; }
    unsigned get_icnt_receive_time() const { return m_icnt_receive_time; }
 
+   //New method for NMRPB
+   const mem_access_t& get_access() const { return m_access; }
+
    enum mem_access_type get_access_type() const { return m_access.get_type(); }
    const active_mask_t& get_access_warp_mask() const { return m_access.get_warp_mask(); }
    mem_access_byte_mask_t get_access_byte_mask() const { return m_access.get_byte_mask(); }

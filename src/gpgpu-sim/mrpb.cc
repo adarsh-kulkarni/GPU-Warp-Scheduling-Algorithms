@@ -10,7 +10,7 @@ Mrpb::Mrpb(unsigned warpCount){
 	//Total 48 queues
 	for(unsigned i = 0; i < warpCount; i++){
 	
-		mrpbQueue.push_back(std::queue<mem_access_t>());
+		mrpbQueue.push_back(std::queue<mem_fetch>());
 
 	}
 
@@ -19,22 +19,22 @@ Mrpb::Mrpb(unsigned warpCount){
 
 //Fetch a queue entry based on warp ID
 //The warp ID parameter to the function is used to return the warp ID to the calling function
-mem_access_t Mrpb::getMemAccess(unsigned &warp_id){
+mem_fetch* Mrpb::getMemAccess(){
 
 
-	warp_id=0;
+	//warp_id=0;
 	//TO-DO Check if there is an entry and then return
 //	return mrpbQueue[warpId].back();
 
-	for(std::vector<std::queue<mem_access_t>>::const_iterator iter = mrpbQueue.begin(); iter != mrpbQueue.end(); iter++){
+	for(std::vector<std::queue<mem_fetch>>::iterator iter = mrpbQueue.begin(); iter != mrpbQueue.end(); iter++){
 
                 if(!((*iter).empty())){
 
-                        return (*iter).back();
+                        return &((*iter).back());
 
                         }
 
-		++warp_id;
+	//	++warp_id;
                 }
 
 }
@@ -43,7 +43,7 @@ mem_access_t Mrpb::getMemAccess(unsigned &warp_id){
 bool Mrpb::checkEmptyQueue() const{
 
 
-	for(std::vector<std::queue<mem_access_t>>::const_iterator iter = mrpbQueue.begin(); iter != mrpbQueue.end(); iter++){
+	for(std::vector<std::queue<mem_fetch>>::const_iterator iter = mrpbQueue.begin(); iter != mrpbQueue.end(); iter++){
 
                 if(!((*iter).empty())){
 
@@ -57,7 +57,7 @@ bool Mrpb::checkEmptyQueue() const{
 
 
 
-bool Mrpb::pushMemAccess(mem_access_t newMemAccess, unsigned warpId){
+bool Mrpb::pushMemAccess(mem_fetch newMemAccess, unsigned warpId){
 
 /*	if(retQueueSize(warpId) >= 8){
 		
