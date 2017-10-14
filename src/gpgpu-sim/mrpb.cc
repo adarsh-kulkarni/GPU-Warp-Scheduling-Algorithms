@@ -71,6 +71,22 @@ bool Mrpb::pushMemAccess(mem_fetch newMemAccess, unsigned warpId){
 
 }
 
+//Alternative method for popping memory access object. Poops the first mem_fetch object from first non empty queue and not using the warp ID as an index.
+
+void Mrpb::popMemAccess(){
+
+
+	for(std::vector<std::queue<mem_fetch>>::iterator iter = mrpbQueue.begin(); iter != mrpbQueue.end(); iter++){
+
+                if(!((*iter).empty())){
+
+                        (*iter).pop();
+
+                        }
+                }
+ 
+}
+
 
 //method to pop a memory access object
 

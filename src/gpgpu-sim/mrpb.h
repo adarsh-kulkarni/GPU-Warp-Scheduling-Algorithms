@@ -26,6 +26,9 @@ public:
 	//Remove a memory access object from the queue
  	void popMemAccess (unsigned warpId);
 
+	//Remove memory access object from first non-empty queue
+	void popMemAccess ();
+
 	//Return the size of the queue for a given warpid
 	int retQueueSize (unsigned warpId);
 	

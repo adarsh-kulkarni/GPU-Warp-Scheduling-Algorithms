@@ -1334,7 +1334,7 @@ ldst_unit::process_cache_access( cache_t* cache,
         assert( !read_sent );
 	if(cache == m_L1D){
 	
-		m_mrpb->popMemAccess(inst.warp_id());
+		m_mrpb->popMemAccess();
 	}
 	else{
  	
@@ -1360,7 +1360,9 @@ ldst_unit::process_cache_access( cache_t* cache,
 
 	if(cache == m_L1D){
 
-                m_mrpb->popMemAccess(inst.warp_id());
+		//TO-DO:Change the dequeue logic below to remove from first valid entry and not from the warp ID.
+
+                m_mrpb->popMemAccess();
         }
         else{
         
@@ -1501,18 +1503,18 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
        return true;
    if( inst.active_count() == 0 ) 
        return true;
-   if( m_mrpb->checkEmptyQueue() )
-       return true;
+   //if( m_mrpb->checkEmptyQueue() )
+    //   return true;
    //assert( !inst.accessq_empty() );
  
 
-   assert(!m_mrpb->checkEmptyQueue());
+   
 
 	//TODO:Stall in case when the MRPB queue is full for this warp ID
 	for (std::list<mem_access_t>::iterator it=inst.begin(); it !=inst.end();) {
 	
- 				if(m_mrpb->retQueueSize(inst.warp_id()) >= 8)
-					break;
+ 				//if(m_mrpb->retQueueSize(inst.warp_id()) >= 8)
+				//	break;
 
 				mem_fetch *mf = NULL; 
 
@@ -1525,9 +1527,12 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 				//Remove the corresponding entry from m_accessq	
 
 			}
+
+
+    assert(!m_mrpb->checkEmptyQueue());
  
    //Check the size of queue. Should be less than 8
-   assert((m_mrpb->retQueueSize(inst.warp_id())) <= 8);
+   //assert((m_mrpb->retQueueSize(inst.warp_id())) <= 8);
  
  
    //unsigned mem_queue = inst.accessq_count(); 
@@ -1606,8 +1611,8 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
  			
 			mfAccess->set_assoc_flag(true);
            		m_icnt->push(mfAccess); 
-       		        m_mrpb->popMemAccess(instMem.warp_id());
-         
+       		        //m_mrpb->popMemAccess(instMem.warp_id());
+        		m_mrpb->popMemAccess();
            if( instMem.is_load() ) {
               for( unsigned r=0; r < 4; r++)
                   if(instMem.out[r] > 0)
@@ -1885,19 +1890,8 @@ void ldst_unit:: issue( register_set &reg_set )
      // unsigned n_accesses = inst->accessq_count();
      const mem_access_t &access = inst->accessq_back();
      const mem_access_type memory_access = access.get_type();
-     unsigned n_accesses = 0;
-     if(memory_access != GLOBAL_ACC_R || memory_access != GLOBAL_ACC_W || memory_access != LOCAL_ACC_R || memory_access != LOCAL_ACC_W){
-	
-	n_accesses = inst->accessq_count();
-
-
-     }
-     else{
-
-     	n_accesses = m_mrpb->retQueueSize(warp_id); 
-
-     }
-
+    	
+      unsigned n_accesses = inst->accessq_count();
 
       for (unsigned r = 0; r < 4; r++) {
          unsigned reg_id = inst->out[r];
