@@ -10,7 +10,7 @@ Mrpb::Mrpb(unsigned warpCount){
 	//Total 48 queues
 	for(unsigned i = 0; i < warpCount; i++){
 	
-		mrpbQueue.push_back(std::queue<mem_fetch>());
+		mrpbQueue.push_back(std::queue<mem_fetch*>());
 
 	}
 
@@ -26,11 +26,11 @@ mem_fetch* Mrpb::getMemAccess(){
 	//TO-DO Check if there is an entry and then return
 //	return mrpbQueue[warpId].back();
 
-	for(std::vector<std::queue<mem_fetch>>::iterator iter = mrpbQueue.begin(); iter != mrpbQueue.end(); iter++){
+	for(std::vector<std::queue<mem_fetch*>>::iterator iter = mrpbQueue.begin(); iter != mrpbQueue.end(); iter++){
 
                 if(!((*iter).empty())){
 
-                        return &((*iter).back());
+                        return ((*iter).back());
 
                         }
 
@@ -43,7 +43,7 @@ mem_fetch* Mrpb::getMemAccess(){
 bool Mrpb::checkEmptyQueue() const{
 
 
-	for(std::vector<std::queue<mem_fetch>>::const_iterator iter = mrpbQueue.begin(); iter != mrpbQueue.end(); iter++){
+	for(std::vector<std::queue<mem_fetch*>>::const_iterator iter = mrpbQueue.begin(); iter != mrpbQueue.end(); iter++){
 
                 if(!((*iter).empty())){
 
@@ -57,7 +57,7 @@ bool Mrpb::checkEmptyQueue() const{
 
 
 
-bool Mrpb::pushMemAccess(mem_fetch newMemAccess, unsigned warpId){
+bool Mrpb::pushMemAccess(mem_fetch* newMemAccess, unsigned warpId){
 
 /*	if(retQueueSize(warpId) >= 8){
 		
@@ -76,11 +76,13 @@ bool Mrpb::pushMemAccess(mem_fetch newMemAccess, unsigned warpId){
 void Mrpb::popMemAccess(){
 
 
-	for(std::vector<std::queue<mem_fetch>>::iterator iter = mrpbQueue.begin(); iter != mrpbQueue.end(); iter++){
+	for(std::vector<std::queue<mem_fetch*>>::iterator iter = mrpbQueue.begin(); iter != mrpbQueue.end(); iter++){
 
                 if(!((*iter).empty())){
 
                         (*iter).pop();
+
+			break;
 
                         }
                 }

@@ -1520,12 +1520,10 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 
     				mf = m_mf_allocator->alloc(inst,*it);				
 
-				m_mrpb->pushMemAccess(*mf, inst.warp_id());	
+				m_mrpb->pushMemAccess(mf, inst.warp_id());	
 				it = inst.accessq_erase(it); 
 
-			//	delete mf;
-				//Remove the corresponding entry from m_accessq	
-
+		
 			}
 
 

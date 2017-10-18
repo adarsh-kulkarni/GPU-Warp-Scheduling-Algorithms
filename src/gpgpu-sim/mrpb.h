@@ -21,7 +21,7 @@ public:
 	mem_fetch* getMemAccess ();
 
 	//Push a memory access object onto the queue
-	bool pushMemAccess (mem_fetch newMemAccess, unsigned warpId);
+	bool pushMemAccess (mem_fetch* newMemAccess, unsigned warpId);
 
 	//Remove a memory access object from the queue
  	void popMemAccess (unsigned warpId);
@@ -40,7 +40,7 @@ public:
 private:
 	
 	//Queue variable
-	std::vector<std::queue<mem_fetch> > mrpbQueue;
+	std::vector<std::queue<mem_fetch*> > mrpbQueue;
 	
 	
 };
