@@ -26,7 +26,7 @@ class Wrc{
 		unsigned issuedWarp;	
 
 
-		//Signal from the L1 Cache indicating memory resources are depleting :) Exceptionally treasonous :D
+		//Signal from the L1 Cache indicating memory resources are depleting 
 		bool memory_saturation_flag;
 		
 	
