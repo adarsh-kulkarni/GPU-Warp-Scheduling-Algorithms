@@ -59,7 +59,7 @@ bool Mrpb::checkEmptyQueue() const{
 
 bool Mrpb::pushMemAccess(mem_fetch* newMemAccess, unsigned warpId){
 
-/*	if(retQueueSize(warpId) >= 8){
+	/*if(retQueueSize(warpId) >= 8){
 		
 		return true;
 
@@ -71,7 +71,7 @@ bool Mrpb::pushMemAccess(mem_fetch* newMemAccess, unsigned warpId){
 
 }
 
-//Alternative method for popping memory access object. Poops the first mem_fetch object from first non empty queue and not using the warp ID as an index.
+//Alternative method for popping memory access object. Pops the first mem_fetch object from first non empty queue and not using the warp ID as an index.
 
 void Mrpb::popMemAccess(){
 

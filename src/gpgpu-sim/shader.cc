@@ -1363,6 +1363,10 @@ ldst_unit::process_cache_access( cache_t* cache,
 		//TO-DO:Change the dequeue logic below to remove from first valid entry and not from the warp ID.
 
                 m_mrpb->popMemAccess();
+
+		//Need to remove the memory access from the memory access queue as well since the inst object here is different
+
+		inst.accessq_pop_back();
         }
         else{
         
@@ -1374,18 +1378,18 @@ ldst_unit::process_cache_access( cache_t* cache,
 
     }
 
-    	if(cache == m_L1D){
+    	//if(cache == m_L1D){
 
-          	if(!m_mrpb->mrpbQueue_empty(inst.warp_id()));
-			result = BK_CONF;
-        }
-        else{
+         // 	if(!m_mrpb->mrpbQueue_empty(inst.warp_id()));
+	//		result = BK_CONF;
+       // }
+       // else{
         
               
  		if( !inst.accessq_empty() )
         		result = BK_CONF;
 
-        }
+        //}
 
     
    
@@ -1494,14 +1498,13 @@ bool ldst_unit::texture_cycle( warp_inst_t &inst, mem_stage_stall_type &rc_fail,
 
 bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_reason, mem_stage_access_type &access_type )
 {
-
-
-   if( inst.empty() || 
+ 
+  if( m_mrpb->checkEmptyQueue() && ( inst.empty() || 
        ((inst.space.get_type() != global_space) &&
         (inst.space.get_type() != local_space) &&
-        (inst.space.get_type() != param_space_local)) ) 
+        (inst.space.get_type() != param_space_local)) ))
        return true;
-   if( inst.active_count() == 0 ) 
+   if (( inst.active_count() == 0 ) && m_mrpb->checkEmptyQueue() )
        return true;
    //if( m_mrpb->checkEmptyQueue() )
     //   return true;
@@ -1526,6 +1529,26 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 		
 			}
 
+
+   //Get the first memory access from inst
+   //const mem_access_t &access1 = inst.accessq_back();
+
+
+
+  // mem_fetch *mf = m_mf_allocator->alloc(inst,access1); 
+
+
+   //Remove that access from m_accessq only if the access is queued into MRPB Queue
+
+  /* if(!full) {
+
+   	inst.accessq_pop_back();
+
+    }
+
+    else
+
+	return false;*/
 
     assert(!m_mrpb->checkEmptyQueue());
  
@@ -1626,7 +1649,9 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
    }
 
    
-   if(!m_mrpb->mrpbQueue_empty(instMem.warp_id())) {
+   //if(!m_mrpb->mrpbQueue_empty(instMem.warp_id())) {
+
+   if( !inst.accessq_empty()){
  
        stall_cond = COAL_STALL;
 
@@ -1646,10 +1671,10 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
  
    //return m_mrpb->mrpbQueue_empty(inst.warp_id());
    
-   return (m_mrpb->checkEmptyQueue());
+   //return (m_mrpb->checkEmptyQueue());
  
    
-   //return inst.accessq_empty(); 
+   return inst.accessq_empty(); 
 }
 
 
@@ -2149,7 +2174,14 @@ void ldst_unit::cycle()
            m_core->warp_inst_complete(*m_dispatch_reg);
            m_dispatch_reg->clear();
        }
-   } } void shader_core_ctx::register_cta_thread_exit( unsigned cta_num ) {
+   } 
+
+} 
+
+
+
+void shader_core_ctx::register_cta_thread_exit( unsigned cta_num )
+{
    assert( m_cta_status[cta_num] > 0 );
    m_cta_status[cta_num]--;
    if (!m_cta_status[cta_num]) {
