@@ -314,6 +314,7 @@ void warp_inst_t::generate_mem_accesses()
         cache_block_size = m_config->gpgpu_cache_constl1_linesize; 
         break;
 
+    //Memory access coalescing is implemented for all global and local memory access requests
     case global_space: case local_space: case param_space_local:
         if( m_config->gpgpu_coalesce_arch == 13 ) {
            if(isatomic())

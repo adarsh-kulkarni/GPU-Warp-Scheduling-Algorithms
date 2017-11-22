@@ -56,14 +56,14 @@ bool Mrpb::checkEmptyQueue() const{
 
 
 
-
+//Only push the memory access onto queue if the entries in the queue is less than 8
 bool Mrpb::pushMemAccess(mem_fetch* newMemAccess, unsigned warpId){
 
-	/*if(retQueueSize(warpId) >= 8){
+	if(retQueueSize(warpId) >= 8){
 		
 		return true;
 
-	}*/
+	}
 
 	mrpbQueue[warpId].push(newMemAccess);
 

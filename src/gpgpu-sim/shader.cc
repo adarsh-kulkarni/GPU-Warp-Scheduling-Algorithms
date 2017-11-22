@@ -1184,7 +1184,9 @@ void shader_core_ctx::execute()
             m_fu[n]->cycle();
         m_fu[n]->active_lanes_in_pipeline();
         enum pipeline_stage_name_t issue_port = m_issue_port[n];
+	//m_issue_port is the pipeline register between the operand collector and the execution units OC_EX_MEM etc
         register_set& issue_inst = m_pipeline_reg[ issue_port ];
+	//m_pipeline_reg includes the entire set of pipeline registers
         warp_inst_t** ready_reg = issue_inst.get_ready();
         if( issue_inst.has_ready() && m_fu[n]->can_issue( **ready_reg ) ) {
             bool schedule_wb_now = !m_fu[n]->stallable();
@@ -1366,7 +1368,7 @@ ldst_unit::process_cache_access( cache_t* cache,
 
 		//Need to remove the memory access from the memory access queue as well since the inst object here is different
 
-		inst.accessq_pop_back();
+		//inst.accessq_pop_back();
         }
         else{
         
@@ -1404,7 +1406,7 @@ mem_stage_stall_type ldst_unit::process_memory_access_queue( cache_t *cache, war
 
 
     if(inst.accessq_empty())
-	     return result;
+	return result;
 
 
     if( !cache->data_port_free() ) 
@@ -1514,7 +1516,7 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
    
 
 	//TODO:Stall in case when the MRPB queue is full for this warp ID
-	for (std::list<mem_access_t>::iterator it=inst.begin(); it !=inst.end();) {
+	/*for (std::list<mem_access_t>::iterator it=inst.begin(); it !=inst.end();) {
 	
  				//if(m_mrpb->retQueueSize(inst.warp_id()) >= 8)
 				//	break;
@@ -1527,20 +1529,34 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 				it = inst.accessq_erase(it); 
 
 		
-			}
+			}*/
 
 
    //Get the first memory access from inst
-   //const mem_access_t &access1 = inst.accessq_back();
+   const mem_access_t &access1 = inst.accessq_back();
 
 
+   //Check if the FIFO Queue is full for the warp ID. This way I can remove the memory access object from the warp instruction before enqueueing.
+   
+   int queueSize = m_mrpb->retQueueSize(inst.warp_id());
 
-  // mem_fetch *mf = m_mf_allocator->alloc(inst,access1); 
+   if (queueSize >= 8)
 
+	   inst.accessq_pop_back();
+   else
+
+	   return false;
+
+
+   mem_fetch *mf = m_mf_allocator->alloc(inst,access1); 
+
+
+   bool full = m_mrpb->pushMemAccess(mf, inst.warp_id());	
 
    //Remove that access from m_accessq only if the access is queued into MRPB Queue
+   //To-Do : The INST object pushed onto the MRPB Queue will still have the memory access object. So when that object is eventually popped to access the cache, it still has the memory access object.
 
-  /* if(!full) {
+   /*if(!full) {
 
    	inst.accessq_pop_back();
 
@@ -1553,13 +1569,13 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
     assert(!m_mrpb->checkEmptyQueue());
  
    //Check the size of queue. Should be less than 8
-   //assert((m_mrpb->retQueueSize(inst.warp_id())) <= 8);
+   assert((m_mrpb->retQueueSize(inst.warp_id())) <= 8);
  
  
    //unsigned mem_queue = inst.accessq_count(); 
     
    mem_stage_stall_type stall_cond = NO_RC_FAIL;
-  // const mem_access_t &access = inst.accessq_back();
+   //const mem_access_t &access = inst.accessq_back();
   
   
    
@@ -1572,7 +1588,7 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
    
 
 
-   //Get the mem_access object from the first mem_fetch entry
+   //Get the mem_access and warp_inst_t object from the first mem_fetch entry
    const mem_access_t &access = mfAccess->get_access();
 
    warp_inst_t instMem = mfAccess->get_inst(); 
@@ -1902,7 +1918,8 @@ ldst_unit::ldst_unit( mem_fetch_interface *icnt,
           tpc );
 }
 
-void ldst_unit:: issue( register_set &reg_set )
+void ldst_unit::issue( register_set &reg_set )
+//This function will issue the warp instruction (warp_inst_t) from OC_EX_MEM to the LD/ST unit (m_dispatch_reg)
 {
 	warp_inst_t* inst = *(reg_set.get_ready());
 
@@ -1914,7 +1931,7 @@ void ldst_unit:: issue( register_set &reg_set )
      const mem_access_t &access = inst->accessq_back();
      const mem_access_type memory_access = access.get_type();
     	
-      unsigned n_accesses = inst->accessq_count();
+     unsigned n_accesses = inst->accessq_count();
 
       for (unsigned r = 0; r < 4; r++) {
          unsigned reg_id = inst->out[r];
@@ -1963,6 +1980,8 @@ void ldst_unit::writeback()
         }
     }
 
+    //Each cache (L1C, L1T, L1D has it's own MSHR's. The below code checks if any replies have been received for the missed requests for each of the caches. If any MSHR entries have replies, they are written back in the next cycle
+
     unsigned serviced_client = -1; 
     for( unsigned c = 0; m_next_wb.empty() && (c < m_num_writeback_clients); c++ ) {
         unsigned next_client = (c+m_writeback_arb)%m_num_writeback_clients;
@@ -2007,6 +2026,7 @@ void ldst_unit::writeback()
             break;
         case 4: 
             if( m_L1D && m_L1D->access_ready() ) {
+		//Get the next ready MSHR entry. The response is already received for this MSHR entry. Set the instruction as the next writeback instruction through "m_next_wb"
                 mem_fetch *mf = m_L1D->next_access();
                 m_next_wb = mf->get_inst();
                 delete mf;
@@ -2131,6 +2151,10 @@ void ldst_unit::cycle()
       return;
    }
 
+
+   //To-do:Need to figure out this part for the MRPB Implementation. The memory request issued to the L1 Data cache may not be from the instruction issued in this cycle. The pipe_reg holds the current warp instruction.
+   //One possible solution would be to clear the m_dispatch_reg every time there is a global memory request. This may work since the above logic would take care of the case when there are still memory requests pending in the m_accessq.
+   //The logic below checks the pending register writes for the current instruction.
    if( !pipe_reg.empty() ) {
        unsigned warp_id = pipe_reg.warp_id();
        if( pipe_reg.is_load() ) {
