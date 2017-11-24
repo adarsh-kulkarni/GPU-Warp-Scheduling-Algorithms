@@ -454,12 +454,13 @@ class gto_scheduler : public scheduler_unit {
 public:
 	gto_scheduler ( shader_core_stats* stats, shader_core_ctx* shader,
                     Scoreboard* scoreboard, simt_stack** simt,
+		    Wrc* wrc, WST* wst,
                     std::vector<shd_warp_t>* warp,
                     register_set* sp_out,
                     register_set* sfu_out,
                     register_set* mem_out,
                     int id )
-	: scheduler_unit ( stats, shader, scoreboard, simt, warp, sp_out, sfu_out, mem_out, id ){}
+	: scheduler_unit ( stats, shader, scoreboard, simt, wrc, wst, warp, sp_out, sfu_out, mem_out, id ){}
 	virtual ~gto_scheduler () {}
 	virtual void order_warps ();
     virtual void done_adding_supervised_warps() {

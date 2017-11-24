@@ -182,6 +182,8 @@ shader_core_ctx::shader_core_ctx( class gpgpu_sim *gpu,
                                        this,
                                        m_scoreboard,
                                        m_simt_stack,
+				       m_wrc,
+				       m_wst,
                                        &m_warp,
                                        &m_pipeline_reg[ID_OC_SP],
                                        &m_pipeline_reg[ID_OC_SFU],
@@ -846,6 +848,7 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
     result_list_memory.clear();
     typename std::vector< T > temp = input_list;
 
+                T greedy_value = *last_issued_from_input;                               
 
 	   
 	    //Check if the LDST unit has set the memory saturation flag. If set, update the wrc.
@@ -979,7 +982,7 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 }
 
 
-/*void scheduler_unit::cycle()
+void scheduler_unit::cycle()
 {
     SCHED_DPRINTF( "scheduler_unit::cycle()\n" );
     bool valid_inst = false;  // there was one warp with a valid instruction to issue (didn't require flush due to control hazard)
@@ -1073,7 +1076,8 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
                                     issued_inst=true;
                                     warp_inst_issued = true;
                                 }
-                            }                         }
+                            }                        
+		       	}
                     } else {
                         SCHED_DPRINTF( "Warp (warp_id %u, dynamic_warp_id %u) fails scoreboard\n",
                                        (*iter)->get_warp_id(), (*iter)->get_dynamic_warp_id() );
@@ -1120,9 +1124,8 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
     else if( !issued_inst ) 
         m_stats->shader_cycle_distro[2]++; // pipeline stalled
 }
-*/
 
-void scheduler_unit::cycle()
+/*void scheduler_unit::cycle()
 {
     SCHED_DPRINTF( "scheduler_unit::cycle()\n" );
     bool valid_inst = false;  // there was one warp with a valid instruction to issue (didn't require flush due to control hazard)
@@ -1393,7 +1396,7 @@ void scheduler_unit::cycle()
         m_stats->shader_cycle_distro[1]++; // waiting for RAW hazards (possibly due to memory) 
     else if( !issued_inst ) 
         m_stats->shader_cycle_distro[2]++; // pipeline stalled
-}
+}*/
 
 void scheduler_unit::do_on_warp_issued( unsigned warp_id,
                                         unsigned num_issued,
@@ -1451,10 +1454,9 @@ void mascar_scheduler::order_warps()
 }
 
 
-void
-two_level_active_scheduler::do_on_warp_issued( unsigned warp_id,
+void two_level_active_scheduler::do_on_warp_issued( unsigned warp_id,
                                                unsigned num_issued,
-                                               const std::vector< shd_warp_t* >::const_iterator& prioritized_iter )
+  const std::vector< shd_warp_t* >::const_iterator& prioritized_iter )
 {
     scheduler_unit::do_on_warp_issued( warp_id, num_issued, prioritized_iter );
     if ( SCHEDULER_PRIORITIZATION_LRR == m_inner_level_prioritization ) {
