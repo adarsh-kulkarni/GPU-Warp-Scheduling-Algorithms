@@ -852,7 +852,7 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 
 	   
 	    //Check if the LDST unit has set the memory saturation flag. If set, update the wrc.
-	    if(m_shader->m_ldst_unit->retSatFlag()){
+	   /*if(m_shader->m_ldst_unit->retSatFlag()){
 		m_wrc->setSatFlag(true);
 	    }
 	
@@ -860,7 +860,7 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 		//TO-DO : Shouldnt this flag be false by default and I would just have to reset it somewhere ?
 		m_wrc->setSatFlag(false);
 
-	    }
+	    }*/
 
 	
 	 T greedy_value = NULL; 
@@ -870,21 +870,21 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 		T greedy_value = *last_issued_from_input;
 
 
-		if(!(greedy_value)->ibuffer_empty()){
+		if(!((greedy_value)->ibuffer_empty())){
 
 					const warp_inst_t *inst = (greedy_value)->ibuffer_next_inst();
 			
 					if(inst->op==LOAD_OP || inst->op==STORE_OP || inst->op==MEMORY_BARRIER_OP){
 
 						//Set the memory operation bit in the WST based on the above information.
-						m_wst->setMemoryBit(true, (greedy_value)->get_warp_id());
+					//	m_wst->setMemoryBit(true, (greedy_value)->get_warp_id());
 
 
 						result_list_memory.push_back( greedy_value );	
 						
 						
 			
-						if(m_wrc->retSatFlag()) {
+					/*	if(m_wrc->retSatFlag()) {
 
 							//Find which warp is given exclusive ownership and access to the LSU (Owner warp ID)
 
@@ -898,7 +898,7 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 				
 							}
 			
-						}
+						}*/
 
 					}
 					else{
@@ -920,14 +920,14 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 	
 	    if ( *iter != greedy_value ) {
 
-		if(!(*iter)->ibuffer_empty()){
+		if(!((*iter)->ibuffer_empty())){
 
 			const warp_inst_t *inst = (*iter)->ibuffer_next_inst();
 	
 			if(inst->op==LOAD_OP || inst->op==STORE_OP || inst->op==MEMORY_BARRIER_OP){
 
 				//Set the memory operation bit in the WST based on the above information.
-				m_wst->setMemoryBit(true, (*iter)->get_warp_id());
+				//m_wst->setMemoryBit(true, (*iter)->get_warp_id());
 
 
 
@@ -936,7 +936,7 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 				
 				//This warp's next instruction needs to access memory. Now check if the memory saturation flag is set and check if this warp is the owner warp. If it is not the owner warp and the sat flag is set then set the stall bit.
 	
-				if(m_wrc->retSatFlag()) {
+				/*if(m_wrc->retSatFlag()) {
 
 					//Find which warp is given exclusive ownership and access to the LSU (Owner warp ID)
 
@@ -950,7 +950,7 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 		
 					}
 	
-				}
+				}*/
 
 			}
 			else{
