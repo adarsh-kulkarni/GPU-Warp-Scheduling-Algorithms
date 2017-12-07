@@ -1540,7 +1540,8 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
    
    int queueSize = m_mrpb->retQueueSize(inst.warp_id());
 
-   if (queueSize >= 8)
+    
+   if (queueSize < 8)
 
 	   inst.accessq_pop_back();
    else
@@ -1586,12 +1587,12 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
    mem_fetch* mfAccess = m_mrpb->getMemAccess();
 
    
-
-
    //Get the mem_access and warp_inst_t object from the first mem_fetch entry
    const mem_access_t &access = mfAccess->get_access();
 
    warp_inst_t instMem = mfAccess->get_inst(); 
+
+   const warp_inst_t instCheck = mfAccess->get_inst();
 
    bool bypassL1D = false; 
    if ( CACHE_GLOBAL == inst.cache_op || (m_L1D == NULL) ) {
@@ -1674,6 +1675,11 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
    }
 
 
+   const warp_inst_t* inst2 = &instMem;
+
+
+
+
    if (stall_cond != NO_RC_FAIL) {
       stall_reason = stall_cond;
       bool iswrite = instMem.is_store();
@@ -1688,9 +1694,48 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
    //return m_mrpb->mrpbQueue_empty(inst.warp_id());
    
    //return (m_mrpb->checkEmptyQueue());
+
+   bool done = inst.accessq_empty();
+
+   if(!done){
+
+	   return false;
+
+   }
+   else {
+
+	unsigned warp_id = instMem.warp_id();
+	bool pending_requests=false;
+               for( unsigned r=0; r<4; r++ ) {
+                   unsigned reg_id = instMem.out[r];
+                   if( reg_id > 0 ) {
+                       if( m_pending_writes[warp_id].find(reg_id) != m_pending_writes[warp_id].end() ) {
+                           if ( m_pending_writes[warp_id][reg_id] > 0 ) {
+                               pending_requests=true;
+                               break;
+                           } else {
+                               // this instruction is done already
+                               m_pending_writes[warp_id].erase(reg_id); 
+                           }
+                       }
+                   }
+               }
+               if( !pending_requests ) {
+                   m_core->warp_inst_complete(instMem);
+                   m_scoreboard->releaseRegisters(inst2);
+               }
+               m_core->dec_inst_in_pipeline(warp_id);
+               instMem.clear();
+
+	        
+
+   }
+
+   return true;
  
    
-   return inst.accessq_empty(); 
+   //return inst.accessq_empty();    
+
 }
 
 
@@ -2164,11 +2209,14 @@ void ldst_unit::cycle()
                    move_warp(m_pipeline_reg[2],m_dispatch_reg);
                    m_dispatch_reg->clear();
                }
-           } else {
+           } else if(pipe_reg.space.get_type() != global_space || pipe_reg.space.get_type() != local_space || pipe_reg.space.get_type() != param_space_local){
                //if( pipe_reg.active_count() > 0 ) {
                //    if( !m_operand_collector->writeback(pipe_reg) ) 
                //        return;
                //} 
+	       
+
+		//The same logic has been pasted in memory_cycle method, but memory_cycle works only for the global memory requests. Whereas here the request may be constant ot texture memory request.
 
                bool pending_requests=false;
                for( unsigned r=0; r<4; r++ ) {
