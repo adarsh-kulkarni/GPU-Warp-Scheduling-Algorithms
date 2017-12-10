@@ -1633,7 +1633,7 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
        //Bypass L1D and send the request across the interconnect
     
 
-       if(assocStall == true && (access.get_type() == GLOBAL_ACC_R)){
+       if(assocStall == true && (access.get_type() == GLOBAL_ACC_R || access.get_type() == LOCAL_ACC_R)){
 
 
        unsigned control_size = instMem.is_store() ? WRITE_PACKET_SIZE : READ_PACKET_SIZE;
@@ -1730,6 +1730,8 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 	        
 
    }
+
+   inst.clear();
 
    return true;
  
@@ -2209,7 +2211,7 @@ void ldst_unit::cycle()
                    move_warp(m_pipeline_reg[2],m_dispatch_reg);
                    m_dispatch_reg->clear();
                }
-           } else if(pipe_reg.space.get_type() != global_space || pipe_reg.space.get_type() != local_space || pipe_reg.space.get_type() != param_space_local){
+           } else if(pipe_reg.space.get_type() != global_space && pipe_reg.space.get_type() != local_space && pipe_reg.space.get_type() != param_space_local){
                //if( pipe_reg.active_count() > 0 ) {
                //    if( !m_operand_collector->writeback(pipe_reg) ) 
                //        return;
