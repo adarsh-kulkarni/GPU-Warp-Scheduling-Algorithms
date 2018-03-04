@@ -1337,6 +1337,8 @@ ldst_unit::process_cache_access( cache_t* cache,
 	if(cache == m_L1D){
 	
 		m_mrpb->popMemAccess();
+
+		inst.accessq_pop_back();
 	}
 	else{
  	
@@ -1355,7 +1357,7 @@ ldst_unit::process_cache_access( cache_t* cache,
         result = COAL_STALL;
         assert( !read_sent );
         assert( !write_sent );
-        delete mf;
+        //delete mf;
     } else {
         assert( status == MISS || status == HIT_RESERVED );
         //inst.clear_active( access.get_warp_mask() ); // threads in mf writeback when mf returns
@@ -1365,6 +1367,8 @@ ldst_unit::process_cache_access( cache_t* cache,
 		//TO-DO:Change the dequeue logic below to remove from first valid entry and not from the warp ID.
 
                 m_mrpb->popMemAccess();
+
+		inst.accessq_pop_back();
 
 		//Need to remove the memory access from the memory access queue as well since the inst object here is different
 
@@ -1432,8 +1436,8 @@ mem_stage_stall_type ldst_unit::process_memory_access_queue( cache_t *cache, war
 mem_stage_stall_type ldst_unit::process_l1d_memory_access_queue( cache_t *cache, warp_inst_t &inst, bool &assocStall, mem_fetch *mfAccess)
 {
     mem_stage_stall_type result = NO_RC_FAIL;
-   /* if( inst.accessq_empty() )
-        return result;*/
+    if( inst.accessq_empty() )
+        return result;
 
     if( m_mrpb->checkEmptyQueue() )
 	return result;
@@ -1533,26 +1537,50 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 
 
    //Get the first memory access from inst
-   const mem_access_t &access1 = inst.accessq_back();
+   //const mem_access_t &access1 = inst.accessq_back();
+
+   //Test
+
+   unsigned warpID = inst.warp_id();
+
+   const mem_access_t access2 = inst.accessq_back();
+
+   unsigned count = inst.accessq_count();
+
+   
 
 
    //Check if the FIFO Queue is full for the warp ID. This way I can remove the memory access object from the warp instruction before enqueueing.
    
    int queueSize = m_mrpb->retQueueSize(inst.warp_id());
 
-    
-   if (queueSize < 8)
+   bool iswrite = inst.is_store(); 
+
+   
+   /*if (queueSize < 8)
 
 	   inst.accessq_pop_back();
-   else
+   else{
 
+	   if (inst.space.is_local())                                                     
+         	access_type = (iswrite)?L_MEM_ST:L_MEM_LD;                                     
+      	   else                                                                              
+         	access_type = (iswrite)?G_MEM_ST:G_MEM_LD; 
+
+	   stall_reason = MRPB_QUEUE_FULL;
 	   return false;
 
+       }*/
 
-   mem_fetch *mf = m_mf_allocator->alloc(inst,access1); 
+   //TO-DO : If Queue Size == 8, then take out the access from the queue and send it to the cache. Do not enqueue the new access into the cache immediately. Once the request returns from the memory access with a status then put the new request into the queue.
+
+   mem_fetch *mf = m_mf_allocator->alloc(inst,access2); 
 
 
-   bool full = m_mrpb->pushMemAccess(mf, inst.warp_id());	
+   bool full = m_mrpb->pushMemAccess(mf, inst.warp_id());
+
+   inst.accessq_pop_back();
+
 
    //Remove that access from m_accessq only if the access is queued into MRPB Queue
    //To-Do : The INST object pushed onto the MRPB Queue will still have the memory access object. So when that object is eventually popped to access the cache, it still has the memory access object.
@@ -1570,7 +1598,7 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
     assert(!m_mrpb->checkEmptyQueue());
  
    //Check the size of queue. Should be less than 8
-   assert((m_mrpb->retQueueSize(inst.warp_id())) <= 8);
+   //assert((m_mrpb->retQueueSize(inst.warp_id())) <= 8);
  
  
    //unsigned mem_queue = inst.accessq_count(); 
@@ -1588,9 +1616,9 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 
    
    //Get the mem_access and warp_inst_t object from the first mem_fetch entry
-   const mem_access_t &access = mfAccess->get_access();
+   const mem_access_t access = mfAccess->get_access();
 
-   warp_inst_t instMem = mfAccess->get_inst(); 
+   warp_inst_t instMem = mfAccess->get_inst();  
 
    const warp_inst_t instCheck = mfAccess->get_inst();
 
@@ -1695,13 +1723,14 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
    
    //return (m_mrpb->checkEmptyQueue());
 
-   bool done = inst.accessq_empty();
+   bool done = instMem.accessq_empty();
 
    if(!done){
 
 	   return false;
 
    }
+
    else {
 
 	unsigned warp_id = instMem.warp_id();
@@ -1731,12 +1760,12 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 
    }
 
-   inst.clear();
+   //inst.clear();
 
-   return true;
+   //return true;
  
    
-   //return inst.accessq_empty();    
+   return inst.accessq_empty();    
 
 }
 
@@ -2201,7 +2230,7 @@ void ldst_unit::cycle()
 
    //To-do:Need to figure out this part for the MRPB Implementation. The memory request issued to the L1 Data cache may not be from the instruction issued in this cycle. The pipe_reg holds the current warp instruction.
    //One possible solution would be to clear the m_dispatch_reg every time there is a global memory request. This may work since the above logic would take care of the case when there are still memory requests pending in the m_accessq.
-   //The logic below checks the pending register writes for the current instruction.
+   //The logic below checks the pending register writes for the current instruction for non global memory accesses
    if( !pipe_reg.empty() ) {
        unsigned warp_id = pipe_reg.warp_id();
        if( pipe_reg.is_load() ) {
@@ -2211,7 +2240,8 @@ void ldst_unit::cycle()
                    move_warp(m_pipeline_reg[2],m_dispatch_reg);
                    m_dispatch_reg->clear();
                }
-           } else if(pipe_reg.space.get_type() != global_space && pipe_reg.space.get_type() != local_space && pipe_reg.space.get_type() != param_space_local){
+           } else if(pipe_reg.space.get_type() != global_space && pipe_reg.space.get_type() != local_space && pipe_reg.space.get_type() != param_space_local)
+	   {
                //if( pipe_reg.active_count() > 0 ) {
                //    if( !m_operand_collector->writeback(pipe_reg) ) 
                //        return;
@@ -2603,6 +2633,7 @@ void ldst_unit::print(FILE *fout) const
         case WB_ICNT_RC_FAIL: fprintf(fout,"WB_ICNT_RC_FAIL"); break;
         case WB_CACHE_RSRV_FAIL: fprintf(fout,"WB_CACHE_RSRV_FAIL"); break;
         case N_MEM_STAGE_STALL_TYPE: fprintf(fout,"N_MEM_STAGE_STALL_TYPE"); break;
+	case MRPB_QUEUE_FULL:	fprintf(fout,"MRPB_QUEUE_FULL");break;
         default: abort();
         }
         fprintf(fout,"\n");
