@@ -674,6 +674,7 @@ void shader_core_ctx::fetch()
 void shader_core_ctx::func_exec_inst( warp_inst_t &inst )
 {
     execute_warp_inst_t(inst);
+    unsigned wid = inst.warp_id();
     if( inst.is_load() || inst.is_store() )
         inst.generate_mem_accesses();
 
@@ -1514,12 +1515,10 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
        return true;
    //if( m_mrpb->checkEmptyQueue() )
     //   return true;
-   //assert( !inst.accessq_empty() );
- 
-
-   
+    
 
 	//TODO:Stall in case when the MRPB queue is full for this warp ID
+	//inst.accessq_pop_back();
 	/*for (std::list<mem_access_t>::iterator it=inst.begin(); it !=inst.end();) {
 	
  				//if(m_mrpb->retQueueSize(inst.warp_id()) >= 8)
@@ -1534,22 +1533,17 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 
 		
 			}*/
+ 
 
-
-   //Get the first memory access from inst
-   //const mem_access_t &access1 = inst.accessq_back();
-
-   //Test
-
-   unsigned warpID = inst.warp_id();
 
    const mem_access_t access2 = inst.accessq_back();
 
+   if(!inst.empty() && ((access2.get_type() == GLOBAL_ACC_R) || (access2.get_type() == GLOBAL_ACC_W) || (access2.get_type() == LOCAL_ACC_R) || (access2.get_type() == LOCAL_ACC_W))){
+
+
    unsigned count = inst.accessq_count();
 
-   
-
-
+   unsigned warpID = inst.warp_id(); 
    //Check if the FIFO Queue is full for the warp ID. This way I can remove the memory access object from the warp instruction before enqueueing.
    
    int queueSize = m_mrpb->retQueueSize(inst.warp_id());
@@ -1581,6 +1575,8 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 
    inst.accessq_pop_back();
 
+   }
+
 
    //Remove that access from m_accessq only if the access is queued into MRPB Queue
    //To-Do : The INST object pushed onto the MRPB Queue will still have the memory access object. So when that object is eventually popped to access the cache, it still has the memory access object.
@@ -1605,11 +1601,6 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
     
    mem_stage_stall_type stall_cond = NO_RC_FAIL;
    //const mem_access_t &access = inst.accessq_back();
-  
-  
-   
-   //const mem_access_t &access = m_mrpb->getMemAccess(); 
-
 
    //Get a new mem_fetch access to send to the cache from the MRPB Queue
    mem_fetch* mfAccess = m_mrpb->getMemAccess();
@@ -1661,7 +1652,7 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
        //Bypass L1D and send the request across the interconnect
     
 
-       if(assocStall == true && (access.get_type() == GLOBAL_ACC_R || access.get_type() == LOCAL_ACC_R)){
+      /* if(assocStall == true && (access.get_type() == GLOBAL_ACC_R || access.get_type() == LOCAL_ACC_R)){
 
 
        unsigned control_size = instMem.is_store() ? WRITE_PACKET_SIZE : READ_PACKET_SIZE;
@@ -1688,13 +1679,11 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 					       	
 	}
 
-    } 
+    }*/
        
 
    }
-
-   
-   //if(!m_mrpb->mrpbQueue_empty(instMem.warp_id())) {
+ 
 
    if( !inst.accessq_empty()){
  
@@ -1716,22 +1705,19 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
       else 
          access_type = (iswrite)?G_MEM_ST:G_MEM_LD;
    }
-
-  
- 
-   //return m_mrpb->mrpbQueue_empty(inst.warp_id());
    
-   //return (m_mrpb->checkEmptyQueue());
 
    bool done = instMem.accessq_empty();
 
-   if(!done){
+   /*if(!done){
 
 	   return false;
 
    }
 
-   else {
+   else {*/
+
+   if(done){
 
 	unsigned warp_id = instMem.warp_id();
 	bool pending_requests=false;
@@ -1753,16 +1739,25 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
                    m_core->warp_inst_complete(instMem);
                    m_scoreboard->releaseRegisters(inst2);
                }
-               m_core->dec_inst_in_pipeline(warp_id);
-               instMem.clear();
+
+	       //TO-DO: The pipeline instruction decrementing logic below needs to be changed. Need to data structure to hold the number of memory requests belonging to each warp based on the instruction issued. The logic below fails when there is memory access belonging to more than one instruction in the same queue.
+
+	       if(m_mrpb->mrpbQueue_empty(warp_id))
+               		m_core->dec_inst_in_pipeline(warp_id);
+               //instMem.clear();
+	}
 
 	        
 
-   }
+  // }
+
+   if(inst.accessq_empty())
+	   inst.clear();
 
    //inst.clear();
 
    //return true;
+
  
    
    return inst.accessq_empty();    
@@ -2185,10 +2180,10 @@ void ldst_unit::cycle()
                }
 
 		//Bypassing condition
-	       if(mf->get_assoc_flag() == true){
+	       /*if(mf->get_assoc_flag() == true){
 			bypassL1D = true;
 		
-		}
+		}*/
 
                if( bypassL1D ) {
                    if ( m_next_global == NULL ) {
