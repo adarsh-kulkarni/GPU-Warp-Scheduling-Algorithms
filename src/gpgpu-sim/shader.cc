@@ -1352,8 +1352,8 @@ ldst_unit::process_cache_access( cache_t* cache,
                 if (inst.out[r] > 0)
                     m_pending_writes[inst.warp_id()][inst.out[r]]--; 
         }
-        if( !write_sent ) 
-            delete mf;
+        //if( !write_sent ) 
+            //delete mf;
     } else if ( status == RESERVATION_FAIL ) {
         result = COAL_STALL;
         assert( !read_sent );
@@ -1516,7 +1516,7 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
    //if( m_mrpb->checkEmptyQueue() )
     //   return true;
     
-
+    
 	//TODO:Stall in case when the MRPB queue is full for this warp ID
 	//inst.accessq_pop_back();
 	/*for (std::list<mem_access_t>::iterator it=inst.begin(); it !=inst.end();) {
@@ -1535,8 +1535,9 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 			}*/
  
 
-
    const mem_access_t access2 = inst.accessq_back();
+
+   unsigned uidn = access2.retuid();
 
    if(!inst.empty() && ((access2.get_type() == GLOBAL_ACC_R) || (access2.get_type() == GLOBAL_ACC_W) || (access2.get_type() == LOCAL_ACC_R) || (access2.get_type() == LOCAL_ACC_W))){
 
@@ -1565,6 +1566,7 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 	   return false;
 
        }*/
+	 
 
    //TO-DO : If Queue Size == 8, then take out the access from the queue and send it to the cache. Do not enqueue the new access into the cache immediately. Once the request returns from the memory access with a status then put the new request into the queue.
 
@@ -1664,7 +1666,7 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 	}
         else {
 
-			//mem_fetch *mf = m_mf_allocator->alloc(inst,access);
+		y//mem_fetch *mf = m_mf_allocator->alloc(inst,access);
  			
 			mfAccess->set_assoc_flag(true);
            		m_icnt->push(mfAccess); 
@@ -1740,9 +1742,9 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
                    m_scoreboard->releaseRegisters(inst2);
                }
 
-	       //TO-DO: The pipeline instruction decrementing logic below needs to be changed. Need to data structure to hold the number of memory requests belonging to each warp based on the instruction issued. The logic below fails when there is memory access belonging to more than one instruction in the same queue.
+	       //TO-DO: The pipeline instruction decrementing logic below needs to be changed. Need to data structure to hold the number of memory requests belonging to each warp based on the instruction issued. The logic below fails when there is memory access belonging to more than one instruction in the same queue. This logic should only be applied when a memory access is sent from the MRPB queue to the cache & not when the mf access is enqueued to the MRPB Queue.
 
-	       if(m_mrpb->mrpbQueue_empty(warp_id))
+	    	//if(m_mrpb->checkEmptyQueue(warp_id())
                		m_core->dec_inst_in_pipeline(warp_id);
                //instMem.clear();
 	}
@@ -2243,7 +2245,7 @@ void ldst_unit::cycle()
                //} 
 	       
 
-		//The same logic has been pasted in memory_cycle method, but memory_cycle works only for the global memory requests. Whereas here the request may be constant ot texture memory request.
+		//The same logic has been pasted in memory_cycle method, but memory_cycle works only for the global memory requests. Whereas here the request may be constant or texture memory request.
 
                bool pending_requests=false;
                for( unsigned r=0; r<4; r++ ) {

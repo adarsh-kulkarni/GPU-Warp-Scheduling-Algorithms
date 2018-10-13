@@ -646,6 +646,8 @@ public:
    enum mem_access_type get_type() const { return m_type; }
    mem_access_byte_mask_t get_byte_mask() const { return m_byte_mask; }
 
+   unsigned retuid() const { return m_uid; }
+
    void print(FILE *fp) const
    {
        fprintf(fp,"addr=0x%llx, %s, size=%u, ", m_addr, m_write?"store":"load ", m_req_size );
