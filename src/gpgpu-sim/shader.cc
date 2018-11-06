@@ -1381,8 +1381,6 @@ ldst_unit::process_cache_access( cache_t* cache,
 
         }
 
-
-
     }
 
     	//if(cache == m_L1D){
@@ -1506,10 +1504,7 @@ bool ldst_unit::texture_cycle( warp_inst_t &inst, mem_stage_stall_type &rc_fail,
 bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_reason, mem_stage_access_type &access_type )
 {
  
-  if( m_mrpb->checkEmptyQueue() && ( inst.empty() || 
-       ((inst.space.get_type() != global_space) &&
-        (inst.space.get_type() != local_space) &&
-        (inst.space.get_type() != param_space_local)) ))
+    if( m_mrpb->checkEmptyQueue() && (inst.empty() || ((inst.space.get_type() != global_space) && (inst.space.get_type() != local_space) && (inst.space.get_type() != param_space_local))))
        return true;
    if (( inst.active_count() == 0 ) && m_mrpb->checkEmptyQueue() )
        return true;
@@ -1533,14 +1528,23 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 
 		
 			}*/
+
+   if(inst.accessq_empty()){
+	   goto skip;
+
+   }
+
+   else {
  
 
    const mem_access_t access2 = inst.accessq_back();
 
-   unsigned uidn = access2.retuid();
+   //unsigned uidn = access2.retuid();
 
    if(!inst.empty() && ((access2.get_type() == GLOBAL_ACC_R) || (access2.get_type() == GLOBAL_ACC_W) || (access2.get_type() == LOCAL_ACC_R) || (access2.get_type() == LOCAL_ACC_W))){
 
+   //if(inst.accessq_empty())
+	 //goto skip;
 
    unsigned count = inst.accessq_count();
 
@@ -1579,6 +1583,8 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 
    }
 
+   }
+
 
    //Remove that access from m_accessq only if the access is queued into MRPB Queue
    //To-Do : The INST object pushed onto the MRPB Queue will still have the memory access object. So when that object is eventually popped to access the cache, it still has the memory access object.
@@ -1593,7 +1599,7 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 
 	return false;*/
 
-    assert(!m_mrpb->checkEmptyQueue());
+    skip:assert(!m_mrpb->checkEmptyQueue());
  
    //Check the size of queue. Should be less than 8
    //assert((m_mrpb->retQueueSize(inst.warp_id())) <= 8);
@@ -1612,6 +1618,10 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
    const mem_access_t access = mfAccess->get_access();
 
    warp_inst_t instMem = mfAccess->get_inst();  
+
+   unsigned widn = instMem.warp_id();
+
+   address_type pcn = instMem.pc;
 
    const warp_inst_t instCheck = mfAccess->get_inst();
 
@@ -1654,7 +1664,7 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
        //Bypass L1D and send the request across the interconnect
     
 
-      /* if(assocStall == true && (access.get_type() == GLOBAL_ACC_R || access.get_type() == LOCAL_ACC_R)){
+       if(assocStall == true && (access.get_type() == GLOBAL_ACC_R || access.get_type() == LOCAL_ACC_R)){
 
 
        unsigned control_size = instMem.is_store() ? WRITE_PACKET_SIZE : READ_PACKET_SIZE;
@@ -1666,12 +1676,13 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 	}
         else {
 
-		y//mem_fetch *mf = m_mf_allocator->alloc(inst,access);
+		//mem_fetch *mf = m_mf_allocator->alloc(inst,access);
  			
 			mfAccess->set_assoc_flag(true);
            		m_icnt->push(mfAccess); 
        		        //m_mrpb->popMemAccess(instMem.warp_id());
         		m_mrpb->popMemAccess();
+			instMem.accessq_pop_back();
            if( instMem.is_load() ) {
               for( unsigned r=0; r < 4; r++)
                   if(instMem.out[r] > 0)
@@ -1681,7 +1692,7 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 					       	
 	}
 
-    }*/
+    }
        
 
    }
@@ -1752,9 +1763,14 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 	        
 
   // }
+  
+	  if((inst.space.get_type() == global_space) || (inst.space.get_type() == local_space) || (inst.space.get_type() == param_space_local)){
+	  
 
-   if(inst.accessq_empty())
-	   inst.clear();
+   	if(inst.accessq_empty())
+	   	inst.clear();
+
+	}
 
    //inst.clear();
 
@@ -2182,10 +2198,10 @@ void ldst_unit::cycle()
                }
 
 		//Bypassing condition
-	       /*if(mf->get_assoc_flag() == true){
+	        if(mf->get_assoc_flag() == true){
 			bypassL1D = true;
 		
-		}*/
+		}
 
                if( bypassL1D ) {
                    if ( m_next_global == NULL ) {
@@ -2208,6 +2224,13 @@ void ldst_unit::cycle()
    if( m_L1D ) m_L1D->cycle();
 
    warp_inst_t &pipe_reg = *m_dispatch_reg;
+
+   unsigned widp = 0;
+
+
+   if(!(pipe_reg.empty()))
+   	widp = pipe_reg.warp_id();
+
    enum mem_stage_stall_type rc_fail = NO_RC_FAIL;
    mem_stage_access_type type;
    bool done = true;
@@ -2237,7 +2260,7 @@ void ldst_unit::cycle()
                    move_warp(m_pipeline_reg[2],m_dispatch_reg);
                    m_dispatch_reg->clear();
                }
-           } else if(pipe_reg.space.get_type() != global_space && pipe_reg.space.get_type() != local_space && pipe_reg.space.get_type() != param_space_local)
+           } else if((pipe_reg.space.get_type() != global_space) && (pipe_reg.space.get_type() != local_space) && (pipe_reg.space.get_type() != param_space_local))
 	   {
                //if( pipe_reg.active_count() > 0 ) {
                //    if( !m_operand_collector->writeback(pipe_reg) ) 

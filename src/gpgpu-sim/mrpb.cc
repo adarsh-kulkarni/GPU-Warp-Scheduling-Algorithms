@@ -18,16 +18,14 @@ Mrpb::Mrpb(unsigned warpCount){
 
 
 //Destructor Implementation
-/*~Mrpb::Mrpb(){
+Mrpb::~Mrpb(){
+
 
 
 	
 
-
-
-
 }
-*/
+
 
 //Fetch a queue entry based on warp ID
 //The warp ID parameter to the function is used to return the warp ID to the calling function
@@ -42,7 +40,7 @@ mem_fetch* Mrpb::getMemAccess(){
 
                 if(!((*iter).empty())){
 
-                        return ((*iter).back());
+                        return ((*iter).front());
 
                         }
 
