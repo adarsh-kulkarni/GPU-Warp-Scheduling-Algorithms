@@ -852,7 +852,7 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 
 	   
 	    //Check if the LDST unit has set the memory saturation flag. If set, update the wrc.
-	   /*if(m_shader->m_ldst_unit->retSatFlag()){
+	   if(m_shader->m_ldst_unit->retSatFlag()){
 		m_wrc->setSatFlag(true);
 	    }
 	
@@ -860,10 +860,10 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 		//TO-DO : Shouldnt this flag be false by default and I would just have to reset it somewhere ?
 		m_wrc->setSatFlag(false);
 
-	    }*/
+	    }
 
 	
-	 T greedy_value = NULL; 
+	 greedy_value = NULL; 
 
 	
 	if(*last_issued_from_input != NULL) {
@@ -971,12 +971,12 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 
 
 
-	typename std::vector< T > temp_mem = result_list_memory;
-	typename std::vector< T > temp_comp = result_list_compute;
+	//typename std::vector< T > temp_mem = result_list_memory;
+	//typename std::vector< T > temp_comp = result_list_compute;
 
 
-	std::sort( temp_mem.begin(), temp_mem.end(), priority_func );	
-	std::sort( temp_comp.begin(), temp_comp.end(), priority_func );
+	std::sort( result_list_memory.begin(), result_list_memory.end(), priority_func );	
+	std::sort( result_list_compute.begin(), result_list_compute.end(), priority_func );
 	 
 
 }
@@ -990,13 +990,47 @@ void scheduler_unit::cycle()
     bool issued_inst = false; // of these we issued one
 
     order_warps();
-    for ( std::vector< shd_warp_t* >::const_iterator iter = m_next_cycle_prioritized_warps.begin();
-          iter != m_next_cycle_prioritized_warps.end();
-          iter++ ) {
-        // Don't consider warps that are not yet valid
-        if ( (*iter) == NULL || (*iter)->done_exit() ) {
+
+    std::vector< shd_warp_t* >::const_iterator comp = compute_ready_warps.begin();
+    std::vector< shd_warp_t* >::const_iterator mem = memory_ready_warps.begin();
+ 
+    bool memFlag = false;
+    bool compFlag = false;
+
+    while ( comp != compute_ready_warps.end() || mem != memory_ready_warps.end() ){ 
+
+	memFlag, compFlag = false;
+        if ( ((*comp) == NULL || (*comp)->done_exit()) && (((*mem) == NULL) || (*mem)->done_exit()) ) {
+
+
+	    if( comp != compute_ready_warps.end())
+			++comp;
+
+
+	    if( mem != memory_ready_warps.end())
+		    ++mem;
+
             continue;
         }	
+
+	std::vector< shd_warp_t* >::const_iterator iter;
+
+	if(comp == compute_ready_warps.end() || (*comp)->done_exit())
+	{
+	
+		iter=mem;
+		memFlag = true;
+
+	
+	}
+	else
+	{
+		iter=comp;
+		compFlag = true;
+	
+	}
+
+
 	
         SCHED_DPRINTF( "Testing (warp_id %u, dynamic_warp_id %u)\n",
                        (*iter)->get_warp_id(), (*iter)->get_dynamic_warp_id() );
@@ -1049,6 +1083,13 @@ void scheduler_unit::cycle()
                                 issued++;
                                 issued_inst=true;
                                 warp_inst_issued = true;
+
+				if(mem != memory_ready_warps.end()){
+
+				++mem;
+				memFlag = false;
+
+				}
                             }
 
 
@@ -1069,6 +1110,224 @@ void scheduler_unit::cycle()
                                 issued++;
                                 issued_inst=true;
                                 warp_inst_issued = true;
+
+				if(comp != compute_ready_warps.end()){
+
+				++comp;
+				compFlag = false;
+
+				}
+                            } else if ( (pI->op == SFU_OP) || (pI->op == ALU_SFU_OP) ) {
+                                if( sfu_pipe_avail ) {
+                                    m_shader->issue_warp(*m_sfu_out,pI,active_mask,warp_id);
+                                    issued++;
+                                    issued_inst=true;
+                                    warp_inst_issued = true;
+
+
+				if(comp != compute_ready_warps.end()){
+
+
+				    ++comp;
+				    compFlag = false;
+
+				}
+                                }
+                            }                        
+		       	}
+                    } else {
+                        SCHED_DPRINTF( "Warp (warp_id %u, dynamic_warp_id %u) fails scoreboard\n",
+                                       (*iter)->get_warp_id(), (*iter)->get_dynamic_warp_id() );
+		       if(memFlag){
+
+
+				if(mem != memory_ready_warps.end()){
+
+			       ++mem;
+
+				}
+
+			}
+		       else if(compFlag){
+
+
+				if(comp != compute_ready_warps.end()){
+
+			       ++comp;
+
+				}
+
+			}
+
+	
+                    }
+                }
+            } else if( valid ) {
+               // this case can happen after a return instruction in diverged warp
+               SCHED_DPRINTF( "Warp (warp_id %u, dynamic_warp_id %u) return from diverged warp flush\n",
+                              (*iter)->get_warp_id(), (*iter)->get_dynamic_warp_id() );
+               warp(warp_id).set_next_pc(pc);
+               warp(warp_id).ibuffer_flush();
+
+	       if(memFlag){
+
+				if(mem != memory_ready_warps.end()){
+
+		       ++mem;
+		      }
+
+		}
+	       else if(compFlag){
+
+
+				if(comp != compute_ready_warps.end()){
+
+		       ++comp;
+
+				}
+
+	 	}
+	       
+            }
+            if(warp_inst_issued) {
+                SCHED_DPRINTF( "Warp (warp_id %u, dynamic_warp_id %u) issued %u instructions\n",
+                               (*iter)->get_warp_id(),
+                               (*iter)->get_dynamic_warp_id(),
+                               issued );
+                do_on_warp_issued( warp_id, issued, iter );
+
+		if(memFlag){
+
+				if(mem != memory_ready_warps.end()){
+
+	       				++mem;
+
+		}
+
+	}
+       		else if(compFlag){
+
+
+				if(comp != compute_ready_warps.end()){
+
+	       				++comp;
+
+				}
+
+	}
+
+
+            }
+            checked++;
+        }
+        if ( issued ) {
+            // This might be a bit inefficient, but we need to maintain
+            // two ordered list for proper scheduler execution.
+            // We could remove the need for this loop by associating a
+            // supervised_is index with each entry in the m_next_cycle_prioritized_warps
+            // vector. For now, just run through until you find the right warp_id
+            for ( std::vector< shd_warp_t* >::const_iterator supervised_iter = m_supervised_warps.begin();
+                  supervised_iter != m_supervised_warps.end();
+                  ++supervised_iter ) {
+                if ( *iter == *supervised_iter ) {
+                    m_last_supervised_issued = supervised_iter;
+                }
+            }
+            break;
+        } 
+   
+    }
+    // issue stall statistics:
+    if( !valid_inst ) 
+        m_stats->shader_cycle_distro[0]++; // idle or control hazard
+    else if( !ready_inst ) 
+        m_stats->shader_cycle_distro[1]++; // waiting for RAW hazards (possibly due to memory) 
+    else if( !issued_inst ) 
+        m_stats->shader_cycle_distro[2]++; // pipeline stalled
+
+
+}
+
+
+
+
+
+
+/*
+void scheduler_unit::cycle()
+{
+    SCHED_DPRINTF( "scheduler_unit::cycle()\n" );
+    bool valid_inst = false;  // there was one warp with a valid instruction to issue (didn't require flush due to control hazard)
+    bool ready_inst = false;  // of the valid instructions, there was one not waiting for pending register writes
+    bool issued_inst = false; // of these we issued one
+
+    order_warps();
+
+//Check if the LDST unit has set the memory saturation flag. If set, update the wrc.
+   if(m_shader->m_ldst_unit->retSatFlag()){
+	m_wrc->setSatFlag(true);
+    }
+
+    else {
+	//TO-DO : Shouldnt this flag be false by default and I would just have to reset it somewhere ?
+	m_wrc->setSatFlag(false);
+
+    }
+
+    for ( std::vector< shd_warp_t* >::const_iterator iter = m_next_cycle_prioritized_warps.begin();
+          iter != m_next_cycle_prioritized_warps.end();
+          iter++ ) {
+        // Don't consider warps that are not yet valid
+        if ( (*iter) == NULL || (*iter)->done_exit() ) {
+            continue;
+        }
+        SCHED_DPRINTF( "Testing (warp_id %u, dynamic_warp_id %u)\n",
+                       (*iter)->get_warp_id(), (*iter)->get_dynamic_warp_id() );
+        unsigned warp_id = (*iter)->get_warp_id();
+        unsigned checked=0;
+        unsigned issued=0;
+        unsigned max_issue = m_shader->m_config->gpgpu_max_insn_issue_per_warp;
+        while( !warp(warp_id).waiting() && !warp(warp_id).ibuffer_empty() && (checked < max_issue) && (checked <= issued) && (issued < max_issue) ) {
+            const warp_inst_t *pI = warp(warp_id).ibuffer_next_inst();
+            bool valid = warp(warp_id).ibuffer_next_valid();
+            bool warp_inst_issued = false;
+            unsigned pc,rpc;
+            m_simt_stack[warp_id]->get_pdom_stack_top_info(&pc,&rpc);
+            SCHED_DPRINTF( "Warp (warp_id %u, dynamic_warp_id %u) has valid instruction (%s)\n",
+                           (*iter)->get_warp_id(), (*iter)->get_dynamic_warp_id(),
+                           ptx_get_insn_str( pc).c_str() );
+            if( pI ) {
+                assert(valid);
+                if( pc != pI->pc ) {
+                    SCHED_DPRINTF( "Warp (warp_id %u, dynamic_warp_id %u) control hazard instruction flush\n",
+                                   (*iter)->get_warp_id(), (*iter)->get_dynamic_warp_id() );
+                    // control hazard
+                    warp(warp_id).set_next_pc(pc);
+                    warp(warp_id).ibuffer_flush();
+                } else {
+                    valid_inst = true;
+                    if ( !m_scoreboard->checkCollision(warp_id, pI) ) {
+                        SCHED_DPRINTF( "Warp (warp_id %u, dynamic_warp_id %u) passes scoreboard\n",
+                                       (*iter)->get_warp_id(), (*iter)->get_dynamic_warp_id() );
+                        ready_inst = true;
+                        const active_mask_t &active_mask = m_simt_stack[warp_id]->get_active_mask();
+                        assert( warp(warp_id).inst_in_pipeline() );
+                        if ( (pI->op == LOAD_OP) || (pI->op == STORE_OP) || (pI->op == MEMORY_BARRIER_OP) ) {
+                            if( m_mem_out->has_free() ) {
+                                m_shader->issue_warp(*m_mem_out,pI,active_mask,warp_id);
+                                issued++;
+				issued_inst=true;
+                                warp_inst_issued = true;
+                            }
+                        } else {
+                            bool sp_pipe_avail = m_sp_out->has_free();
+                            bool sfu_pipe_avail = m_sfu_out->has_free();
+                            if( sp_pipe_avail && (pI->op != SFU_OP) ) {
+                                // always prefer SP pipe for operations that can use both SP and SFU pipelines
+                                m_shader->issue_warp(*m_sp_out,pI,active_mask,warp_id);
+                                issued++;
+                                issued_inst=true;
+                                warp_inst_issued = true;
                             } else if ( (pI->op == SFU_OP) || (pI->op == ALU_SFU_OP) ) {
                                 if( sfu_pipe_avail ) {
                                     m_shader->issue_warp(*m_sfu_out,pI,active_mask,warp_id);
@@ -1076,8 +1335,7 @@ void scheduler_unit::cycle()
                                     issued_inst=true;
                                     warp_inst_issued = true;
                                 }
-                            }                        
-		       	}
+                            }                         }
                     } else {
                         SCHED_DPRINTF( "Warp (warp_id %u, dynamic_warp_id %u) fails scoreboard\n",
                                        (*iter)->get_warp_id(), (*iter)->get_dynamic_warp_id() );
@@ -1108,7 +1366,7 @@ void scheduler_unit::cycle()
             for ( std::vector< shd_warp_t* >::const_iterator supervised_iter = m_supervised_warps.begin();
                   supervised_iter != m_supervised_warps.end();
                   ++supervised_iter ) {
-                if ( *iter == *supervised_iter ) {
+if ( *iter == *supervised_iter ) {
                     m_last_supervised_issued = supervised_iter;
                 }
             }
@@ -1124,6 +1382,9 @@ void scheduler_unit::cycle()
     else if( !issued_inst ) 
         m_stats->shader_cycle_distro[2]++; // pipeline stalled
 }
+*/
+
+
 
 /*void scheduler_unit::cycle()
 {
@@ -1892,7 +2153,7 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
    if(m_L1D->retSatFlag())
 	setSatFlag(true);
    else 
-	setSatFlag(true);
+	setSatFlag(false);
 
 
 
