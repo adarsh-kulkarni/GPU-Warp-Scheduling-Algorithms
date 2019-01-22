@@ -997,37 +997,78 @@ void scheduler_unit::cycle()
     bool memFlag = false;
     bool compFlag = false;
 
+
+    //Check if the LDST unit has set the memory saturation flag. If set, update the wrc.
+    if(m_shader->m_ldst_unit->retSatFlag()){
+	m_wrc->setSatFlag(true);
+    }
+
+    else {
+
+	m_wrc->setSatFlag(false);
+
+    }
+
     while ( comp != compute_ready_warps.end() || mem != memory_ready_warps.end() ){ 
 
-	memFlag, compFlag = false;
-        if ( ((*comp) == NULL || (*comp)->done_exit()) && (((*mem) == NULL) || (*mem)->done_exit()) ) {
+	//This loop is required so that if BOTH the warps are NULL or ALREADY FINISHED, the loop is broken
 
+	memFlag = false;
+	compFlag = false;
 
-	    if( comp != compute_ready_warps.end())
-			++comp;
+        if ((*comp) == NULL && ((*mem) == NULL)){
 
+		++comp;
+		++mem;
+		continue;
+	       
+	}	
+	else if(( comp != compute_ready_warps.end() && (*comp)->done_exit()) && (mem != memory_ready_warps.end() && (*mem)->done_exit())){
 
-	    if( mem != memory_ready_warps.end())
-		    ++mem;
+		++comp;
+		++mem;
+	    	continue;
 
-            continue;
-        }	
+	}
+	
+
+        
+	 
+       
 
 	std::vector< shd_warp_t* >::const_iterator iter;
 
-	if(comp == compute_ready_warps.end() || (*comp)->done_exit())
-	{
-	
-		iter=mem;
-		memFlag = true;
+	if(m_wrc->retSatFlag()){
 
-	
+		if(!(comp == compute_ready_warps.end() || !((*comp)->done_exit())))
+		{
+		
+			iter=comp;
+			compFlag = true;
+
+		
+		}
+		else
+		{
+			iter=mem;
+			memFlag = true;
+		
+		}
+
 	}
-	else
-	{
-		iter=comp;
-		compFlag = true;
+	else{
+
+		if(!(mem == memory_ready_warps.end() || !((*mem)->done_exit()))){
 	
+			iter=mem;
+			memFlag=true;
+		}
+		else{
+			iter=comp;
+			compFlag=true;
+
+		}
+
 	}
 
 
@@ -1045,16 +1086,6 @@ void scheduler_unit::cycle()
             bool warp_inst_issued = false;
             unsigned pc,rpc;
 
-	    //Check if the LDST unit has set the memory saturation flag. If set, update the wrc.
-	    if(m_shader->m_ldst_unit->retSatFlag()){
-		m_wrc->setSatFlag(true);
-	    }
-	
-	    else {
-
-		m_wrc->setSatFlag(false);
-
-	    }
 
 
             m_simt_stack[warp_id]->get_pdom_stack_top_info(&pc,&rpc);
@@ -1219,7 +1250,38 @@ void scheduler_unit::cycle()
 
             }
             checked++;
+
+	    if(memFlag){
+
+		    	if(mem != memory_ready_warps.end()){
+				++mem;
+
+			}
+
+	     }
+	    else if(compFlag){
+
+		    	if(comp != compute_ready_warps.end()){
+
+				++comp;
+
+			}
+
+		}
         }
+
+	if(memFlag){
+
+			if(mem != memory_ready_warps.end()){
+				++mem;
+			}
+	}
+	else if(compFlag){
+
+			if(comp != compute_ready_warps.end()){
+				++comp;
+			}
+	}
         if ( issued ) {
             // This might be a bit inefficient, but we need to maintain
             // two ordered list for proper scheduler execution.
@@ -2150,6 +2212,7 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
 
 
    //If the memory saturation flag is set in the L1 Data cache, set the flag here so that the warp readiness checker can pick it up.
+   //Why can't I directly set the flag in the scheduler ? Check.
    if(m_L1D->retSatFlag())
 	setSatFlag(true);
    else 

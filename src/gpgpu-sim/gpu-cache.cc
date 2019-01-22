@@ -1105,6 +1105,8 @@ l1_cache::access( new_addr_type addr,
     //Check if the MSHR or the miss queue are 80% full and set the memory saturation flag. Used in the Mascar scheduler
     if(miss_queue_size() || mshr_queue_size()){
 
+	//What if I signal to the LSU directly from here instead of setting the flag here and then checking for this flag from the memory_cycle method in ldst unit
+
 	memory_saturation_flag = true;
 
     }
