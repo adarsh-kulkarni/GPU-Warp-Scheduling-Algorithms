@@ -1016,56 +1016,100 @@ void scheduler_unit::cycle()
 	memFlag = false;
 	compFlag = false;
 
-        if ((*comp) == NULL && ((*mem) == NULL)){
+	bool a = false;
+	bool b = false;
 
-		++comp;
-		++mem;
-		continue;
-	       
-	}	
-	else if(( comp != compute_ready_warps.end() && (*comp)->done_exit()) && (mem != memory_ready_warps.end() && (*mem)->done_exit())){
+	if(!compute_ready_warps.empty() && comp != compute_ready_warps.end()){
 
-		++comp;
-		++mem;
-	    	continue;
+		if((*comp) != NULL){
+
+			if((*comp)->done_exit()){
+
+				a = true;
+			}
+		}
+		else if((*comp == NULL)){
+
+			a = true;
+		}
 
 	}
-	
 
-        
-	 
-       
+	if(!memory_ready_warps.empty() && mem != memory_ready_warps.end()){
+
+		if((*mem) != NULL){
+
+			if((*mem)->done_exit()){
+
+				b = true;
+			}
+		}
+		else if((*mem == NULL)){
+
+			b = true;
+		}
+
+	}
+
+
+	if(a && b){
+
+		if(comp != compute_ready_warps.end())
+			++comp;
+		
+		if(mem != memory_ready_warps.end())
+			++mem;
+
+		continue;
+
+	}
+	       
+
+
+
+
+       /*if ( ((*comp) == NULL || (*comp)->done_exit()) && (((*mem) == NULL) || (*mem)->done_exit()) ) { 
+
+	        if(comp != compute_ready_warps.end())
+			++comp;
+		
+		if(mem != memory_ready_warps.end())
+			++mem;
+
+		continue;
+	       
+	}*/ 
 
 	std::vector< shd_warp_t* >::const_iterator iter;
 
 	if(m_wrc->retSatFlag()){
 
-		if(!(comp == compute_ready_warps.end() || !((*comp)->done_exit())))
+		if(comp == compute_ready_warps.end() || (*comp)->done_exit())
 		{
 		
-			iter=comp;
-			compFlag = true;
+			iter=mem;
+			memFlag = true;
 
 		
 		}
 		else
 		{
-			iter=mem;
-			memFlag = true;
+			iter=comp;
+			compFlag = true;
 		
 		}
 
 	}
 	else{
 
-		if(!(mem == memory_ready_warps.end() || !((*mem)->done_exit()))){
+		if(mem == memory_ready_warps.end() || (*mem)->done_exit()){
 	
-			iter=mem;
-			memFlag=true;
-		}
-		else{
 			iter=comp;
 			compFlag=true;
+		}
+		else{
+			iter=mem;
+			memFlag=true;
 
 		}
 
@@ -1229,21 +1273,21 @@ void scheduler_unit::cycle()
 
 		if(memFlag){
 
-				if(mem != memory_ready_warps.end()){
+			if(mem != memory_ready_warps.end()){
 
 	       				++mem;
 
-		}
+	}
 
 	}
        		else if(compFlag){
 
 
-				if(comp != compute_ready_warps.end()){
+			if(comp != compute_ready_warps.end()){
 
 	       				++comp;
 
-				}
+			}
 
 	}
 
