@@ -724,16 +724,24 @@ protected:
 class read_only_cache : public baseline_cache {
 public:
     read_only_cache( const char *name, cache_config &config, int core_id, int type_id, mem_fetch_interface *memport, enum mem_fetch_status status )
-    : baseline_cache(name,config,core_id,type_id,memport,status){}
+    : baseline_cache(name,config,core_id,type_id,memport,status){
+
+	    mem_sat_flag = false;
+    
+    }
 
     /// Access cache for read_only_cache: returns RESERVATION_FAIL if request could not be accepted (for any reason)
     virtual enum cache_request_status access( new_addr_type addr, mem_fetch *mf, unsigned time, std::list<cache_event> &events );
 
     virtual ~read_only_cache(){}
 
+    bool retSatFlag(){ return mem_sat_flag; }
+
 protected:
     read_only_cache( const char *name, cache_config &config, int core_id, int type_id, mem_fetch_interface *memport, enum mem_fetch_status status, tag_array* new_tag_array )
     : baseline_cache(name,config,core_id,type_id,memport,status, new_tag_array){}
+
+    bool mem_sat_flag;
 };
 
 /// Data cache - Implements common functions for L1 and L2 data cache

@@ -1002,6 +1002,21 @@ read_only_cache::access( new_addr_type addr,
     enum cache_request_status status = m_tag_array->probe(block_addr,cache_index);
     enum cache_request_status cache_status = RESERVATION_FAIL;
 
+    if(miss_queue_size() || mshr_queue_size()){
+
+	//What if I signal to the LSU directly from here instead of setting the flag here and then checking for this flag from the memory_cycle method in ldst unit
+
+	mem_sat_flag = true;
+
+    }
+   
+    else {
+
+	mem_sat_flag = false;
+
+    }
+
+
     if ( status == HIT ) {
         cache_status = m_tag_array->access(block_addr,time,cache_index); // update LRU state
     }else if ( status != RESERVATION_FAIL ) {
