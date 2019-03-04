@@ -848,7 +848,7 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
     result_list_memory.clear();
     typename std::vector< T > temp = input_list;
 
-                T greedy_value = *last_issued_from_input;                               
+             T greedy_value = *last_issued_from_input;                               
 
 	   
 	    //Check if the LDST unit has set the memory saturation flag. If set, update the wrc.
@@ -872,25 +872,38 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 
 		if(!((greedy_value)->ibuffer_empty())){
 
-					const warp_inst_t *inst = (greedy_value)->ibuffer_next_inst();
+			const warp_inst_t *inst = (greedy_value)->ibuffer_next_inst();
+
+
+			    bool waiting = (greedy_value)->waiting();
+				for (int i=0; i<4; i++){
+			    //const warp_inst_t* inst = (*iter)->ibuffer_next_inst();
+			    //Is the instruction waiting on a long operation?
+			    //Can this be used for the Mascar scheduler ?
+
+			    if ( inst && inst->in[i] > 0 && this->m_scoreboard->islongop((greedy_value)->get_warp_id(), inst->in[i])){
+				waiting = true;
+			    }
+
+			}
 			
 					if(inst->op==LOAD_OP || inst->op==STORE_OP || inst->op==MEMORY_BARRIER_OP){
 
 						//Set the memory operation bit in the WST based on the above information.
-					//	m_wst->setMemoryBit(true, (greedy_value)->get_warp_id());
+						m_wst->setMemoryBit(true, (greedy_value)->get_warp_id());
 
 
 						result_list_memory.push_back( greedy_value );	
 						
 						
 			
-					/*	if(m_wrc->retSatFlag()) {
+						if(m_wrc->retSatFlag()) {
 
 							//Find which warp is given exclusive ownership and access to the LSU (Owner warp ID)
 
 							if(owner_warp) {
 
-								if((greedy_value)->get_warp_id() != owner_warp->get_warp_id()){
+								if(((greedy_value)->get_warp_id() != owner_warp->get_warp_id()) || waiting){
 
 									m_wst->setStallBit(true,(greedy_value)->get_warp_id());	
 								}		
@@ -898,7 +911,7 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 				
 							}
 			
-						}*/
+						}
 
 					}
 					else{
@@ -923,26 +936,35 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 		if(!((*iter)->ibuffer_empty())){
 
 			const warp_inst_t *inst = (*iter)->ibuffer_next_inst();
-	
+
+
+			bool waiting = (*iter)->waiting();
+				for (int i=0; i<4; i++){
+			    //const warp_inst_t* inst = (*iter)->ibuffer_next_inst();
+			    //Is the instruction waiting on a long operation?
+			    //Can this be used for the Mascar scheduler ?
+
+			    if ( inst && inst->in[i] > 0 && this->m_scoreboard->islongop((*iter)->get_warp_id(), inst->in[i])){
+				waiting = true;
+			    }
+			}
+		
 			if(inst->op==LOAD_OP || inst->op==STORE_OP || inst->op==MEMORY_BARRIER_OP){
 
 				//Set the memory operation bit in the WST based on the above information.
-				//m_wst->setMemoryBit(true, (*iter)->get_warp_id());
-
-
-
+				m_wst->setMemoryBit(true, (*iter)->get_warp_id());
 
 				result_list_memory.push_back( *iter );	
 				
 				//This warp's next instruction needs to access memory. Now check if the memory saturation flag is set and check if this warp is the owner warp. If it is not the owner warp and the sat flag is set then set the stall bit.
 	
-				/*if(m_wrc->retSatFlag()) {
+				if(m_wrc->retSatFlag()) {
 
 					//Find which warp is given exclusive ownership and access to the LSU (Owner warp ID)
 
 					if(owner_warp) {
 
-						if((*iter)->get_warp_id() != owner_warp->get_warp_id()){
+						if(((*iter)->get_warp_id() != owner_warp->get_warp_id() || waiting)){
 
 							m_wst->setStallBit(true,(*iter)->get_warp_id());	
 						}		
@@ -950,7 +972,7 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 		
 					}
 	
-				}*/
+				}
 
 			}
 			else{
@@ -967,9 +989,37 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 	
 	}
 
-	
+
+	//Find out if the owner warp is waiting on a long operation. If yes, then reset the owner warp & all the stall bits
+	/*if(owner_warp){
+		if(!((owner_warp)->ibuffer_empty())){
+
+			const warp_inst_t *inst = (owner_warp)->ibuffer_next_inst();
 
 
+			    bool waiting = (owner_warp)->waiting();
+				for (int i=0; i<4; i++){
+			    //const warp_inst_t* inst = (*iter)->ibuffer_next_inst();
+			    //Is the instruction waiting on a long operation?
+			    //Can this be used for the Mascar scheduler ?
+
+			    if ( inst && inst->in[i] > 0 && this->m_scoreboard->islongop((owner_warp)->get_warp_id(), inst->in[i])){
+				waiting = true;
+
+			    }
+
+			}
+
+			if(waiting){
+
+
+				owner_warp = NULL;
+				m_wst->clearBits();
+
+			}
+
+	}
+	}*/
 
 	//typename std::vector< T > temp_mem = result_list_memory;
 	//typename std::vector< T > temp_comp = result_list_compute;
@@ -991,11 +1041,12 @@ void scheduler_unit::cycle()
 
     order_warps();
 
-    std::vector< shd_warp_t* >::const_iterator comp = compute_ready_warps.begin();
-    std::vector< shd_warp_t* >::const_iterator mem = memory_ready_warps.begin();
+    std::vector< shd_warp_t* >::iterator comp = compute_ready_warps.begin();
+    std::vector< shd_warp_t* >::iterator mem = memory_ready_warps.begin();
  
     bool memFlag = false;
     bool compFlag = false;
+    bool owner_issued = false;
 
 
     //Check if the LDST unit has set the memory saturation flag. If set, update the wrc.
@@ -1015,6 +1066,7 @@ void scheduler_unit::cycle()
 
 	memFlag = false;
 	compFlag = false;
+	owner_issued = false;
 
 	bool a = false;
 	bool b = false;
@@ -1063,10 +1115,7 @@ void scheduler_unit::cycle()
 		continue;
 
 	}
-	       
-
-
-
+	    
 
        /*if ( ((*comp) == NULL || (*comp)->done_exit()) && (((*mem) == NULL) || (*mem)->done_exit()) ) { 
 
@@ -1080,8 +1129,49 @@ void scheduler_unit::cycle()
 	       
 	}*/ 
 
-	std::vector< shd_warp_t* >::const_iterator iter;
+	std::vector< shd_warp_t* >::iterator iter;
 
+
+		//If owner warp is set, then check if the next inst is dependent on already issued load. Then set this to the next warp to be executed. Otherwise set the owner warp to null. This allows some other warp to go ahead and execute
+		
+
+	if(owner_warp){
+		if(!((owner_warp)->ibuffer_empty())){
+
+			const warp_inst_t *inst = (owner_warp)->ibuffer_next_inst();
+
+
+			    bool waiting = (owner_warp)->waiting();
+				for (int i=0; i<4; i++){
+			    //const warp_inst_t* inst = (*iter)->ibuffer_next_inst();
+			    //Is the instruction waiting on a long operation?
+			    //Can this be used for the Mascar scheduler ?
+
+			    if ( inst && inst->in[i] > 0 && this->m_scoreboard->islongop((owner_warp)->get_warp_id(), inst->in[i])){
+				waiting = true;
+
+			    }
+
+			}
+
+			if(waiting){
+
+
+				owner_warp = NULL;
+				m_wst->clearBits();
+
+			} 
+			else{
+				*iter = owner_warp;
+				owner_issued = true;
+
+			}
+
+	}
+	}
+
+
+	if(!owner_issued){
 	if(m_wrc->retSatFlag()){
 
 		if(comp == compute_ready_warps.end() || (*comp)->done_exit())
@@ -1098,6 +1188,7 @@ void scheduler_unit::cycle()
 			compFlag = true;
 		
 		}
+	 
 
 	}
 	else{
@@ -1111,7 +1202,10 @@ void scheduler_unit::cycle()
 			iter=mem;
 			memFlag=true;
 
+
 		}
+
+	}
 
 	}
 
@@ -1129,7 +1223,6 @@ void scheduler_unit::cycle()
             bool valid = warp(warp_id).ibuffer_next_valid();
             bool warp_inst_issued = false;
             unsigned pc,rpc;
-
 
 
             m_simt_stack[warp_id]->get_pdom_stack_top_info(&pc,&rpc);
@@ -1153,6 +1246,18 @@ void scheduler_unit::cycle()
                         const active_mask_t &active_mask = m_simt_stack[warp_id]->get_active_mask();
                         assert( warp(warp_id).inst_in_pipeline() );
                         if ( (pI->op == LOAD_OP) || (pI->op == STORE_OP) || (pI->op == MEMORY_BARRIER_OP) ) {
+
+				/*Check if the warp is owner warp
+			    if(m_wrc->retSatFlag()){
+
+				    if(owner_warp){
+
+					    if(warp_id != owner_warp->get_warp_id())
+						    continue;
+
+				}
+
+		            }*/
                             if( m_mem_out->has_free() ) {
                                 m_shader->issue_warp(*m_mem_out,pI,active_mask,warp_id);
                                 issued++;
@@ -1165,16 +1270,19 @@ void scheduler_unit::cycle()
 				memFlag = false;
 
 				}
-                            }
 
 
 				//Mascar scheduler : Check if memory saturation flag is set. If set then make the last issued warp the owner warp.
+				//To-Do : Ensure that only this warp's memory requests can go beyond L1 cache
 				if(m_wrc->retSatFlag()){	
 
 					owner_warp = *iter;
-
+					m_shader->schedulers[0]->owner_warp=*iter;
+					m_shader->schedulers[1]->owner_warp=*iter;
+					m_wrc->setWarpID((*iter)->get_warp_id());
 					
 				}
+                            }
 			
                         } else {
                             bool sp_pipe_avail = m_sp_out->has_free();
@@ -1851,6 +1959,8 @@ void two_level_active_scheduler::order_warps()
         for (int i=0; i<4; i++){
             const warp_inst_t* inst = (*iter)->ibuffer_next_inst();
             //Is the instruction waiting on a long operation?
+	    //Can this be used for the Mascar scheduler ?
+
             if ( inst && inst->in[i] > 0 && this->m_scoreboard->islongop((*iter)->get_warp_id(), inst->in[i])){
                 waiting = true;
             }
@@ -2207,6 +2317,12 @@ bool ldst_unit::constant_cycle( warp_inst_t &inst, mem_stage_stall_type &rc_fail
        return true;
    if( inst.active_count() == 0 ) 
        return true;
+
+   if(m_L1C->retSatFlag())
+	   setSatFlag(true);
+   else
+	   setSatFlag(false);
+
    mem_stage_stall_type fail = process_memory_access_queue(m_L1C,inst);
    if (fail != NO_RC_FAIL){ 
       rc_fail = fail; //keep other fails if this didn't fail.
@@ -2262,6 +2378,8 @@ bool ldst_unit::memory_cycle( warp_inst_t &inst, mem_stage_stall_type &stall_rea
    else 
 	setSatFlag(false);
 
+   //Get the Owner warp info from the WRC & set it in the L1D cache
+   m_L1D->setOwnerWarp(m_core->retOwnerWarp());
 
 
    if( bypassL1D ) {

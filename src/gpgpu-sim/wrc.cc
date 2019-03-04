@@ -8,8 +8,27 @@ Wrc::Wrc(){
 	memory_saturation_flag = false;	
 	issuedWarp = 0;
 
+	ownerWarpID = 0;
+
 
 }
+
+
+void Wrc::setWarpID(unsigned ID){
+
+	ownerWarpID = ID;
+
+}
+
+
+unsigned Wrc::retWarpID(){
+
+	return ownerWarpID;
+
+}
+
+
+
 
 void Wrc::setIssuedWarp(unsigned warp){
 

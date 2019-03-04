@@ -981,6 +981,17 @@ public:
 		
 	}
 
+	void setOwnerWarp(unsigned warp_id){
+
+		owner_id = warp_id;
+	}
+
+	bool retOwnerWarp(){
+
+		return owner_id;
+
+	}
+
 protected:
     l1_cache( const char *name,
               cache_config &config,
@@ -1001,6 +1012,9 @@ protected:
 
      //Flag for Mascar scheduler
       bool memory_saturation_flag;
+
+      //Owner warp ID
+      unsigned owner_id;
 
 };
 

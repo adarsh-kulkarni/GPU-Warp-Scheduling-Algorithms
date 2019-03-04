@@ -12,13 +12,18 @@ class Wrc{
 		//Destructor
 		~Wrc();
 	
-		void setIssuedWarp (unsigned warp); 
+		void setIssuedWarp(unsigned warp); 
 				
-		unsigned retIssuedWarp ();
+		unsigned retIssuedWarp();
 
 		bool retSatFlag();
 
 		void setSatFlag(bool satFlag);
+
+		void setWarpID(unsigned ID);
+
+		unsigned retWarpID();
+
 	
 	private:
 		
@@ -28,6 +33,8 @@ class Wrc{
 
 		//Signal from the L1 Cache indicating memory resources are depleting 
 		bool memory_saturation_flag;
+
+		unsigned ownerWarpID;
 		
 	
 };

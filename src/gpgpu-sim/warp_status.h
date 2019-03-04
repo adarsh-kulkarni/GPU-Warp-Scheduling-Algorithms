@@ -52,7 +52,7 @@ private:
 
 			struct {
 
-			//Two bits of information per warp. First bit says whether the warps next inst will access mem.
+			//Two bits of information per warp. First bit says whether the warps next inst will access memory.
 			//The second bit tells the scheduler to stall issuing of the warp's inst.
 			unsigned char memBit:1,stallBit:1;
 
