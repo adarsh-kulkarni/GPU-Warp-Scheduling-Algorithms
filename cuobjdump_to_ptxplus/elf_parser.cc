@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.2.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0.2"
+#define YYBISON_VERSION "3.0.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -136,7 +136,7 @@ extern int elf_debug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE YYSTYPE;
+
 union YYSTYPE
 {
 #line 43 "elf.y" /* yacc.c:355  */
@@ -145,6 +145,8 @@ union YYSTYPE
 
 #line 147 "elf_parser.cc" /* yacc.c:355  */
 };
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -158,7 +160,7 @@ int elf_parse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 162 "elf_parser.cc" /* yacc.c:358  */
+#line 164 "elf_parser.cc" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -1262,13 +1264,13 @@ yyreduce:
 					}
 				}
 			}
-#line 1266 "elf_parser.cc" /* yacc.c:1646  */
+#line 1268 "elf_parser.cc" /* yacc.c:1646  */
     break;
 
   case 7:
 #line 72 "elf.y" /* yacc.c:1646  */
     {}
-#line 1272 "elf_parser.cc" /* yacc.c:1646  */
+#line 1274 "elf_parser.cc" /* yacc.c:1646  */
     break;
 
   case 11:
@@ -1276,7 +1278,7 @@ yyreduce:
     {
 				g_instList->setKernelCount(cmemcount-1);
 			}
-#line 1280 "elf_parser.cc" /* yacc.c:1646  */
+#line 1282 "elf_parser.cc" /* yacc.c:1646  */
     break;
 
   case 12:
@@ -1286,7 +1288,7 @@ yyreduce:
 						g_instList->setLocalMemoryMap((yyvsp[0].string_value), lmemcount);
 						lmemcount++;
 					}
-#line 1290 "elf_parser.cc" /* yacc.c:1646  */
+#line 1292 "elf_parser.cc" /* yacc.c:1646  */
     break;
 
   case 13:
@@ -1297,7 +1299,7 @@ yyreduce:
 					cmemcount++;
 					lastcmem = true;
 				}
-#line 1301 "elf_parser.cc" /* yacc.c:1646  */
+#line 1303 "elf_parser.cc" /* yacc.c:1646  */
     break;
 
   case 15:
@@ -1307,7 +1309,7 @@ yyreduce:
 					g_instList->setConstMemoryType(".u32");
 					lastcmem = false;
 				}
-#line 1311 "elf_parser.cc" /* yacc.c:1646  */
+#line 1313 "elf_parser.cc" /* yacc.c:1646  */
     break;
 
   case 17:
@@ -1318,7 +1320,7 @@ yyreduce:
 					else
 						g_instList->addConstMemoryValue((yyvsp[0].string_value));
 				}
-#line 1322 "elf_parser.cc" /* yacc.c:1646  */
+#line 1324 "elf_parser.cc" /* yacc.c:1646  */
     break;
 
   case 23:
@@ -1326,11 +1328,11 @@ yyreduce:
     {
 				g_instList->updateGlobalMemoryID((yyvsp[-2].string_value), (yyvsp[-1].string_value));
 			}
-#line 1330 "elf_parser.cc" /* yacc.c:1646  */
+#line 1332 "elf_parser.cc" /* yacc.c:1646  */
     break;
 
 
-#line 1334 "elf_parser.cc" /* yacc.c:1646  */
+#line 1336 "elf_parser.cc" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

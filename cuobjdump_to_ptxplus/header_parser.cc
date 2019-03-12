@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.2.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0.2"
+#define YYBISON_VERSION "3.0.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -134,7 +134,7 @@ extern int header_debug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE YYSTYPE;
+
 union YYSTYPE
 {
 #line 41 "header.y" /* yacc.c:355  */
@@ -147,6 +147,8 @@ union YYSTYPE
 
 #line 149 "header_parser.cc" /* yacc.c:355  */
 };
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -160,7 +162,7 @@ int header_parse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 164 "header_parser.cc" /* yacc.c:358  */
+#line 166 "header_parser.cc" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -1250,119 +1252,119 @@ yyreduce:
         case 2:
 #line 73 "header.y" /* yacc.c:1646  */
     { output("No parsing errors\n");  }
-#line 1254 "header_parser.cc" /* yacc.c:1646  */
+#line 1256 "header_parser.cc" /* yacc.c:1646  */
     break;
 
   case 3:
 #line 76 "header.y" /* yacc.c:1646  */
     { output("\n"); }
-#line 1260 "header_parser.cc" /* yacc.c:1646  */
+#line 1262 "header_parser.cc" /* yacc.c:1646  */
     break;
 
   case 4:
 #line 77 "header.y" /* yacc.c:1646  */
     { output("\n"); }
-#line 1266 "header_parser.cc" /* yacc.c:1646  */
+#line 1268 "header_parser.cc" /* yacc.c:1646  */
     break;
 
   case 5:
 #line 80 "header.y" /* yacc.c:1646  */
     {}
-#line 1272 "header_parser.cc" /* yacc.c:1646  */
+#line 1274 "header_parser.cc" /* yacc.c:1646  */
     break;
 
   case 6:
 #line 81 "header.y" /* yacc.c:1646  */
     {}
-#line 1278 "header_parser.cc" /* yacc.c:1646  */
+#line 1280 "header_parser.cc" /* yacc.c:1646  */
     break;
 
   case 7:
 #line 82 "header.y" /* yacc.c:1646  */
     {}
-#line 1284 "header_parser.cc" /* yacc.c:1646  */
+#line 1286 "header_parser.cc" /* yacc.c:1646  */
     break;
 
   case 8:
 #line 85 "header.y" /* yacc.c:1646  */
     { output(".version"); cuobjdumpInst *instEntry = new cuobjdumpInst(); instEntry->setBase(".version"); g_headerList->add(instEntry);}
-#line 1290 "header_parser.cc" /* yacc.c:1646  */
+#line 1292 "header_parser.cc" /* yacc.c:1646  */
     break;
 
   case 9:
 #line 86 "header.y" /* yacc.c:1646  */
     { output(".target"); cuobjdumpInst *instEntry = new cuobjdumpInst(); instEntry->setBase(".target"); g_headerList->add(instEntry);}
-#line 1296 "header_parser.cc" /* yacc.c:1646  */
+#line 1298 "header_parser.cc" /* yacc.c:1646  */
     break;
 
   case 10:
 #line 87 "header.y" /* yacc.c:1646  */
     { output(".entry"); cuobjdumpInst *instEntry = new cuobjdumpInst(); instEntry->setBase(".entry"); g_headerList->add(instEntry);}
-#line 1302 "header_parser.cc" /* yacc.c:1646  */
+#line 1304 "header_parser.cc" /* yacc.c:1646  */
     break;
 
   case 11:
 #line 90 "header.y" /* yacc.c:1646  */
     { output(" "); output((yyvsp[0].string_value)); g_headerList->getListEnd().addOperand((yyvsp[0].string_value)); }
-#line 1308 "header_parser.cc" /* yacc.c:1646  */
+#line 1310 "header_parser.cc" /* yacc.c:1646  */
     break;
 
   case 12:
 #line 91 "header.y" /* yacc.c:1646  */
     { output(" "); output((yyvsp[0].string_value)); g_headerList->getListEnd().addOperand((yyvsp[0].string_value)); }
-#line 1314 "header_parser.cc" /* yacc.c:1646  */
+#line 1316 "header_parser.cc" /* yacc.c:1646  */
     break;
 
   case 15:
 #line 98 "header.y" /* yacc.c:1646  */
     { output(" "); output((yyvsp[0].string_value)); g_headerList->getListEnd().addOperand((yyvsp[0].string_value));}
-#line 1320 "header_parser.cc" /* yacc.c:1646  */
+#line 1322 "header_parser.cc" /* yacc.c:1646  */
     break;
 
   case 16:
 #line 101 "header.y" /* yacc.c:1646  */
     { output("\n.param"); cuobjdumpInst *instEntry = new cuobjdumpInst(); instEntry->setBase(".param"); g_headerList->add(instEntry); }
-#line 1326 "header_parser.cc" /* yacc.c:1646  */
+#line 1328 "header_parser.cc" /* yacc.c:1646  */
     break;
 
   case 17:
 #line 104 "header.y" /* yacc.c:1646  */
     { output(".u64"); g_headerList->getListEnd().addTypeModifier(".u64");}
-#line 1332 "header_parser.cc" /* yacc.c:1646  */
+#line 1334 "header_parser.cc" /* yacc.c:1646  */
     break;
 
   case 18:
 #line 105 "header.y" /* yacc.c:1646  */
     { output(".u32"); g_headerList->getListEnd().addTypeModifier(".u32");}
-#line 1338 "header_parser.cc" /* yacc.c:1646  */
+#line 1340 "header_parser.cc" /* yacc.c:1646  */
     break;
 
   case 19:
 #line 106 "header.y" /* yacc.c:1646  */
     { output(".u16"); g_headerList->getListEnd().addTypeModifier(".u16");}
-#line 1344 "header_parser.cc" /* yacc.c:1646  */
+#line 1346 "header_parser.cc" /* yacc.c:1646  */
     break;
 
   case 20:
 #line 107 "header.y" /* yacc.c:1646  */
     { output(".b32"); g_headerList->getListEnd().addTypeModifier(".b32");}
-#line 1350 "header_parser.cc" /* yacc.c:1646  */
+#line 1352 "header_parser.cc" /* yacc.c:1646  */
     break;
 
   case 21:
 #line 108 "header.y" /* yacc.c:1646  */
     { output(".f32"); g_headerList->getListEnd().addTypeModifier(".f32");}
-#line 1356 "header_parser.cc" /* yacc.c:1646  */
+#line 1358 "header_parser.cc" /* yacc.c:1646  */
     break;
 
   case 22:
 #line 111 "header.y" /* yacc.c:1646  */
     { output(" "); output((yyvsp[0].string_value)); g_headerList->getListEnd().addOperand((yyvsp[0].string_value)); }
-#line 1362 "header_parser.cc" /* yacc.c:1646  */
+#line 1364 "header_parser.cc" /* yacc.c:1646  */
     break;
 
 
-#line 1366 "header_parser.cc" /* yacc.c:1646  */
+#line 1368 "header_parser.cc" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

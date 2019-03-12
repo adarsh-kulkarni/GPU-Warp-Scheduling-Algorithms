@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.2.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0.2"
+#define YYBISON_VERSION "3.0.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -320,7 +320,7 @@ extern int sass_debug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE YYSTYPE;
+
 union YYSTYPE
 {
 #line 42 "sass.y" /* yacc.c:355  */
@@ -333,6 +333,8 @@ union YYSTYPE
 
 #line 335 "sass_parser.cc" /* yacc.c:355  */
 };
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -346,7 +348,7 @@ int sass_parse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 350 "sass_parser.cc" /* yacc.c:358  */
+#line 352 "sass_parser.cc" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -1712,13 +1714,13 @@ yyreduce:
         case 4:
 #line 97 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[-3].string_value)); debug_print((yyvsp[-2].string_value)); debug_print(" No parsing errors\n\n");  }
-#line 1716 "sass_parser.cc" /* yacc.c:1646  */
+#line 1718 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 5:
 #line 98 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[-3].string_value)); debug_print((yyvsp[-2].string_value)); debug_print(" No parsing errors\n\n");  }
-#line 1722 "sass_parser.cc" /* yacc.c:1646  */
+#line 1724 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 9:
@@ -1732,49 +1734,49 @@ yyreduce:
 					instEntry->setBase(".entry");
 					g_instList->add(instEntry);
 					g_instList->getListEnd().addOperand((yyvsp[0].string_value));}
-#line 1736 "sass_parser.cc" /* yacc.c:1646  */
+#line 1738 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 11:
 #line 117 "sass.y" /* yacc.c:1646  */
     { debug_print("\n"); }
-#line 1742 "sass_parser.cc" /* yacc.c:1646  */
+#line 1744 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 12:
 #line 118 "sass.y" /* yacc.c:1646  */
     { debug_print(";\n"); }
-#line 1748 "sass_parser.cc" /* yacc.c:1646  */
+#line 1750 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 13:
 #line 119 "sass.y" /* yacc.c:1646  */
     { debug_print("\n"); }
-#line 1754 "sass_parser.cc" /* yacc.c:1646  */
+#line 1756 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 14:
 #line 120 "sass.y" /* yacc.c:1646  */
     { debug_print(";\n"); }
-#line 1760 "sass_parser.cc" /* yacc.c:1646  */
+#line 1762 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 15:
 #line 121 "sass.y" /* yacc.c:1646  */
     {}
-#line 1766 "sass_parser.cc" /* yacc.c:1646  */
+#line 1768 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 16:
 #line 124 "sass.y" /* yacc.c:1646  */
     { instEntry = new cuobjdumpInst(); }
-#line 1772 "sass_parser.cc" /* yacc.c:1646  */
+#line 1774 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 19:
 #line 128 "sass.y" /* yacc.c:1646  */
     {instEntry->setBase("NOP"); g_instList->add(instEntry); debug_print("NOP");}
-#line 1778 "sass_parser.cc" /* yacc.c:1646  */
+#line 1780 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 21:
@@ -1794,31 +1796,31 @@ yyreduce:
 							  }
 							  tempLabel[11] = '\0';
 							  instEntry->setLabel(tempLabel); }
-#line 1798 "sass_parser.cc" /* yacc.c:1646  */
+#line 1800 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 22:
 #line 151 "sass.y" /* yacc.c:1646  */
     { }
-#line 1804 "sass_parser.cc" /* yacc.c:1646  */
+#line 1806 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 23:
 #line 157 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); instEntry->setBase((yyvsp[0].string_value)); g_instList->add(instEntry);}
-#line 1810 "sass_parser.cc" /* yacc.c:1646  */
+#line 1812 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 25:
 #line 159 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[-2].string_value)); instEntry->setBase((yyvsp[-2].string_value)); g_instList->add(instEntry); g_instList->getListEnd().addBaseModifier((yyvsp[0].string_value));}
-#line 1816 "sass_parser.cc" /* yacc.c:1646  */
+#line 1818 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 26:
 #line 160 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[-2].string_value)); instEntry->setBase((yyvsp[-2].string_value)); g_instList->add(instEntry); g_instList->getListEnd().addBaseModifier((yyvsp[0].string_value));}
-#line 1822 "sass_parser.cc" /* yacc.c:1646  */
+#line 1824 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 120:
@@ -1826,7 +1828,7 @@ yyreduce:
     {
 						debug_print((yyvsp[0].string_value)); instEntry->setBase((yyvsp[0].string_value)); g_instList->add(instEntry);
 					}
-#line 1830 "sass_parser.cc" /* yacc.c:1646  */
+#line 1832 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 121:
@@ -1849,13 +1851,13 @@ yyreduce:
 						g_instList->getListEnd().addOperand(tempLabel);
 						g_instList->addCubojdumpLabel(tempLabel);
 					}
-#line 1853 "sass_parser.cc" /* yacc.c:1646  */
+#line 1855 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 122:
 #line 199 "sass.y" /* yacc.c:1646  */
     {debug_print((yyvsp[0].string_value)); instEntry->setBase((yyvsp[0].string_value)); g_instList->add(instEntry);}
-#line 1859 "sass_parser.cc" /* yacc.c:1646  */
+#line 1861 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 123:
@@ -1877,13 +1879,13 @@ yyreduce:
 				  tempLabel[11] = '\0';
 				  g_instList->getListEnd().addOperand(tempLabel);
 				  g_instList->addCubojdumpLabel(tempLabel);}
-#line 1881 "sass_parser.cc" /* yacc.c:1646  */
+#line 1883 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 124:
 #line 217 "sass.y" /* yacc.c:1646  */
     {debug_print((yyvsp[0].string_value)); instEntry->setBase((yyvsp[0].string_value)); g_instList->add(instEntry);}
-#line 1887 "sass_parser.cc" /* yacc.c:1646  */
+#line 1889 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 125:
@@ -1905,13 +1907,13 @@ yyreduce:
 				  tempLabel[11] = '\0';
 				  g_instList->getListEnd().addOperand(tempLabel);
 				  g_instList->addCubojdumpLabel(tempLabel);}
-#line 1909 "sass_parser.cc" /* yacc.c:1646  */
+#line 1911 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 126:
 #line 235 "sass.y" /* yacc.c:1646  */
     {debug_print((yyvsp[0].string_value)); instEntry->setBase((yyvsp[0].string_value)); g_instList->add(instEntry);}
-#line 1915 "sass_parser.cc" /* yacc.c:1646  */
+#line 1917 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 127:
@@ -1933,13 +1935,13 @@ yyreduce:
 				  tempLabel[11] = '\0';
 				  g_instList->getListEnd().addOperand(tempLabel);
 				  g_instList->addCubojdumpLabel(tempLabel);}
-#line 1937 "sass_parser.cc" /* yacc.c:1646  */
+#line 1939 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 128:
 #line 254 "sass.y" /* yacc.c:1646  */
     {debug_print((yyvsp[0].string_value)); instEntry->setBase((yyvsp[0].string_value)); g_instList->add(instEntry);}
-#line 1943 "sass_parser.cc" /* yacc.c:1646  */
+#line 1945 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 129:
@@ -1961,181 +1963,181 @@ yyreduce:
 				  tempLabel[11] = '\0';
 				  g_instList->getListEnd().addOperand(tempLabel);
 				  g_instList->addCubojdumpLabel(tempLabel);}
-#line 1965 "sass_parser.cc" /* yacc.c:1646  */
+#line 1967 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 132:
 #line 280 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->getListEnd().addTypeModifier((yyvsp[0].string_value));}
-#line 1971 "sass_parser.cc" /* yacc.c:1646  */
+#line 1973 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 133:
 #line 281 "sass.y" /* yacc.c:1646  */
     { g_instList->getListEnd().addBaseModifier(".bext"); }
-#line 1977 "sass_parser.cc" /* yacc.c:1646  */
+#line 1979 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 134:
 #line 282 "sass.y" /* yacc.c:1646  */
     { g_instList->getListEnd().addBaseModifier(".s"); }
-#line 1983 "sass_parser.cc" /* yacc.c:1646  */
+#line 1985 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 135:
 #line 283 "sass.y" /* yacc.c:1646  */
     { g_instList->getListEnd().addBaseModifier(".sfu"); }
-#line 1989 "sass_parser.cc" /* yacc.c:1646  */
+#line 1991 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 136:
 #line 284 "sass.y" /* yacc.c:1646  */
     { g_instList->getListEnd().addBaseModifier(".rz"); }
-#line 1995 "sass_parser.cc" /* yacc.c:1646  */
+#line 1997 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 137:
 #line 285 "sass.y" /* yacc.c:1646  */
     { g_instList->getListEnd().addBaseModifier(".rp"); }
-#line 2001 "sass_parser.cc" /* yacc.c:1646  */
+#line 2003 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 138:
 #line 286 "sass.y" /* yacc.c:1646  */
     { g_instList->getListEnd().addBaseModifier(".rm"); }
-#line 2007 "sass_parser.cc" /* yacc.c:1646  */
+#line 2009 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 139:
 #line 287 "sass.y" /* yacc.c:1646  */
     { g_instList->getListEnd().addBaseModifier(".x"); }
-#line 2013 "sass_parser.cc" /* yacc.c:1646  */
+#line 2015 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 140:
 #line 288 "sass.y" /* yacc.c:1646  */
     { g_instList->getListEnd().addBaseModifier(".e"); }
-#line 2019 "sass_parser.cc" /* yacc.c:1646  */
+#line 2021 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 141:
 #line 289 "sass.y" /* yacc.c:1646  */
     { g_instList->getListEnd().addBaseModifier(".red"); }
-#line 2025 "sass_parser.cc" /* yacc.c:1646  */
+#line 2027 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 142:
 #line 290 "sass.y" /* yacc.c:1646  */
     { g_instList->getListEnd().addBaseModifier(".popc"); }
-#line 2031 "sass_parser.cc" /* yacc.c:1646  */
+#line 2033 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 143:
 #line 291 "sass.y" /* yacc.c:1646  */
     { g_instList->getListEnd().addBaseModifier(".ir"); }
-#line 2037 "sass_parser.cc" /* yacc.c:1646  */
+#line 2039 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 144:
 #line 292 "sass.y" /* yacc.c:1646  */
     { /*g_instList->getListEnd().addBaseModifier(".un"); */}
-#line 2043 "sass_parser.cc" /* yacc.c:1646  */
+#line 2045 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 145:
 #line 293 "sass.y" /* yacc.c:1646  */
     { /*g_instList->getListEnd().addBaseModifier(".nodep"); */}
-#line 2049 "sass_parser.cc" /* yacc.c:1646  */
+#line 2051 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 146:
 #line 294 "sass.y" /* yacc.c:1646  */
     { g_instList->getListEnd().addBaseModifier(".any"); }
-#line 2055 "sass_parser.cc" /* yacc.c:1646  */
+#line 2057 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 147:
 #line 295 "sass.y" /* yacc.c:1646  */
     { g_instList->getListEnd().addBaseModifier(".all"); }
-#line 2061 "sass_parser.cc" /* yacc.c:1646  */
+#line 2063 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 162:
 #line 314 "sass.y" /* yacc.c:1646  */
     { debug_print(" "); }
-#line 2067 "sass_parser.cc" /* yacc.c:1646  */
+#line 2069 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 163:
 #line 314 "sass.y" /* yacc.c:1646  */
     {}
-#line 2073 "sass_parser.cc" /* yacc.c:1646  */
+#line 2075 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 166:
 #line 320 "sass.y" /* yacc.c:1646  */
     { g_instList->getListEnd().addBaseModifier(".abs"); }
-#line 2079 "sass_parser.cc" /* yacc.c:1646  */
+#line 2081 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 169:
 #line 323 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->getListEnd().addTypeModifier((yyvsp[0].string_value));}
-#line 2085 "sass_parser.cc" /* yacc.c:1646  */
+#line 2087 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 175:
 #line 332 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[-1].string_value)); g_instList->addCuobjdumpRegister((yyvsp[-1].string_value));}
-#line 2091 "sass_parser.cc" /* yacc.c:1646  */
+#line 2093 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 176:
 #line 333 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[-2].string_value)); debug_print((yyvsp[-1].string_value)); debug_print((yyvsp[0].string_value)); g_instList->addCuobjdumpRegister((yyvsp[-1].string_value));}
-#line 2097 "sass_parser.cc" /* yacc.c:1646  */
+#line 2099 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 177:
 #line 334 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->addCuobjdumpRegister((yyvsp[0].string_value),true);}
-#line 2103 "sass_parser.cc" /* yacc.c:1646  */
+#line 2105 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 178:
 #line 335 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->addCuobjdumpRegister((yyvsp[0].string_value),true);}
-#line 2109 "sass_parser.cc" /* yacc.c:1646  */
+#line 2111 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 179:
 #line 336 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->addCuobjdumpRegister((yyvsp[0].string_value),false);}
-#line 2115 "sass_parser.cc" /* yacc.c:1646  */
+#line 2117 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 180:
 #line 337 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->addCuobjdumpRegister((yyvsp[0].string_value));}
-#line 2121 "sass_parser.cc" /* yacc.c:1646  */
+#line 2123 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 181:
 #line 338 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[-1].string_value)); debug_print(" "); debug_print((yyvsp[0].string_value)); g_instList->addCuobjdumpDoublePredReg((yyvsp[-1].string_value), (yyvsp[0].string_value));}
-#line 2127 "sass_parser.cc" /* yacc.c:1646  */
+#line 2129 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 182:
 #line 339 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[-1].string_value)); debug_print(" "); debug_print((yyvsp[0].string_value)); g_instList->addCuobjdumpDoublePredReg((yyvsp[-1].string_value), (yyvsp[0].string_value));}
-#line 2133 "sass_parser.cc" /* yacc.c:1646  */
+#line 2135 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 185:
 #line 348 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->addCuobjdumpMemoryOperand((yyvsp[0].string_value),1);}
-#line 2139 "sass_parser.cc" /* yacc.c:1646  */
+#line 2141 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 186:
@@ -2153,109 +2155,109 @@ yyreduce:
 				g_instList->addCuobjdumpMemoryOperand(temp,1);
 				g_instList->getListEnd().addBaseModifier(".abs");
 			}
-#line 2157 "sass_parser.cc" /* yacc.c:1646  */
+#line 2159 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 187:
 #line 362 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->addCuobjdumpMemoryOperand((yyvsp[0].string_value),2);}
-#line 2163 "sass_parser.cc" /* yacc.c:1646  */
+#line 2165 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 188:
 #line 363 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->addCuobjdumpMemoryOperand((yyvsp[0].string_value),0);}
-#line 2169 "sass_parser.cc" /* yacc.c:1646  */
+#line 2171 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 189:
 #line 364 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->addCuobjdumpMemoryOperand((yyvsp[0].string_value),3);}
-#line 2175 "sass_parser.cc" /* yacc.c:1646  */
+#line 2177 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 190:
 #line 367 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->getListEnd().addOperand((yyvsp[0].string_value));}
-#line 2181 "sass_parser.cc" /* yacc.c:1646  */
+#line 2183 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 191:
 #line 368 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->getListEnd().addOperand((yyvsp[0].string_value));}
-#line 2187 "sass_parser.cc" /* yacc.c:1646  */
+#line 2189 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 192:
 #line 371 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->getListEnd().addBaseModifier((yyvsp[0].string_value));}
-#line 2193 "sass_parser.cc" /* yacc.c:1646  */
+#line 2195 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 193:
 #line 372 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->getListEnd().addBaseModifier((yyvsp[0].string_value));}
-#line 2199 "sass_parser.cc" /* yacc.c:1646  */
+#line 2201 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 194:
 #line 373 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->getListEnd().addBaseModifier((yyvsp[0].string_value));}
-#line 2205 "sass_parser.cc" /* yacc.c:1646  */
+#line 2207 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 195:
 #line 374 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->getListEnd().addBaseModifier((yyvsp[0].string_value));}
-#line 2211 "sass_parser.cc" /* yacc.c:1646  */
+#line 2213 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 196:
 #line 375 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->getListEnd().addBaseModifier((yyvsp[0].string_value));}
-#line 2217 "sass_parser.cc" /* yacc.c:1646  */
+#line 2219 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 197:
 #line 376 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->getListEnd().addBaseModifier((yyvsp[0].string_value));}
-#line 2223 "sass_parser.cc" /* yacc.c:1646  */
+#line 2225 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 198:
 #line 377 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->getListEnd().addBaseModifier((yyvsp[0].string_value));}
-#line 2229 "sass_parser.cc" /* yacc.c:1646  */
+#line 2231 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 199:
 #line 378 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->getListEnd().addBaseModifier((yyvsp[0].string_value));}
-#line 2235 "sass_parser.cc" /* yacc.c:1646  */
+#line 2237 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 200:
 #line 379 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->getListEnd().addBaseModifier((yyvsp[0].string_value));}
-#line 2241 "sass_parser.cc" /* yacc.c:1646  */
+#line 2243 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 201:
 #line 380 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->getListEnd().addBaseModifier((yyvsp[0].string_value));}
-#line 2247 "sass_parser.cc" /* yacc.c:1646  */
+#line 2249 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 202:
 #line 381 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->getListEnd().addBaseModifier((yyvsp[0].string_value));}
-#line 2253 "sass_parser.cc" /* yacc.c:1646  */
+#line 2255 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 203:
 #line 382 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->getListEnd().addBaseModifier((yyvsp[0].string_value));}
-#line 2259 "sass_parser.cc" /* yacc.c:1646  */
+#line 2261 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 204:
@@ -2263,13 +2265,13 @@ yyreduce:
     {debug_print((yyvsp[-1].string_value)); debug_print((yyvsp[0].string_value));
 								g_instList->getListEnd().setPredicate((yyvsp[-1].string_value));
 								g_instList->getListEnd().addPredicateModifier((yyvsp[0].string_value));}
-#line 2267 "sass_parser.cc" /* yacc.c:1646  */
+#line 2269 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 205:
 #line 388 "sass.y" /* yacc.c:1646  */
     {debug_print((yyvsp[0].string_value)); g_instList->getListEnd().setPredicate((yyvsp[0].string_value));}
-#line 2273 "sass_parser.cc" /* yacc.c:1646  */
+#line 2275 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 206:
@@ -2282,7 +2284,7 @@ yyreduce:
 							g_instList->getListEnd().addPredicateModifier((yyvsp[0].string_value));
 							/*May be the modifier needs to be added too*/
 						}
-#line 2286 "sass_parser.cc" /* yacc.c:1646  */
+#line 2288 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 207:
@@ -2292,125 +2294,125 @@ yyreduce:
 							debug_print((yyvsp[0].string_value)); 
 							g_instList->getListEnd().addOperand((yyvsp[0].string_value));
 						}
-#line 2296 "sass_parser.cc" /* yacc.c:1646  */
+#line 2298 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 208:
 #line 407 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->getListEnd().addBaseModifier("ex2");}
-#line 2302 "sass_parser.cc" /* yacc.c:1646  */
+#line 2304 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 209:
 #line 408 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->getListEnd().addBaseModifier("sin");}
-#line 2308 "sass_parser.cc" /* yacc.c:1646  */
+#line 2310 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 210:
 #line 409 "sass.y" /* yacc.c:1646  */
     { debug_print((yyvsp[0].string_value)); g_instList->getListEnd().addBaseModifier("cos");}
-#line 2314 "sass_parser.cc" /* yacc.c:1646  */
+#line 2316 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 211:
 #line 412 "sass.y" /* yacc.c:1646  */
     { }
-#line 2320 "sass_parser.cc" /* yacc.c:1646  */
+#line 2322 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 212:
 #line 413 "sass.y" /* yacc.c:1646  */
     { }
-#line 2326 "sass_parser.cc" /* yacc.c:1646  */
+#line 2328 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 213:
 #line 414 "sass.y" /* yacc.c:1646  */
     { }
-#line 2332 "sass_parser.cc" /* yacc.c:1646  */
+#line 2334 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 214:
 #line 415 "sass.y" /* yacc.c:1646  */
     { }
-#line 2338 "sass_parser.cc" /* yacc.c:1646  */
+#line 2340 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 215:
 #line 416 "sass.y" /* yacc.c:1646  */
     { }
-#line 2344 "sass_parser.cc" /* yacc.c:1646  */
+#line 2346 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 216:
 #line 417 "sass.y" /* yacc.c:1646  */
     { }
-#line 2350 "sass_parser.cc" /* yacc.c:1646  */
+#line 2352 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 217:
 #line 418 "sass.y" /* yacc.c:1646  */
     { }
-#line 2356 "sass_parser.cc" /* yacc.c:1646  */
+#line 2358 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 218:
 #line 419 "sass.y" /* yacc.c:1646  */
     { }
-#line 2362 "sass_parser.cc" /* yacc.c:1646  */
+#line 2364 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 219:
 #line 420 "sass.y" /* yacc.c:1646  */
     { }
-#line 2368 "sass_parser.cc" /* yacc.c:1646  */
+#line 2370 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 220:
 #line 421 "sass.y" /* yacc.c:1646  */
     { }
-#line 2374 "sass_parser.cc" /* yacc.c:1646  */
+#line 2376 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 221:
 #line 422 "sass.y" /* yacc.c:1646  */
     { }
-#line 2380 "sass_parser.cc" /* yacc.c:1646  */
+#line 2382 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 222:
 #line 423 "sass.y" /* yacc.c:1646  */
     { }
-#line 2386 "sass_parser.cc" /* yacc.c:1646  */
+#line 2388 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 223:
 #line 424 "sass.y" /* yacc.c:1646  */
     { }
-#line 2392 "sass_parser.cc" /* yacc.c:1646  */
+#line 2394 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 224:
 #line 425 "sass.y" /* yacc.c:1646  */
     { }
-#line 2398 "sass_parser.cc" /* yacc.c:1646  */
+#line 2400 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 225:
 #line 426 "sass.y" /* yacc.c:1646  */
     { }
-#line 2404 "sass_parser.cc" /* yacc.c:1646  */
+#line 2406 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
   case 226:
 #line 427 "sass.y" /* yacc.c:1646  */
     { }
-#line 2410 "sass_parser.cc" /* yacc.c:1646  */
+#line 2412 "sass_parser.cc" /* yacc.c:1646  */
     break;
 
 
-#line 2414 "sass_parser.cc" /* yacc.c:1646  */
+#line 2416 "sass_parser.cc" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
