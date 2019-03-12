@@ -1080,7 +1080,7 @@ void scheduler_unit::cycle()
 				a = true;
 			}
 		}
-		else if((*comp == NULL)){
+		else if((*comp) == NULL){
 
 			a = true;
 		}
@@ -1096,7 +1096,7 @@ void scheduler_unit::cycle()
 				b = true;
 			}
 		}
-		else if((*mem == NULL)){
+		else if((*mem) == NULL){
 
 			b = true;
 		}
@@ -1129,6 +1129,7 @@ void scheduler_unit::cycle()
 	       
 	}*/ 
 
+	//Pointer to the iterating warp object
 	std::vector< shd_warp_t* >::iterator iter;
 
 
@@ -1162,6 +1163,7 @@ void scheduler_unit::cycle()
 
 			} 
 			else{
+				iter = mem;
 				*iter = owner_warp;
 				owner_issued = true;
 
@@ -1282,7 +1284,11 @@ void scheduler_unit::cycle()
 					m_wrc->setWarpID((*iter)->get_warp_id());
 					
 				}
-                            }
+                            } else {
+
+				    owner_warp = NULL;
+			
+			    }
 			
                         } else {
                             bool sp_pipe_avail = m_sp_out->has_free();
@@ -1321,6 +1327,8 @@ void scheduler_unit::cycle()
                     } else {
                         SCHED_DPRINTF( "Warp (warp_id %u, dynamic_warp_id %u) fails scoreboard\n",
                                        (*iter)->get_warp_id(), (*iter)->get_dynamic_warp_id() );
+
+			owner_warp = NULL;
 		       if(memFlag){
 
 
