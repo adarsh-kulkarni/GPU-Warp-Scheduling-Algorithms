@@ -1284,10 +1284,7 @@ void scheduler_unit::cycle()
 					m_wrc->setWarpID((*iter)->get_warp_id());
 					
 				}
-                            } else {
 
-				    owner_warp = NULL;
-			
 			    }
 			
                         } else {
@@ -1302,8 +1299,8 @@ void scheduler_unit::cycle()
 
 				if(comp != compute_ready_warps.end()){
 
-				++comp;
-				compFlag = false;
+					++comp;
+					compFlag = false;
 
 				}
                             } else if ( (pI->op == SFU_OP) || (pI->op == ALU_SFU_OP) ) {
@@ -1313,28 +1310,33 @@ void scheduler_unit::cycle()
                                     issued_inst=true;
                                     warp_inst_issued = true;
 
+				    if(comp != compute_ready_warps.end()){
 
-				if(comp != compute_ready_warps.end()){
+					    ++comp;
+					    compFlag = false;
+
+				    }
 
 
-				    ++comp;
-				    compFlag = false;
+                              }
 
-				}
-                                }
-                            }                        
-		       	}
-                    } else {
+
+                            }                     
+		       
+                    
+			} 
+			
+		    } else {
                         SCHED_DPRINTF( "Warp (warp_id %u, dynamic_warp_id %u) fails scoreboard\n",
                                        (*iter)->get_warp_id(), (*iter)->get_dynamic_warp_id() );
 
-			owner_warp = NULL;
+		
 		       if(memFlag){
 
 
 				if(mem != memory_ready_warps.end()){
 
-			       ++mem;
+			       		++mem;
 
 				}
 
@@ -1344,7 +1346,7 @@ void scheduler_unit::cycle()
 
 				if(comp != compute_ready_warps.end()){
 
-			       ++comp;
+			       		++comp;
 
 				}
 
@@ -1364,7 +1366,7 @@ void scheduler_unit::cycle()
 
 				if(mem != memory_ready_warps.end()){
 
-		       ++mem;
+		       			++mem;
 		      }
 
 		}
@@ -1373,7 +1375,7 @@ void scheduler_unit::cycle()
 
 				if(comp != compute_ready_warps.end()){
 
-		       ++comp;
+		       			++comp;
 
 				}
 
@@ -1411,7 +1413,9 @@ void scheduler_unit::cycle()
             }
             checked++;
 
-	    if(memFlag){
+	   }
+
+	   /* if(memFlag){
 
 		    	if(mem != memory_ready_warps.end()){
 				++mem;
@@ -1441,7 +1445,7 @@ void scheduler_unit::cycle()
 			if(comp != compute_ready_warps.end()){
 				++comp;
 			}
-	}
+	}*/
         if ( issued ) {
             // This might be a bit inefficient, but we need to maintain
             // two ordered list for proper scheduler execution.
@@ -1459,6 +1463,7 @@ void scheduler_unit::cycle()
         } 
    
     }
+
     // issue stall statistics:
     if( !valid_inst ) 
         m_stats->shader_cycle_distro[0]++; // idle or control hazard
