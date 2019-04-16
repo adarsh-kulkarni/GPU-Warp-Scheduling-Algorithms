@@ -61,3 +61,15 @@
 
 
 	}
+
+	void WST::clearStallBits () {
+
+		for (std::vector<table_entry>::iterator it = statusTable.begin() ; it != statusTable.end(); ++it){
+
+			it->stallBit = false;
+		}
+
+	}
+
+
+		

@@ -604,6 +604,7 @@ void shader_core_ctx::decode()
             }else if(pI1->oprnd_type==FP_OP) {
             	m_stats->m_num_FPdecoded_insn[m_sid]++;
             }
+	   /*
            const warp_inst_t* pI2 = ptx_fetch_inst(pc+pI1->isize);
            if( pI2 ) {
                m_warp[m_inst_fetch_buffer.m_warp_id].ibuffer_fill(1,pI2);
@@ -614,7 +615,7 @@ void shader_core_ctx::decode()
                }else if(pI2->oprnd_type==FP_OP) {
             	   m_stats->m_num_FPdecoded_insn[m_sid]++;
                }
-           }
+           }*/
         }
         m_inst_fetch_buffer.m_valid = false;
     }
@@ -948,6 +949,10 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 				waiting = true;
 			    }
 			}
+
+			//Code for Debugging
+			address_type pctest = inst->pc;
+			unsigned widtest = (*iter)->get_warp_id();
 		
 			if(inst->op==LOAD_OP || inst->op==STORE_OP || inst->op==MEMORY_BARRIER_OP){
 
@@ -1031,6 +1036,109 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 
 }
 
+//Function to update the stall bits
+
+template < typename T >
+void scheduler_unit::updateBits( std::vector< T > compute_list, std::vector< T > memory_list )
+{
+
+
+	typename std::vector< T >::iterator iter = compute_list.begin();
+	for ( unsigned count = 0; count < compute_list.size(); ++count, ++iter ) { 
+	   
+		if(!((*iter)->ibuffer_empty())){
+
+			const warp_inst_t *inst = (*iter)->ibuffer_next_inst();
+
+
+			bool waiting = (*iter)->waiting();
+				for (int i=0; i<4; i++){
+			    //const warp_inst_t* inst = (*iter)->ibuffer_next_inst();
+			    //Is the instruction waiting on a long operation?
+			    //Can this be used for the Mascar scheduler ?
+
+			    if ( inst && inst->in[i] > 0 && this->m_scoreboard->islongop((*iter)->get_warp_id(), inst->in[i])){
+				waiting = true;
+			    }
+			}
+
+			if(inst->op==LOAD_OP || inst->op==STORE_OP || inst->op==MEMORY_BARRIER_OP){
+
+				//Set the memory operation bit in the WST based on the above information.
+				m_wst->setMemoryBit(true, (*iter)->get_warp_id());	
+
+			}
+		
+
+					//Find which warp is given exclusive ownership and access to the LSU (Owner warp ID)
+
+					if(owner_warp) {
+
+						if(((*iter)->get_warp_id() != owner_warp->get_warp_id() || waiting)){ 
+							m_wst->setStallBit(true,(*iter)->get_warp_id());	
+						}		
+
+		
+					}
+	
+			
+
+			}
+
+			    }
+
+
+
+	typename std::vector< T >::iterator iterM = memory_list.begin();
+	for ( unsigned count = 0; count < memory_list.size(); ++count, ++iterM ) { 
+	   
+		if(!((*iterM)->ibuffer_empty())){
+
+			const warp_inst_t *inst = (*iterM)->ibuffer_next_inst();
+
+
+			bool waiting = (*iterM)->waiting();
+				for (int i=0; i<4; i++){
+			    //const warp_inst_t* inst = (*iter)->ibuffer_next_inst();
+			    //Is the instruction waiting on a long operation?
+			    //Can this be used for the Mascar scheduler ?
+
+			    if ( inst && inst->in[i] > 0 && this->m_scoreboard->islongop((*iterM)->get_warp_id(), inst->in[i])){
+				waiting = true;
+			    }
+			}
+
+			if(inst->op==LOAD_OP || inst->op==STORE_OP || inst->op==MEMORY_BARRIER_OP){
+
+				//Set the memory operation bit in the WST based on the above information.
+				m_wst->setMemoryBit(true, (*iterM)->get_warp_id());	
+
+			}
+		
+
+					//Find which warp is given exclusive ownership and access to the LSU (Owner warp ID)
+
+					if(owner_warp) {
+
+						if(((*iterM)->get_warp_id() != owner_warp->get_warp_id() || waiting)){ 
+							m_wst->setStallBit(true,(*iterM)->get_warp_id());	
+						}		
+
+		
+					}
+	
+			
+
+			}
+
+			    }
+	
+				
+	
+}
+
+
+
 
 void scheduler_unit::cycle()
 {
@@ -1047,6 +1155,7 @@ void scheduler_unit::cycle()
     bool memFlag = false;
     bool compFlag = false;
     bool owner_issued = false;
+    bool stall = false;
 
 
     //Check if the LDST unit has set the memory saturation flag. If set, update the wrc.
@@ -1075,7 +1184,7 @@ void scheduler_unit::cycle()
 
 		if((*comp) != NULL){
 
-			if((*comp)->done_exit()){
+			if((*comp)->done_exit() || (m_wst->getStallBit((*comp)->get_warp_id()))){
 
 				a = true;
 			}
@@ -1091,7 +1200,7 @@ void scheduler_unit::cycle()
 
 		if((*mem) != NULL){
 
-			if((*mem)->done_exit()){
+			if((*mem)->done_exit() || (m_wst->getStallBit((*mem)->get_warp_id()))){
 
 				b = true;
 			}
@@ -1159,9 +1268,22 @@ void scheduler_unit::cycle()
 
 
 				owner_warp = NULL;
-				m_wst->clearBits();
+				m_wst->clearStallBits();
 
 			} 
+
+			//Case where the pipeline register is not free and the owner warp is set resulting in infinite loop.
+
+			else if(stall){
+
+				owner_warp = NULL;
+				if(comp != compute_ready_warps.end() || (!(*comp)->done_exit())){
+					iter = comp;
+
+				}
+
+
+			}
 			else{
 				iter = mem;
 				*iter = owner_warp;
@@ -1249,42 +1371,49 @@ void scheduler_unit::cycle()
                         assert( warp(warp_id).inst_in_pipeline() );
                         if ( (pI->op == LOAD_OP) || (pI->op == STORE_OP) || (pI->op == MEMORY_BARRIER_OP) ) {
 
-				/*Check if the warp is owner warp
-			    if(m_wrc->retSatFlag()){
-
-				    if(owner_warp){
-
-					    if(warp_id != owner_warp->get_warp_id())
-						    continue;
-
-				}
-
-		            }*/
                             if( m_mem_out->has_free() ) {
                                 m_shader->issue_warp(*m_mem_out,pI,active_mask,warp_id);
                                 issued++;
                                 issued_inst=true;
                                 warp_inst_issued = true;
 
-				if(mem != memory_ready_warps.end()){
-
-				++mem;
-				memFlag = false;
-
-				}
-
-
 				//Mascar scheduler : Check if memory saturation flag is set. If set then make the last issued warp the owner warp.
 				//To-Do : Ensure that only this warp's memory requests can go beyond L1 cache
 				if(m_wrc->retSatFlag()){	
 
 					owner_warp = *iter;
+					if((*iter)->get_warp_id() != m_wrc->retWarpID())					{
+						updateBits( compute_ready_warps, memory_ready_warps );
+
+					}
+
 					m_shader->schedulers[0]->owner_warp=*iter;
 					m_shader->schedulers[1]->owner_warp=*iter;
 					m_wrc->setWarpID((*iter)->get_warp_id());
 					
 				}
 
+			    } else {
+
+				    //Used in case the owner warp is set and the loop becomes an infinite loop. This is used to test the condition.
+
+				    if(owner_warp){
+
+					    stall = true;
+
+				    }
+
+				    else
+					    stall = false;
+
+			    }
+
+			    //Always increment this pointer
+
+			    if(mem != memory_ready_warps.end()){
+
+				    ++mem;
+				    memFlag = false;
 			    }
 			
                         } else {
@@ -1297,31 +1426,24 @@ void scheduler_unit::cycle()
                                 issued_inst=true;
                                 warp_inst_issued = true;
 
-				if(comp != compute_ready_warps.end()){
-
-					++comp;
-					compFlag = false;
-
-				}
                             } else if ( (pI->op == SFU_OP) || (pI->op == ALU_SFU_OP) ) {
                                 if( sfu_pipe_avail ) {
                                     m_shader->issue_warp(*m_sfu_out,pI,active_mask,warp_id);
                                     issued++;
-                                    issued_inst=true;
+                                    issued_inst = true;
                                     warp_inst_issued = true;
-
-				    if(comp != compute_ready_warps.end()){
-
-					    ++comp;
-					    compFlag = false;
-
-				    }
-
 
                               }
 
 
-                            }                     
+                            }
+
+			    if(comp != compute_ready_warps.end()){
+
+				    ++comp;
+				    compFlag = false;
+
+			    }
 		       
                     
 			} 
@@ -1330,6 +1452,19 @@ void scheduler_unit::cycle()
                         SCHED_DPRINTF( "Warp (warp_id %u, dynamic_warp_id %u) fails scoreboard\n",
                                        (*iter)->get_warp_id(), (*iter)->get_dynamic_warp_id() );
 
+
+//Used in case the owner warp is set and the loop becomes an infinite loop. This is used to test the condition.
+
+		    if(owner_warp){
+
+			    stall = true;
+
+		    }
+
+		    else
+			    stall = false;
+
+
 		
 		       if(memFlag){
 
@@ -1337,6 +1472,7 @@ void scheduler_unit::cycle()
 				if(mem != memory_ready_warps.end()){
 
 			       		++mem;
+					memFlag = false;
 
 				}
 
@@ -1347,6 +1483,7 @@ void scheduler_unit::cycle()
 				if(comp != compute_ready_warps.end()){
 
 			       		++comp;
+					compFlag = false;
 
 				}
 
@@ -1367,6 +1504,7 @@ void scheduler_unit::cycle()
 				if(mem != memory_ready_warps.end()){
 
 		       			++mem;
+					memFlag = false;
 		      }
 
 		}
@@ -1376,6 +1514,7 @@ void scheduler_unit::cycle()
 				if(comp != compute_ready_warps.end()){
 
 		       			++comp;
+					compFlag = false;
 
 				}
 
@@ -1389,63 +1528,32 @@ void scheduler_unit::cycle()
                                issued );
                 do_on_warp_issued( warp_id, issued, iter );
 
-		if(memFlag){
-
-			if(mem != memory_ready_warps.end()){
-
-	       				++mem;
-
-	}
-
-	}
-       		else if(compFlag){
-
-
-			if(comp != compute_ready_warps.end()){
-
-	       				++comp;
-
-			}
-
-	}
-
-
             }
             checked++;
 
 	   }
 
-	   /* if(memFlag){
-
-		    	if(mem != memory_ready_warps.end()){
-				++mem;
-
-			}
-
-	     }
-	    else if(compFlag){
-
-		    	if(comp != compute_ready_warps.end()){
-
-				++comp;
-
-			}
-
-		}
-        }
-
-	if(memFlag){
+	//This is required in cases where the loop fails the entry conditions ( Ex : Buffer empty)
+	
+       if(memFlag){
 
 			if(mem != memory_ready_warps.end()){
+
 				++mem;
-			}
+	      }
+
 	}
-	else if(compFlag){
+       else if(compFlag){
+
 
 			if(comp != compute_ready_warps.end()){
+
 				++comp;
+
 			}
-	}*/
+
+	}
+
         if ( issued ) {
             // This might be a bit inefficient, but we need to maintain
             // two ordered list for proper scheduler execution.
@@ -1472,12 +1580,7 @@ void scheduler_unit::cycle()
     else if( !issued_inst ) 
         m_stats->shader_cycle_distro[2]++; // pipeline stalled
 
-
 }
-
-
-
-
 
 
 /*

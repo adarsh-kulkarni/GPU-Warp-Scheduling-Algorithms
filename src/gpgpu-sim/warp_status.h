@@ -37,6 +37,8 @@ public:
 
 	void clearBits ();
 
+	void clearStallBits();
+
 	typedef std::vector<table_entry>::iterator iterator;
 
     	iterator wst_begin() { return statusTable.begin();}

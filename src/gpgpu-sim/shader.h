@@ -230,7 +230,9 @@ public:
     unsigned get_warp_id() const { return m_warp_id; }
 
 private:
-    static const unsigned IBUFFER_SIZE=2;
+
+    //Changed to 1 instruction for Mascar. Both instructions may be different in which case I cannot divide them into memory and compute.
+    static const unsigned IBUFFER_SIZE=1;
     class shader_core_ctx *m_shader;
     unsigned m_cta_id;
     unsigned m_warp_id;
@@ -378,6 +380,11 @@ public:
                             unsigned num_warps_to_add,
                             OrderingType age_ordering,
                             bool (*priority_func)(U lhs, U rhs) );
+
+    //Function to update the stall bits
+
+    template < typename U >
+    void updateBits( std::vector< U > compute_list, std::vector< U > memory_list );
 
     static bool sort_warps_by_oldest_dynamic_id(shd_warp_t* lhs, shd_warp_t* rhs);
 
