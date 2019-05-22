@@ -406,6 +406,14 @@ bool mshr_table::get_size() const {
 
 }
 
+//Used to reset the memory saturation flag
+bool mshr_table::get_size_reset() const {
+
+	return m_data.size() < 0.8*m_num_entries;
+
+}
+
+
 void mshr_table::display( FILE *fp ) const{
     fprintf(fp,"MSHR contents\n");
     for ( table::const_iterator e=m_data.begin(); e!=m_data.end(); ++e ) {
@@ -1126,7 +1134,7 @@ l1_cache::access( new_addr_type addr,
 
     }
    
-    else {
+    else if(miss_queue_size_reset() || mshr_queue_size_reset()) {
 
 	memory_saturation_flag = false;
 

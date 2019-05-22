@@ -1163,9 +1163,16 @@ void scheduler_unit::cycle()
 	m_wrc->setSatFlag(true);
     }
 
-    else {
+    else if(m_shader->m_ldst_unit->retSatFlag()){
+
+	//Code to check if the flag has been set by default to false for the first time or has the scheduler switched from MP to EP mode during execution
+	firstCheck++;
+	
 
 	m_wrc->setSatFlag(false);
+
+	if(firstCheck > 1)
+		updateBits( compute_ready_warps, memory_ready_warps );
 
     }
 

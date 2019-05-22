@@ -417,6 +417,9 @@ public:
     ///Check the size of the mshr table. Used in the Mascar scheduler
     bool get_size () const;
 
+    //Check the size of the mshr table to reset the saturation flag
+    bool get_size_reset () const;
+
 
     void display( FILE *fp ) const;
 
@@ -601,7 +604,7 @@ public:
     void print(FILE *fp, unsigned &accesses, unsigned &misses) const;
     void display_state( FILE *fp ) const;
 
-    //Check the size of the m_miss_queue. Used in Mascar scheduler
+    //Check if the size of the m_miss_queue is greater than 80% of the capacity. Used in Mascar scheduler
     bool miss_queue_size() const{
 	return m_miss_queue.size() >= 0.8*m_config.m_miss_queue_size;
     }
@@ -613,6 +616,22 @@ public:
 	return checkSize;
 
     }
+
+	//Check if the size of the m_miss_queue is less than 80% of the capacity. Used in Mascar scheduler to reset the memory saturation flag
+    bool miss_queue_size_reset() const{
+	return m_miss_queue.size() < 0.8*m_config.m_miss_queue_size;
+    }
+
+
+    bool mshr_queue_size_reset() const{
+
+	bool checkSize = m_mshrs.get_size_reset();
+	return checkSize;
+
+    }
+
+
+
 
 
     // Stat collection

@@ -314,7 +314,7 @@ public:
                    int id) 
         : m_supervised_warps(), m_stats(stats), m_shader(shader),
         m_scoreboard(scoreboard), m_simt_stack(simt), /*m_pipeline_reg(pipe_regs),*/ m_warp(warp),
-        m_sp_out(sp_out),m_sfu_out(sfu_out),m_mem_out(mem_out), m_id(id){}
+        m_sp_out(sp_out),m_sfu_out(sfu_out),m_mem_out(mem_out), m_id(id), firstCheck(0){}
 
 	scheduler_unit(shader_core_stats* stats, shader_core_ctx* shader, 
                    Scoreboard* scoreboard, simt_stack** simt, 
@@ -438,6 +438,8 @@ protected:
     register_set* m_mem_out;
 
     int m_id;
+
+    int firstCheck;
 };
 
 class lrr_scheduler : public scheduler_unit {
