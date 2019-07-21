@@ -930,7 +930,10 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 	std::sort( temp.begin(), temp.end(), priority_func );
 
 	typename std::vector< T >::iterator iter = temp.begin();
+	
 	for ( unsigned count = 0; count < num_warps_to_add; ++count, ++iter ) {
+
+	unsigned widtest = (*iter)->get_warp_id();
 	
 	    if ( *iter != greedy_value ) {
 
