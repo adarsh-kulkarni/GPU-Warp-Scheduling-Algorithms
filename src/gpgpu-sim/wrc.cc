@@ -8,7 +8,7 @@ Wrc::Wrc(){
 	memory_saturation_flag = false;	
 	issuedWarp = 0;
 
-	ownerWarpID = 0;
+	ownerWarpID = 50;
 
 
 }

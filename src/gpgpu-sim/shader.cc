@@ -921,6 +921,11 @@ void scheduler_unit::order_by_type( std::vector< T >& result_list_memory,
 
 					}		
 
+		}else{
+		
+		
+			owner_warp = NULL;
+		
 		}
 
 
@@ -1392,7 +1397,7 @@ void scheduler_unit::cycle()
 				if(m_wrc->retSatFlag()){	
 
 					owner_warp = *iter;
-					if((*iter)->get_warp_id() != m_wrc->retWarpID())					{
+					if(((*iter)->get_warp_id() != m_wrc->retWarpID()) && (m_wrc->retWarpID() != 50))					{
 						updateBits( compute_ready_warps, memory_ready_warps );
 
 					}
