@@ -1313,6 +1313,8 @@ void scheduler_unit::cycle()
 	if(!owner_issued){
 	if(m_wrc->retSatFlag()){
 
+		//Here I'm issuing a warp that may not be the owner warp even when the saturation flag is asserted. I have reset the owner warp once the instruction buffer is empty for that warp.
+
 		if(comp == compute_ready_warps.end() || (*comp)->done_exit())
 		{
 		
@@ -1397,6 +1399,7 @@ void scheduler_unit::cycle()
 				if(m_wrc->retSatFlag()){	
 
 					owner_warp = *iter;
+					//Maybe I have to set the owner warp in WRC and then just update the bits all the time instead of this check ?
 					if(((*iter)->get_warp_id() != m_wrc->retWarpID()) && (m_wrc->retWarpID() != 50))					{
 						updateBits( compute_ready_warps, memory_ready_warps );
 
